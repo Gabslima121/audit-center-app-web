@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  font-family: 'Secular One', 'Gill Sans', 'Roboto', sans-serif;
+}
