@@ -1,14 +1,15 @@
 import { useState, useEffect, useContext } from 'react'
-
 import { Button } from '../../components/Button/Button'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 import { LoginService } from './service'
 import logoImg from '../../assets/logo-redondo.svg'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
 
 export function Login() {
-  const { sigin } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const { sigin, user } = useContext(AuthContext)
   const loginService = new LoginService()
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -22,7 +23,9 @@ export function Login() {
 
     const { accessToken, user } = await sigin(userName, password)
 
-    console.log(accessToken, user)
+    if (user && accessToken) {
+      navigate('/home')
+    }
   }
 
   return (

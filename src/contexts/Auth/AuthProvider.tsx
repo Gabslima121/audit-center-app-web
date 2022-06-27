@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     setUser(data.user)
 
     localStorage.setItem('user', JSON.stringify(data.user))
-    console.log(data)
+    localStorage.setItem('authorization', data.accessToken)
     return data
   }
 
