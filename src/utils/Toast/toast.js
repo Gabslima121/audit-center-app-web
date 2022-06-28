@@ -11,6 +11,7 @@ export const errorMessage = (mensage) =>
     progress: undefined,
   });
 
+  
 export const sucessMessage = (mensage) =>
   toast.success(mensage, {
     position: 'top-center',
