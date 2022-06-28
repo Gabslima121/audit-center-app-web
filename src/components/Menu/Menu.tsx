@@ -1,30 +1,11 @@
 import { Buildings, ChartBar, House } from 'phosphor-react'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import _ from 'lodash'
 
 import { AuthContext } from '../../contexts/Auth/AuthContext'
 
 export function Menu() {
-  const { roles } = useContext(AuthContext)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
-
-  function getRoles() {
-    const roleName: string[] = _.map(roles, 'name')
-
-    const adminRoles =
-      _.includes(roleName, 'ADMIN') && _.includes(roleName, 'SUPER_ADMIN')
-
-    if (adminRoles) {
-      setIsAdmin(true)
-      setIsSuperAdmin(true)
-    }
-  }
-
-  useEffect(() => {
-    getRoles()
-  }, [roles])
+  const { isAdmin, isSuperAdmin } = useContext(AuthContext)
 
   return (
     <div className="flex flex-col mt-9 flex-auto">

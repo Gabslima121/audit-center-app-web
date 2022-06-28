@@ -7,6 +7,8 @@ export type AuthContextProps = {
   user: UserType | null;
   roles: string[];
   sigin: (email: string, password: string) => Promise<SiginType>;
+  isAdmin: boolean;
+  isSuperAdmin: boolean;
   // logout: () => void;
 }
 
