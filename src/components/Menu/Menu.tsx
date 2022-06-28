@@ -16,12 +16,12 @@ export function Menu() {
 
       {isAdmin && isSuperAdmin && (
         <Link to="/companys" className="my-2">
-          <Buildings size={24} color="#030303" className="ml-2 float-left"/>
+          <Buildings size={25} color="#030303" className="ml-2 float-left" />
           <p className="ml-10 mt-px">Empresas</p>
         </Link>
       )}
 
-      <Link to="/graphs">
+      <Link to="/graphs" className="my-2">
         <ChartBar size={25} className="ml-2 float-left" />
         <p className="ml-10 mt-px">Gráficos</p>
       </Link>
