@@ -6,6 +6,7 @@ import { Home } from '../pages/Home/Home'
 import { RequireAuth } from '../contexts/Auth/RequireAuth'
 import { Header } from '../components/Header/Header'
 import { Graphs } from '../pages/Graphs/Graphs'
+import { Content } from '../components/Content/Content'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const AppRoutes: React.FC = () => {
         <SideBarProvider>
           <SideBar />
         </SideBarProvider>
-        <div className="flex flex-col p-6 border-2 border-black flex-auto">
+        <Content>
           <Header />
           <Routes>
             <Route
@@ -34,7 +35,7 @@ const AppRoutes: React.FC = () => {
               }
             />
           </Routes>
-        </div>
+        </Content>
       </div>
     </>
   )
