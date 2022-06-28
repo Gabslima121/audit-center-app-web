@@ -5,3 +5,7 @@ export type UserType = {
   password?: string;
   roles: object[];
 }
+
+export type RolesType = {
+  name: string;
+}

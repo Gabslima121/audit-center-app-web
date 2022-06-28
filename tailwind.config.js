@@ -13,8 +13,12 @@ module.exports = {
         }
       },
       borderRadius: {
-        md: '4px',
+        fourty: '40px',
+        half: '50px',
       },
+      width: {
+        'header': '1059px'
+      }
     },
   },
   plugins: [
