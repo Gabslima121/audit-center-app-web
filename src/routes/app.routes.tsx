@@ -1,8 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
-import { useNavigate } from 'react-router'
+
 import { SideBar } from '../components/SideBar/SideBar'
 import { SideBarProvider } from '../contexts/SideBar/SideBarProvider'
 import { Home } from '../pages/Home/Home'
+import { Company } from '../pages/Company/Company'
 import { RequireAuth } from '../contexts/Auth/RequireAuth'
 import { Header } from '../components/Header/Header'
 import { Graphs } from '../pages/Graphs/Graphs'
@@ -23,6 +24,14 @@ const AppRoutes: React.FC = () => {
               element={
                 <RequireAuth>
                   <Home />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/companys"
+              element={
+                <RequireAuth>
+                  <Company />
                 </RequireAuth>
               }
             />

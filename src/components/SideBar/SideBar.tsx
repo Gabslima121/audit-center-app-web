@@ -1,6 +1,3 @@
-import { Link } from 'react-router-dom'
-import { House, ChartBar, ArrowLineLeft } from 'phosphor-react'
-
 import { Menu } from '../Menu/Menu'
 
 import logoImg from '../../assets/logo-redondo.svg'
@@ -23,10 +20,6 @@ export function SideBar() {
       </div>
 
       <Menu />
-
-      <button className="my-10 mx-10">
-        <ArrowLineLeft size={25} color="#3A81C3" />
-      </button>
     </div>
   )
 }
