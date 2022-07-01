@@ -1,10 +1,6 @@
-import axios from 'axios'
+import { api } from '../../api'
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_APP_API,
-})
-
-export const useApi = () => ({
+export const userApi = () => ({
   validateToken: async (token: string) => {
     const response = await api.post('/validate', { token })
     return response.data
@@ -18,7 +14,7 @@ export const useApi = () => ({
     if (!data.user || !data.accessToken)
       return { message: 'Usuário ou senha inválidos' }
 
-      return data
+    return data
   },
 
   logout: async () => {

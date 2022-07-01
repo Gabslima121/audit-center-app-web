@@ -1,12 +1,12 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 
-import { useApi } from '../../hooks/useApi'
+import { userApi } from '../../hooks/api/userApi'
 import { UserType } from '../../types/User'
 import { AuthContext } from './AuthContext'
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-  const api = useApi()
+  const api = userApi()
   const [user, setUser] = useState<UserType | null>(null)
   const [roles, setRoles] = useState([])
   const [isAdmin, setIsAdmin] = useState(false)

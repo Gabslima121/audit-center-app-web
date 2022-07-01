@@ -5,15 +5,17 @@ import { Modal, ModalBody, ModalFooter } from 'reactstrap'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
 import { Label } from '../../components/Label/Label'
+import { companyApi } from '../../hooks/api/companyApi'
 
 function Company() {
+  const companyService = companyApi()
   const [modalIsOpen, setIsOpen] = useState(false)
   const [corporateName, setCorporateName] = useState('')
   const [cnpj, setCnpj] = useState('')
   const [state, setState] = useState('')
   const [city, setCity] = useState('')
   const [cep, setCep] = useState('')
-  const [neibhorhood, setNeibhorhood] = useState('')
+  const [neighborhood, setNeighborhood] = useState('')
   const [street, setStreet] = useState('')
   const [number, setNumber] = useState('')
   const [complement, setComplement] = useState('')
@@ -26,10 +28,28 @@ function Company() {
     setIsOpen(false)
   }
 
-  useEffect(() => {
-    console.log(corporateName)
-    console.log(modalIsOpen)
-  }, [corporateName, modalIsOpen])
+  async function handleCreateCompany() {
+    const data = {
+      corporateName,
+      cnpj,
+      state,
+      city,
+      cep,
+      neighborhood,
+      street,
+      number,
+      complement,
+    }
+
+    const response = await companyService.createCompany(data)
+
+    console.log(response)
+  }
+
+  // useEffect(() => {
+  //   console.log(corporateName)
+  //   console.log(modalIsOpen)
+  // }, [corporateName, modalIsOpen])
 
   return (
     <div className="flex-auto mt-5">
@@ -100,10 +120,12 @@ function Company() {
                 text="Estado"
                 key="state"
               />
-              <select
+              <Input
                 id="state"
-                className="rounded-lg h-10 mt-2 w-52"
-                // onChange={e => setState(e.target.value)}
+                placeholder="Estado"
+                onChange={e => setState(e.target.value)}
+                type="text"
+                className="bg-input p-2 rounded-lg w-full"
               />
             </div>
           </div>
@@ -111,19 +133,21 @@ function Company() {
           <div className="grid grid-cols-2">
             <div>
               <Label htmlFor="city" text="Cidade" className="text-xs" />
-              <select
+              <Input
                 id="city"
-                className="rounded-lg h-10 mt-2 w-52"
-                // onChange={e => setState(e.target.value)}
+                placeholder="Cidade"
+                onChange={e => setCity(e.target.value)}
+                type="text"
+                className="bg-input p-2 rounded-lg w-full"
               />
             </div>
 
             <div>
-              <Label htmlFor="neibhorhood" className="text-xs" text="Bairro" />
+              <Label htmlFor="neighborhood" className="text-xs" text="Bairro" />
               <Input
-                id="neibhorhood"
+                id="neighborhood"
                 placeholder="Bairro"
-                onChange={e => setNeibhorhood(e.target.value)}
+                onChange={e => setNeighborhood(e.target.value)}
                 type="text"
                 className="bg-input p-2 rounded-lg w-full"
               />
@@ -185,7 +209,7 @@ function Company() {
 
         <ModalFooter>
           <Button onClick={handleCloseModal}>Cancelar</Button>
-          <Button>Cadastrar Empresa</Button>
+          <Button onClick={handleCreateCompany}>Cadastrar Empresa</Button>
         </ModalFooter>
       </Modal>
 
