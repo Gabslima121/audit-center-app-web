@@ -7,6 +7,13 @@ import { Input } from '../../components/Input/Input'
 import { Label } from '../../components/Label/Label'
 import { companyApi } from '../../hooks/api/companyApi'
 
+import {
+  warningMessage,
+  errorMessage,
+  sucessMessage,
+} from '../../utils/Toast/toast'
+import translate from '../../helpers/translate'
+
 function Company() {
   const companyService = companyApi()
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -41,15 +48,14 @@ function Company() {
       complement,
     }
 
-    const response = await companyService.createCompany(data)
+    try {
+      await companyService.createCompany(data)
 
-    console.log(response)
+      return sucessMessage(translate('success'))
+    } catch (e: any) {
+      return errorMessage(translate(`${e?.response?.data?.message}`))
+    }
   }
-
-  // useEffect(() => {
-  //   console.log(corporateName)
-  //   console.log(modalIsOpen)
-  // }, [corporateName, modalIsOpen])
 
   return (
     <div className="flex-auto mt-5">

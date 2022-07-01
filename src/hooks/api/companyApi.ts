@@ -15,22 +15,17 @@ export interface CreateCompanyDTO {
 
 export const companyApi = () => ({
   createCompany: async (company: CreateCompanyDTO) => {
-    try {
-      console.log(headers)
-      const { status, data } = await api.post(
-        'company/create',
-        {
-          company,
-        },
-        headers,
-      )
+    const { status, data } = await api.post(
+      'company/create',
+      {
+        ...company,
+      },
+      headers,
+    )
 
-      if (status !== 200) return {  }
 
-      return data
-    } catch (e) {
-      console.log(e)
-      return e
-    }
+    if (status !== 200) return data
+
+    return data
   },
 })

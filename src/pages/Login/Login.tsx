@@ -1,11 +1,16 @@
 import { useState, useEffect, useContext } from 'react'
 import { Button } from '../../components/Button/Button'
-import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
 import { LoginService } from './service'
 import logoImg from '../../assets/img/logo-redondo.svg'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
+
+import {
+  sucessMessage,
+  errorMessage,
+  warningMessage,
+} from '../../utils/Toast/toast'
 import translate from '../../helpers/translate'
 
 export function Login() {
@@ -19,15 +24,14 @@ export function Login() {
 
     try {
       if (!userName || !password) {
-        toast.warning('Preencha todos os campos')
+        warningMessage('Preencha todos os campos')
       }
 
       await sigin(userName, password)
 
       navigate('/home')
     } catch (e: any) {
-      console.log(`${e?.response?.data?.message}`)
-      return toast.error(translate(`${e?.response?.data?.message}`))
+      return errorMessage(translate(`${e?.response?.data?.message}`))
     }
   }
 
