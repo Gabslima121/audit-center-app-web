@@ -2,6 +2,7 @@ interface ButtonProps {
   type?: 'submit' | 'button';
   onClick?: () => void;
   children?: React.ReactNode;
+  className?: string;
 }
 
 export function Button(props: ButtonProps) {

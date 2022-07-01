@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import { ToastContainer } from 'react-toastify'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './global.css'
 import 'react-toastify/dist/ReactToastify.css'
 
