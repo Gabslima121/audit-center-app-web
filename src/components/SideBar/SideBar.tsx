@@ -1,6 +1,6 @@
 import { Menu } from '../Menu/Menu'
 
-import logoImg from '../../assets/logo-redondo.svg'
+import logoImg from '../../assets/img/logo-redondo.svg'
 
 export function SideBar() {
   return (

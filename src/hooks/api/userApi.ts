@@ -9,10 +9,9 @@ export const userApi = () => ({
   signin: async (email: string, password: string) => {
     const { data, status } = await api.post('login', { email, password })
 
-    if (status !== 200) return { message: 'Usuário ou senha inválidos' }
-
-    if (!data.user || !data.accessToken)
-      return { message: 'Usuário ou senha inválidos' }
+    if (status !== 200 || !data.user || !data.accessToken) {
+      return data.response.data.message
+    }
 
     return data
   },

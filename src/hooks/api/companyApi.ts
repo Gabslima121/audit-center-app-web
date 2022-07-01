@@ -26,6 +26,8 @@ export const companyApi = () => ({
       )
 
       if (status !== 200) return {  }
+
+      return data
     } catch (e) {
       console.log(e)
       return e
