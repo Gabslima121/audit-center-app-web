@@ -5,7 +5,9 @@ import { Modal, ModalBody, ModalFooter } from 'reactstrap'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
 import { Label } from '../../components/Label/Label'
+import { CompanyTable } from '../../components/CompanyTable/CompanyTable'
 import { companyApi } from '../../hooks/api/companyApi'
+import { CompanyType } from '../../types/Company'
 
 import {
   warningMessage,
@@ -16,6 +18,7 @@ import translate from '../../helpers/translate'
 
 function Company() {
   const companyService = companyApi()
+  const [company, setCompany] = useState<any>()
   const [modalIsOpen, setIsOpen] = useState(false)
   const [corporateName, setCorporateName] = useState('')
   const [cnpj, setCnpj] = useState('')
@@ -56,6 +59,20 @@ function Company() {
       return errorMessage(translate(`${e?.response?.data?.message}`))
     }
   }
+
+  async function getAllCompanies() {
+    const companies = await companyService.getAllCompanies()
+
+    setCompany(companies)
+  }
+
+  useEffect(() => {
+    getAllCompanies()
+  }, [])
+
+  useEffect(() => {
+    console.log(company)
+  }, [company])
 
   return (
     <div className="flex-auto mt-5">
@@ -227,7 +244,9 @@ function Company() {
         <h1 className="text-3xl	text-white">Empresas</h1>
       </div>
 
-      <div className="mt-16 bg-white rounded-lg p-2"></div>
+      <div className="mt-16 bg-white rounded-lg p-2">
+        <CompanyTable companies={company} />
+      </div>
     </div>
   )
 }

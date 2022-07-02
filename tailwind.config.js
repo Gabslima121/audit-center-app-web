@@ -10,6 +10,9 @@ module.exports = {
         },
         input: {
           100: '#B3B3B3'
+        },
+        button_exclude: {
+          100: "#C33A3A"
         }
       },
       borderRadius: {
@@ -18,6 +21,9 @@ module.exports = {
       },
       width: {
         'header': '1059px'
+      },
+      margin: {
+        'modal-trash': '165px',
       }
     },
   },

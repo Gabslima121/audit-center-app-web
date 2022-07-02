@@ -23,6 +23,13 @@ export const companyApi = () => ({
       headers,
     )
 
+    if (status !== 200) return data
+
+    return data
+  },
+
+  getAllCompanies: async () => {
+    const { status, data } = await api.get('company', headers)
 
     if (status !== 200) return data
 
