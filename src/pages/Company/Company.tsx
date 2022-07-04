@@ -7,7 +7,7 @@ import { Input } from '../../components/Input/Input'
 import { Label } from '../../components/Label/Label'
 import { CompanyTable } from '../../components/CompanyTable/CompanyTable'
 import { companyApi } from '../../hooks/api/companyApi'
-import { CompanyType } from '../../types/Company'
+import { CompanyType } from '../../types/CompanyType'
 
 import {
   warningMessage,
@@ -103,7 +103,7 @@ function Company() {
                 placeholder="Razão Social"
                 onChange={e => setCorporateName(e.target.value)}
                 type="text"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
               />
             </div>
 
@@ -116,7 +116,7 @@ function Company() {
               />
               <Input
                 id="cnpj"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
                 placeholder="CNPJ"
                 onChange={e => setCnpj(e.target.value)}
                 type="text"
@@ -132,7 +132,7 @@ function Company() {
                 placeholder="CEP"
                 onChange={e => setCep(e.target.value)}
                 type="text"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
               />
             </div>
 
@@ -148,12 +148,12 @@ function Company() {
                 placeholder="Estado"
                 onChange={e => setState(e.target.value)}
                 type="text"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 mb-2">
             <div>
               <Label htmlFor="city" text="Cidade" className="text-xs" />
               <Input
@@ -161,7 +161,7 @@ function Company() {
                 placeholder="Cidade"
                 onChange={e => setCity(e.target.value)}
                 type="text"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
               />
             </div>
 
@@ -172,7 +172,7 @@ function Company() {
                 placeholder="Bairro"
                 onChange={e => setNeighborhood(e.target.value)}
                 type="text"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
               />
             </div>
           </div>
@@ -190,7 +190,7 @@ function Company() {
                 placeholder="Rua"
                 onChange={e => setStreet(e.target.value)}
                 type="text"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
               />
             </div>
 
@@ -203,7 +203,7 @@ function Company() {
               />
               <Input
                 id="number"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
                 placeholder="Número"
                 onChange={e => setNumber(e.target.value)}
                 type="text"
@@ -224,7 +224,7 @@ function Company() {
                 placeholder="Complemento"
                 onChange={e => setComplement(e.target.value)}
                 type="text"
-                className="bg-input p-2 rounded-lg w-full"
+                className="bg-input p-2 rounded-lg w-52"
               />
             </div>
           </div>

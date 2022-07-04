@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { userApi } from '../../hooks/api/userApi'
-import { UserType } from '../../types/User'
+import { UserType } from '../../types/UserType'
 import { AuthContext } from './AuthContext'
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {

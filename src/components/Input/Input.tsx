@@ -1,5 +1,5 @@
 interface inputProps {
-  type?: 'text' | 'password' | 'email';
+  type?: 'text' | 'password' | 'email' | 'date';
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
@@ -8,13 +8,11 @@ interface inputProps {
 
 function Input(props: inputProps) {
   return (
-    <div className="w-52 mt-2">
       <div className="flex flex-1">
         <input
           {...props}
         />
       </div>
-    </div>
   )
 }
 

@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
-import { SiginType } from "../../types/Sigin";
-import { UserType } from "../../types/User";
+import { SiginType } from "../../types/SiginType";
+import { UserType } from "../../types/UserType";
 
 export type AuthContextProps = {
   user: UserType | null;
