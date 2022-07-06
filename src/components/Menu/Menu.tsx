@@ -1,4 +1,4 @@
-import { Buildings, ChartBar, House } from 'phosphor-react'
+import { Buildings, ChartBar, House, User } from 'phosphor-react'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -15,10 +15,17 @@ export function Menu() {
       </Link>
 
       {isAdmin && isSuperAdmin && (
-        <Link to="/companys" className="my-2">
-          <Buildings size={25} className="ml-2 float-left" />
-          <p className="ml-10 mt-px">Empresas</p>
-        </Link>
+        <>
+          <Link to="/users" className="my-2">
+            <User size={25} className="ml-2 float-left" />
+            <p className="ml-10 mt-px">Usuários</p>
+          </Link>
+
+          <Link to="/companys" className="my-2">
+            <Buildings size={25} className="ml-2 float-left" />
+            <p className="ml-10 mt-px">Empresas</p>
+          </Link>
+        </>
       )}
 
       <Link to="/graphs" className="my-2">

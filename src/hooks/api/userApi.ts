@@ -1,5 +1,7 @@
 import { api } from '../../api'
 
+import { headers } from '../../utils/getHeaders'
+
 export const userApi = () => ({
   validateToken: async (token: string) => {
     const response = await api.post('/validate', { token })
@@ -20,4 +22,11 @@ export const userApi = () => ({
     const response = await api.post('/logout')
     return response.data
   },
+
+  getAllUsers: async () => {
+    const response = await api.get('/user', headers)
+
+    console.log(response)
+    return response.data
+  }
 })

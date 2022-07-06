@@ -8,6 +8,7 @@ import { RequireAuth } from '../contexts/Auth/RequireAuth'
 import { Header } from '../components/Header/Header'
 import { Graphs } from '../pages/Graphs/Graphs'
 import { Content } from '../components/Content/Content'
+import { User } from '../pages/User/User'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -40,6 +41,14 @@ const AppRoutes: React.FC = () => {
               element={
                 <RequireAuth>
                   <Graphs />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <RequireAuth>
+                  <User />
                 </RequireAuth>
               }
             />
