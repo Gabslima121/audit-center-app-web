@@ -26,7 +26,6 @@ export const userApi = () => ({
   getAllUsers: async () => {
     const response = await api.get('/user', headers)
 
-    console.log(response)
     return response.data
   }
 })

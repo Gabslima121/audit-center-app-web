@@ -1,12 +1,19 @@
 import { X } from 'phosphor-react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import _ from 'lodash'
 import { Modal, ModalBody, ModalFooter } from 'reactstrap'
+
 import { Button } from '../../../components/Button/Button'
 import { Select } from '../../../components/Select/Select'
 import { Input } from '../../../components/Input/Input'
 import { Label } from '../../../components/Label/Label'
 import { userApi } from '../../../hooks/api/userApi'
-
+import { departmentsApi } from '../../../hooks/api/departmentsApi'
+import { AUDIT_STATUS } from '../../../helpers/constants'
+import { companyApi } from '../../../hooks/api/companyApi'
+import { auditApi } from '../../../hooks/api/auditApi'
+import { errorMessage, sucessMessage } from '../../../utils/Toast/toast'
+import translate from '../../../helpers/translate'
 interface AddAuditModalProps {
   isOpen: boolean
   setIsOpen: (IsOpen: boolean) => void
@@ -14,17 +21,23 @@ interface AddAuditModalProps {
 
 function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
   const userService = userApi()
+  const departmentsService = departmentsApi()
+  const companyService = companyApi()
+  const auditService = auditApi()
   const [title, setTitle] = useState('')
   const [responsible, setResponsible] = useState('')
-  const [responsibleArea, setResponsibleArea] = useState('')
+  const [responsableArea, setResponsableArea] = useState('')
   const [analyst, setAnalyst] = useState('')
-  const [status, setStatus] = useState('')
+  const [statusSelect, setStatusSelect] = useState('')
+  const [status, setStatus] = useState<object[]>([])
   const [sla, setSla] = useState('')
   const [company, setCompany] = useState('')
   const [openDate, setOpenDate] = useState('')
-  const [closeDate, setCloseDate] = useState('')
+  const [limitDate, setLimitDate] = useState('')
   const [description, setDescription] = useState('')
   const [userList, setUserList] = useState([])
+  const [departmentsList, setDepartmentsList] = useState([])
+  const [companyList, setCompanyList] = useState([])
 
   async function getAllUsers() {
     const users = await userService.getAllUsers()
@@ -32,12 +45,46 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
     setUserList(users)
   }
 
-  async function getAllDepartments(){
-    
+  async function getAllDepartments() {
+    const departments = await departmentsService.getAllDepartments()
+
+    setDepartmentsList(departments)
+  }
+
+  async function getAllCompanies() {
+    const companies = await companyService.getAllCompanies()
+
+    setCompanyList(companies)
+  }
+
+  async function handleSubmitNewAudit() {
+    try {
+      await auditService.createAudit({
+        title,
+        responsible,
+        responsableArea,
+        analyst,
+        status: statusSelect,
+        sla,
+        company,
+        openDate,
+        limitDate,
+        description,
+      })
+
+      setIsOpen(false)
+      return sucessMessage(translate('success'))
+    } catch (error: any) {
+      return errorMessage(translate(`${error?.response?.data?.message}`))
+    }
   }
 
   useEffect(() => {
+    setStatus(AUDIT_STATUS)
     getAllUsers()
+    getAllDepartments()
+    getAllCompanies()
+    // console.log(depar)
   }, [])
 
   return (
@@ -62,7 +109,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
             placeholder="Título"
             className="bg-input p-2 rounded-lg w-full"
             type="text"
-            onChange={e => setTitle(e.target.value)}
+            onChange={e => setTitle(e?.target?.value)}
           />
         </div>
 
@@ -77,22 +124,23 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
               className="bg-input p-2 rounded-lg w-52"
               id="responsible"
               options={userList}
-              onChange={e => setResponsible(e.target.value)}
+              onChange={e => setResponsible(e?.target?.value)}
               htmlFor="responsible"
             />
           </div>
 
           <div>
             <Label
-              htmlFor="responsibleArea"
+              htmlFor="responsableArea"
               text="Área Responsável"
               className="text-xs mb-1"
             />
-            <Input
-              id="responsibleArea"
-              placeholder="Área Responsável"
+            <Select
               className="bg-input p-2 rounded-lg w-52"
-              type="text"
+              id="responsableArea"
+              options={departmentsList}
+              onChange={e => setResponsableArea(e?.target?.value)}
+              htmlFor="responsableArea"
             />
           </div>
         </div>
@@ -100,21 +148,21 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
         <div className="grid grid-cols-2 mb-2">
           <div>
             <Label htmlFor="analyst" text="Analista" className="text-xs mb-1" />
-            <Input
+            <Select
               id="analyst"
-              placeholder="Analista"
               className="bg-input p-2 rounded-lg w-52"
-              type="text"
+              options={userList}
+              onChange={e => setAnalyst(e?.target?.value)}
             />
           </div>
 
           <div>
             <Label htmlFor="status" text="Status" className="text-xs mb-1" />
-            <Input
+            <Select
               id="status"
-              placeholder="Status"
               className="bg-input p-2 rounded-lg w-52"
-              type="text"
+              options={status}
+              onChange={e => setStatusSelect(e?.target?.value)}
             />
           </div>
         </div>
@@ -124,19 +172,20 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
             <Label htmlFor="sla" text="Definir SLA" className="text-xs mb-1" />
             <Input
               id="sla"
-              placeholder="Definir SLA"
+              placeholder="SLA"
               className="bg-input p-2 rounded-lg w-52"
               type="text"
+              onChange={e => setSla(e?.target?.value)}
             />
           </div>
 
           <div>
             <Label htmlFor="company" text="Empresa" className="text-xs mb-1" />
-            <Input
+            <Select
               id="company"
-              placeholder="Empresa"
               className="bg-input p-2 rounded-lg w-52"
-              type="text"
+              options={companyList}
+              onChange={e => setCompany(e?.target?.value)}
             />
           </div>
         </div>
@@ -152,6 +201,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
               id="openDate"
               className="bg-input p-2 rounded-lg w-52"
               type="date"
+              onChange={e => setOpenDate(e?.target?.value)}
             />
           </div>
 
@@ -165,6 +215,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
               id="limitDate"
               className="bg-input p-2 rounded-lg w-52"
               type="date"
+              onChange={e => setLimitDate(e?.target?.value)}
             />
           </div>
         </div>
@@ -180,6 +231,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
               id="description"
               className="bg-input p-2 rounded-lg w-full"
               placeholder="Considerações/Descrição"
+              onChange={e => setDescription(e?.target?.value)}
             />
           </div>
         </div>
@@ -187,7 +239,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
 
       <ModalFooter>
         <Button onClick={() => setIsOpen(false)}>Cancelar</Button>
-        <Button>Cadastrar Auditoria</Button>
+        <Button onClick={handleSubmitNewAudit}>Cadastrar Auditoria</Button>
       </ModalFooter>
     </Modal>
   )

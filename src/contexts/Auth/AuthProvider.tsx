@@ -12,6 +12,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [roles, setRoles] = useState([])
   const [isAdmin, setIsAdmin] = useState(false)
   const [isSuperAdmin, setIsSuperAdmin] = useState(false)
+  const [isAuditor, setIsAuditor] = useState(false)
+  const [isAnalyst, setIsAnalyst] = useState(false)
 
   const sigin = async (email: string, password: string) => {
     const data = await api.signin(email, password)
@@ -30,9 +32,32 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const adminRoles =
       _.includes(roleName, 'ADMIN') && _.includes(roleName, 'SUPER_ADMIN')
 
+    const auditorRole = _.includes(roleName, 'AUDITOR')
+
+    const analystRole = _.includes(roleName, 'ANALYST')
+
     if (adminRoles) {
       setIsAdmin(true)
       setIsSuperAdmin(true)
+      setIsAnalyst(false)
+      setIsAuditor(false)
+      return
+    }
+
+    if (auditorRole) {
+      setIsAuditor(true)
+      setIsAdmin(false)
+      setIsSuperAdmin(false)
+      setIsAnalyst(false)
+      return
+    }
+
+    if (analystRole) {
+      setIsAnalyst(true)
+      setIsAdmin(false)
+      setIsSuperAdmin(false)
+      setIsAuditor(false)
+      return
     }
   }
 
@@ -49,6 +74,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         roles,
         isAdmin,
         isSuperAdmin,
+        isAuditor,
+        isAnalyst,
       }}
     >
       {children}

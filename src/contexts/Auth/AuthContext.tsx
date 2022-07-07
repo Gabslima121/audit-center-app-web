@@ -9,6 +9,8 @@ export type AuthContextProps = {
   sigin: (email: string, password: string) => Promise<SiginType>;
   isAdmin: boolean;
   isSuperAdmin: boolean;
+  isAuditor: boolean;
+  isAnalyst: boolean;
   // logout: () => void;
 }
 

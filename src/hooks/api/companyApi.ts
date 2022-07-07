@@ -2,6 +2,7 @@ import { api } from '../../api'
 import { headers } from '../../utils/getHeaders'
 
 export interface CreateCompanyDTO {
+  id: string
   corporateName: string
   cnpj: string
   state: string

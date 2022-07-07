@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { AuditTable } from '../../components/AuditsTable/AuditTable'
 
 import { Button } from '../../components/Button/Button'
+import { auditApi } from '../../hooks/api/auditApi'
 import { AddAuditModal } from './AddAuditModal/AddAuditModal'
 
 function Home() {
+  const ticketsService = auditApi()
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [tickets, setTickets] = useState([])
 
   function handleOpenModal() {
     setModalIsOpen(true)
@@ -13,6 +17,16 @@ function Home() {
   function handleCloseModal() {
     setModalIsOpen(false)
   }
+
+  async function getAllTickets() {
+    const tickets = await ticketsService.getAllAudits()
+
+    setTickets(tickets)
+  }
+
+  useEffect(() => {
+    getAllTickets()
+  }, [])
 
   return (
     <div className="flex-auto mt-5">
@@ -28,7 +42,11 @@ function Home() {
         <h1 className="text-3xl	text-white">Página Inicial</h1>
       </div>
 
-      <div className="mt-16 bg-white rounded-lg p-2"></div>
+      <div className="mt-16 bg-white rounded-lg p-2">
+        <AuditTable 
+          audits={tickets}
+        />
+      </div>
     </div>
   )
 }
