@@ -1,7 +1,7 @@
 interface LabelType {
   className?: string
   id?: string
-  htmlFor: string
+  htmlFor?: string
   text?: string
 }
 

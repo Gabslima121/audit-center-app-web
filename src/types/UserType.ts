@@ -4,6 +4,7 @@ export type UserType = {
   email: string;
   password?: string;
   roles: object[];
+  cpf: string;
 }
 
 export type RolesType = {

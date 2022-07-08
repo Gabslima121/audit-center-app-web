@@ -9,6 +9,7 @@ import { Header } from '../components/Header/Header'
 import { Graphs } from '../pages/Graphs/Graphs'
 import { Content } from '../components/Content/Content'
 import { User } from '../pages/User/User'
+import { MyProfile } from '../pages/MyProfile/MyProfile'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -52,6 +53,11 @@ const AppRoutes: React.FC = () => {
                 </RequireAuth>
               }
             />
+            <Route path={`/my-profile/:id`} element={
+              <RequireAuth>
+                <MyProfile />
+              </RequireAuth>
+            } />
           </Routes>
         </Content>
       </div>

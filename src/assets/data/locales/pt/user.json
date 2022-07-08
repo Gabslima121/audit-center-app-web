@@ -1,3 +1,12 @@
 {
-  "invalid_credentials": "Usuário ou senha inválidos"
+  "invalid_credentials": "Usuário ou senha inválidos",
+  "user.user_name": "Nome Completo",
+  "user.email": "Email",
+  "user.password": "Senha",
+  "user.cpf": "CPF",
+  "user.roles": "Permissões",
+  "user.total_audits": "Número total de Auditorias",
+  "user.total_pending_audits": "Número total de auditorias Pendentes",
+  "user.total_done_audits" : "Número de auditorias concluídas",
+  "user.select_role": "Selecione uma permissão"
 }

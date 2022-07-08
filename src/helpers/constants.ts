@@ -1,4 +1,19 @@
-export const USER_ROLES: string[] = ['SUPER_ADMIN', 'ADMIN', 'USER']
+import { RoleItemType } from "../types/RolesType"
+
+export const USER_ROLES: RoleItemType[] = [
+  {
+    name: "SUPER_ADMIN"
+  },
+  {
+    name: "ADMIN"
+  },
+  {
+    name: "AUDITOR"
+  },
+  {
+    name: "ANALYST"
+  },
+]
 
 export const AUDIT_STATUS: object[] = [
   {

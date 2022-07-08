@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
 
 export function Menu() {
-  const { isAdmin, isSuperAdmin } = useContext(AuthContext)
+  const { isSuperAdmin } = useContext(AuthContext)
 
   return (
     <div className="flex flex-col mt-9 flex-auto">
@@ -14,7 +14,7 @@ export function Menu() {
         <p className="ml-10 mt-px">Página Inicial</p>
       </Link>
 
-      {isAdmin && isSuperAdmin && (
+      {isSuperAdmin && (
         <>
           <Link to="/users" className="my-2">
             <User size={25} className="ml-2 float-left" />

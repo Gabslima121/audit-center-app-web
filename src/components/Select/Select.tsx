@@ -13,12 +13,13 @@ interface SelectProps {
   options: OptionObject[]
   value?: string
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  placeholder?: string
 }
 
 function Select(props: SelectProps) {
   return (
-    <select {...props}>
-      <option>Selecione</option>
+    <select {...props} placeholder="ola">
+      <option>{props.placeholder}</option>
       {props?.options.map(item => (
         <option key={item?.id} value={item?.id}>
           {item?.name || item?.corporateName}
