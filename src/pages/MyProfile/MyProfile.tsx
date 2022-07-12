@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { useContext, useEffect, useState } from 'react'
 import { Input } from '../../components/Input/Input'
 import { Label } from '../../components/Label/Label'
@@ -5,21 +6,58 @@ import { RolesList } from '../../components/RolesList/RolesList'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
 import translate from '../../helpers/translate'
 import { roleApi } from '../../hooks/api/roleApi'
+import { RolesType } from '../../types/RolesType'
 
 function MyProfile() {
   const roleService = roleApi()
   const { roles, user } = useContext(AuthContext)
-  const [allRoles, setAllRoles] = useState([])
+  const [allRoles, setAllRoles] = useState<any>([])
+  const [selectedRoles, setSelectedRoles] = useState<any>([])
+  const [role, setRole] = useState<any>([])
 
   async function getAllRoles() {
-    const roles = await roleService.getAllRoles()
+    const allRole = await roleService.getAllRoles()
 
-    setAllRoles(roles)
+    const newArray = []
+
+    for (let value of allRole) {
+      for (let item of roles) {
+        if (item.id == value.id) {
+          newArray.push(item)
+        }
+      }
+    }
+
+    console.log(newArray)
+    setAllRoles(allRole)
+  }
+
+  const removeFromArray = (array: any[], idToRemove: any[]) =>
+    array.filter(item => item?.id !== idToRemove)
+
+  const addToArray = (arrayToAdd: any[], arrayToGet: any[], idToAdd: any[]) => [
+    ...arrayToAdd,
+    arrayToGet.find((item: any) => item?.id === idToAdd),
+  ]
+
+  const handleAddRole = (roleId: any) => {
+    setSelectedRoles([...removeFromArray(roles, roleId)])
+    setRole([...addToArray(selectedRoles, roles, roleId)])
+  }
+
+  const handleRemoveRole = (roleId: any) => {
+    setSelectedRoles([...removeFromArray(selectedRoles, roleId)])
+    setRole([...addToArray(allRoles, selectedRoles, roleId)])
   }
 
   useEffect(() => {
     getAllRoles()
   }, [])
+
+  // useEffect(() => {
+  //   console.log('selected roles', selectedRoles)
+  //   console.log('role', role)
+  // }, [handleAddRole, handleRemoveRole])
 
   return (
     <div className="flex-auto mt-5">
@@ -83,12 +121,14 @@ function MyProfile() {
                 <RolesList
                   userRoles={allRoles}
                   title={translate('roles.default_title')}
+                  handleChangeRole={handleAddRole}
                 />
               </div>
               <div>
                 <RolesList
                   userRoles={roles}
                   title={translate('roles.user_title')}
+                  handleChangeRole={handleRemoveRole}
                 />
               </div>
             </div>

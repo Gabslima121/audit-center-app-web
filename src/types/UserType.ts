@@ -6,7 +6,3 @@ export type UserType = {
   roles: object[];
   cpf: string;
 }
-
-export type RolesType = {
-  name: string;
-}

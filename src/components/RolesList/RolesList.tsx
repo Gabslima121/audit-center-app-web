@@ -9,20 +9,20 @@ interface RolesListProps {
   className?: string
   userRoles: any
   title?: string
-  // onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleChangeRole: (e: any) => void
 }
 
 function RolesList(props: RolesListProps) {
-  const { userRoles, title } = props
+  const { userRoles, title, handleChangeRole } = props
 
   return (
     <div className="border-1 border-gray-500 border-solid rounded-lg mr-2 p-2 h-auto">
       <div className="items-center justify-center">
-        <Label className="self-center" text={title} />
+        <Label className="self-center ml-2" text={title} />
       </div>
 
       {_.map(userRoles, roles => (
-        <RoleItem role={roles} id={_.get(roles, 'id')} />
+        <RoleItem role={roles} id={_.get(roles, 'id')} onChange={handleChangeRole}/>
       ))}
     </div>
   )

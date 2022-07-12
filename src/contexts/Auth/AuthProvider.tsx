@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 
 import { userApi } from '../../hooks/api/userApi'
+import { RolesType } from '../../types/RolesType'
 import { UserType } from '../../types/UserType'
 import { AuthContext } from './AuthContext'
 
@@ -63,6 +63,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
   useEffect(() => {
     getRoles()
+    console.log('roles', roles)
   }, [roles])
 
   return (

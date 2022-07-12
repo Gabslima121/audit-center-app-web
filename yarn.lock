@@ -3546,6 +3546,11 @@ react-modal@^3.15.1, react-modal@^3.8.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
+react-multi-select-component@^4.2.9:
+  version "4.2.9"
+  resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-4.2.9.tgz#e0e750bcd243f4e4d829a9b0d983bbc457fd90fe"
+  integrity sha512-ef++2OuhBhAQ6MMfwl5BvI9Jtq8wcnCTM3MHvcKKdv5OGoUtIZpj5PGqLmegwSi75ZhkJTp/AdE8MR0nv2zGxQ==
+
 react-numeric-input@2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/react-numeric-input/-/react-numeric-input-2.2.3.tgz#4bf5918c3eafed851a80df1eb992d941002bb552"
