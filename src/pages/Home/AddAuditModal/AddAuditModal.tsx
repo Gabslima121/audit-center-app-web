@@ -9,7 +9,7 @@ import { Input } from '../../../components/Input/Input'
 import { Label } from '../../../components/Label/Label'
 import { userApi } from '../../../hooks/api/userApi'
 import { departmentsApi } from '../../../hooks/api/departmentsApi'
-import { AUDIT_STATUS } from '../../../helpers/constants'
+import { AUDIT_STATUS_ARRAY } from '../../../helpers/constants'
 import { companyApi } from '../../../hooks/api/companyApi'
 import { auditApi } from '../../../hooks/api/auditApi'
 import { errorMessage, sucessMessage } from '../../../utils/Toast/toast'
@@ -25,7 +25,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
   const companyService = companyApi()
   const auditService = auditApi()
   const [title, setTitle] = useState('')
-  const [responsible, setResponsible] = useState('')
+  const [responsable, setResponsable] = useState('')
   const [responsableArea, setResponsableArea] = useState('')
   const [analyst, setAnalyst] = useState('')
   const [statusSelect, setStatusSelect] = useState('')
@@ -61,7 +61,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
     try {
       await auditService.createAudit({
         title,
-        responsible,
+        responsable,
         responsableArea,
         analyst,
         status: statusSelect,
@@ -80,12 +80,11 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
   }
 
   useEffect(() => {
-    setStatus(AUDIT_STATUS)
+    setStatus(AUDIT_STATUS_ARRAY)
     getAllUsers()
     getAllDepartments()
     getAllCompanies()
-    // console.log(depar)
-  }, [])
+  }, [isOpen])
 
   return (
     <Modal isOpen={isOpen}>
@@ -116,16 +115,16 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
         <div className="grid grid-cols-2 mb-2">
           <div>
             <Label
-              htmlFor="responsible"
+              htmlFor="responsable"
               text="Responsável"
               className="text-xs mb-1"
             />
             <Select
               className="bg-input p-2 rounded-lg w-52"
-              id="responsible"
+              id="responsable"
               options={userList}
-              onChange={e => setResponsible(e?.target?.value)}
-              htmlFor="responsible"
+              onChange={e => setResponsable(e?.target?.value)}
+              htmlFor="responsable"
             />
           </div>
 

@@ -24,6 +24,7 @@ module.exports = {
       },
       margin: {
         'modal-trash': '165px',
+        'save-user-info': '630px',
       }
     },
   },

@@ -1,9 +1,9 @@
-import { api } from "../../api"
-import { headers } from "../../utils/getHeaders"
+import { api } from '../../api'
+import { headers } from '../../utils/getHeaders'
 
 interface CreateAuditDTO {
   title: string
-  responsible: string
+  responsable: string
   responsableArea: string
   analyst: string
   status: string
@@ -36,5 +36,18 @@ export const auditApi = () => ({
     if (status !== 200) return data
 
     return data
-  }
+  },
+
+  getAuditByResponsable: async (ticketStatus?: string) => {
+    const { status, data } = await api.get('/tickets/get-by-responsable', {
+      ...headers,
+      params: {
+        ticketStatus,
+      },
+    })
+
+    if (status !== 200) return data
+
+    return data
+  },
 })

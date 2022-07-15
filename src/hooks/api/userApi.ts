@@ -27,5 +27,5 @@ export const userApi = () => ({
     const response = await api.get('/user', headers)
 
     return response.data
-  }
+  },
 })
