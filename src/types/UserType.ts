@@ -10,3 +10,9 @@ export type UserType = {
 export type RolesType = {
   name: string;
 }
+
+export type UpdateUserDTO = {
+  email: string;
+  name: string;
+  userId: string;
+}

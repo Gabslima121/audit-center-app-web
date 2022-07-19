@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, ChangeEvent } from 'react'
 import { MultiSelect } from 'react-multi-select-component'
 
 import { Input } from '../../components/Input/Input'
@@ -10,17 +10,24 @@ import { auditApi } from '../../hooks/api/auditApi'
 import { roleApi } from '../../hooks/api/roleApi'
 import { AUDIT_STATUS } from '../../helpers/constants'
 import { Button } from '../../components/Button/Button'
+import { userApi } from '../../hooks/api/userApi'
+
+const USER_INITIAL_STATE = {
+  id: '',
+  name: '',
+  email: '',
+}
 
 function MyProfile() {
   const roleService = roleApi()
   const ticketService = auditApi()
+  const userService = userApi()
   const { roles, user } = useContext(AuthContext)
   const [allRoles, setAllRoles] = useState<any>([])
   const [selectedRoles, setSelectedRoles] = useState<any>([])
   const [totalWithNoStatus, setTotalWithNoStatus] = useState<number>(0)
   const [totalWithStatus, setTotalWithStatus] = useState<number>(0)
-  const [fullName, setFullName] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
+  const [userInfo, setUserInfo] = useState<any>({ ...USER_INITIAL_STATE })
 
   async function getAllRoles() {
     const allRole = await roleService.getAllRoles()
@@ -50,9 +57,24 @@ function MyProfile() {
     setTotalWithStatus(total)
   }
 
-  async function handleUpdateUserInfo() {}
+  async function handleUpdateUserInfo() {
+    const { id: userId } = user
+    const { name, email } = userInfo
+
+    const { message } = await userService.updateUser({ userId, name, email })
+
+    console.log(message)
+  }
+
+  const handleChange = (event: { target: { name: any; value: any } }) => {
+    setUserInfo((prevState: typeof userInfo) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }))
+  }
 
   useEffect(() => {
+    setUserInfo({ ...user })
     getAllRoles()
     getSelectedRoles()
     getNumberOfTotalTicketsWithNoStatus()
@@ -71,7 +93,7 @@ function MyProfile() {
         </div>
 
         <div className="mt-4">
-          <form onSubmit={handleUpdateUserInfo}>
+          <form>
             <div className="grid grid-cols-3 ml-2 mb-4">
               <div>
                 <Label
@@ -82,9 +104,10 @@ function MyProfile() {
                 <Input
                   type="text"
                   id="name"
+                  name="name"
                   className="p-2 rounded-lg w-60 text-xs"
-                  value={user?.name}
-                  onChange={e => setFullName(e?.target?.value)}
+                  value={userInfo?.name}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -97,9 +120,10 @@ function MyProfile() {
                 <Input
                   type="text"
                   id="email"
+                  name="email"
                   className="p-2 rounded-lg w-60 text-xs"
-                  value={user?.email}
-                  onChange={e => setEmail(e?.target?.value)}
+                  value={userInfo?.email}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -107,12 +131,12 @@ function MyProfile() {
                 <Label
                   htmlFor="cpf"
                   text={translate('user.cpf')}
-                  className="text-base mb-1"
+                  className="text-base mb-1 opacity-60"
                 />
                 <Input
                   type="text"
                   id="cpf"
-                  className="p-2 rounded-lg w-60 text-xs"
+                  className="p-2 rounded-lg w-60 text-xs opacity-60"
                   value={user?.cpf}
                   disabled={true}
                 />
@@ -124,17 +148,18 @@ function MyProfile() {
                 <Label
                   htmlFor="roles"
                   text={translate('user.roles')}
-                  className="text-base mb-1"
+                  className="text-base mb-1 opacity-60"
                 />
-                {`${selectedRoles.length}/${allRoles.length}`}
+                <span className="ml-1 opacity-60">{`(${selectedRoles.length})`}</span>
                 <MultiSelect
                   id="roles"
-                  className="text-xs mr-2"
+                  className="text-xs mr-2 opacity-80"
                   options={allRoles}
                   value={selectedRoles}
                   onChange={(selected: any) => setSelectedRoles(selected)}
                   labelledBy={'roles'}
                   hasSelectAll={false}
+                  disabled={true}
                 />
               </div>
 
@@ -142,12 +167,12 @@ function MyProfile() {
                 <Label
                   htmlFor="totalAudits"
                   text={translate('user.total_audits')}
-                  className="text-base mb-1"
+                  className="text-base mb-1 opacity-60"
                 />
                 <Input
                   type="text"
                   id="totalAudits"
-                  className="p-2 rounded-lg w-60 text-xs"
+                  className="p-2 rounded-lg w-60 text-xs opacity-60"
                   value={totalWithNoStatus}
                   disabled={true}
                 />
@@ -157,12 +182,12 @@ function MyProfile() {
                 <Label
                   htmlFor="totalDoneAudits"
                   text={translate('user.total_done_audits')}
-                  className="text-base mb-1"
+                  className="text-base mb-1 opacity-60"
                 />
                 <Input
                   type="text"
                   id="totalDoneAudits"
-                  className="p-2 rounded-lg w-60 text-xs"
+                  className="p-2 rounded-lg w-60 text-xs opacity-60"
                   value={totalWithStatus}
                   disabled={true}
                 />
@@ -170,7 +195,9 @@ function MyProfile() {
             </div>
 
             <div className="flex w-32 ml-save-user-info">
-              <Button type="submit">Salvar Informações</Button>
+              <Button type="button" onClick={handleUpdateUserInfo}>
+                Salvar Informações
+              </Button>
             </div>
           </form>
         </div>

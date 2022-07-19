@@ -5,7 +5,7 @@ import { SiginType } from "../../types/SiginType";
 import { UserType } from "../../types/UserType";
 
 export type AuthContextProps = {
-  user: UserType | null;
+  user: UserType;
   roles: RolesType[];
   sigin: (email: string, password: string) => Promise<SiginType>;
   isAdmin: boolean;

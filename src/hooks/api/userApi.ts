@@ -1,4 +1,5 @@
 import { api } from '../../api'
+import { UpdateUserDTO } from '../../types/UserType'
 
 import { headers } from '../../utils/getHeaders'
 
@@ -27,5 +28,19 @@ export const userApi = () => ({
     const response = await api.get('/user', headers)
 
     return response.data
+  },
+
+  updateUser: async ({ email, name, userId }: UpdateUserDTO) => {
+    const { data, status } = await api.put(
+      `/user/update/${userId}`,
+      { email, name },
+      headers,
+    )
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
   },
 })

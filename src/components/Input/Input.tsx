@@ -6,6 +6,7 @@ interface InputProps {
   id?: string
   value?: string | number
   disabled?: boolean
+  name?: string
 }
 
 function Input(props: InputProps) {
