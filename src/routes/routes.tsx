@@ -6,6 +6,7 @@ import AppRoutes from './app.routes'
 
 const Routes: React.FC = () => {
   const { user } = useContext(AuthContext)
+
   return user ? <AppRoutes /> : <AuthRoutes />
 }
 

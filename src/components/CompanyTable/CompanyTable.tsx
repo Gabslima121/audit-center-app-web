@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component'
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
 
 import translate from '../../helpers/translate'
-import { CompanyHeaders } from './headers'
+import { CompanyHeaders } from './useCompanyTable'
 
 import trash from '../../assets/img/trash.svg'
 
@@ -12,10 +12,11 @@ interface CompanyTableProps {
 }
 
 function CompanyTable({ companies }: CompanyTableProps) {
-  const { companyHeaders, modalIsOpen, setModalIsOpen } = CompanyHeaders()
-  useEffect(() => {
-    console.log(companies)
-  }, [])
+  const { companyHeaders, modalIsOpen, setModalIsOpen, companyId } = CompanyHeaders()
+
+  async function handleExcludeCompany(){
+    
+  }
 
   return (
     <>
@@ -43,7 +44,7 @@ function CompanyTable({ companies }: CompanyTableProps) {
           </ModalBody>
 
           <ModalFooter>
-            <button className="border-1 border-button_exclude-100 text-button_exclude-100 w-full p-1 rounded-md">
+            <button onClick={handleExcludeCompany} className="border-1 border-button_exclude-100 text-button_exclude-100 w-full p-1 rounded-md">
               Excluir
             </button>
             <button

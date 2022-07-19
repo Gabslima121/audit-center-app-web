@@ -1,30 +1,47 @@
 import { Trash } from 'phosphor-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { TableColumn } from 'react-data-table-component'
 import { Link } from 'react-router-dom'
+
+interface DataRow {
+  id: string;
+  corporateName: string;
+  cnpj: string;
+  openTickets: number;
+  closedTickets: number;
+}
+
 
 const CompanyHeaders = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [companyId, setCompanyId] = useState('')
 
-  function handleOpenModal() {
+  function handleOpenModal(incomingCompanyId: string) {
+    setCompanyId(incomingCompanyId)
     setModalIsOpen(true)
   }
 
-  const companyHeaders: object[] = [
+  const companyHeaders: TableColumn<DataRow>[] = [
+    {
+      name: 'ID',
+      selector: row => row.id,
+      omit: true,
+    },
     {
       name: 'Razão Social',
-      selector: 'corporateName',
+      selector:  row => row.corporateName,
     },
     {
       name: 'CNPJ',
-      selector: 'cnpj',
+      selector: row => row.cnpj,
     },
     {
       name: 'Quantidade de Chamados em Aberto',
-      selector: 'openTickets',
+      selector: row => row.openTickets,
     },
     {
       name: 'Quantidade de Chamados Concluídos',
-      selector: 'closedTickets',
+      selector: row => row.closedTickets,
     },
     {
       name: 'Ações',
@@ -36,7 +53,7 @@ const CompanyHeaders = () => {
               <Link to={`/company/detailed/${row.id}`}>Acessar</Link>
             </button>
 
-            <button onClick={handleOpenModal} className="text-brand-300">
+            <button onClick={() => handleOpenModal(row.id)} className="text-brand-300">
               <Trash size={24} color="#cc2828" />
             </button>
           </div>
@@ -49,6 +66,7 @@ const CompanyHeaders = () => {
     companyHeaders,
     modalIsOpen,
     setModalIsOpen,
+    companyId,
   }
 }
 

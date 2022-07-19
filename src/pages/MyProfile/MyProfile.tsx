@@ -152,7 +152,6 @@ function MyProfile() {
                 />
                 <span className="ml-1 opacity-60">{`(${selectedRoles.length})`}</span>
                 <MultiSelect
-                  id="roles"
                   className="text-xs mr-2 opacity-80"
                   options={allRoles}
                   value={selectedRoles}

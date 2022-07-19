@@ -5,7 +5,7 @@ import { headers } from '../../utils/getHeaders'
 
 export const userApi = () => ({
   validateToken: async (token: string) => {
-    const response = await api.post('/validate', { token })
+    const response = await api.post('/validate-token', { token })
     return response.data
   },
 

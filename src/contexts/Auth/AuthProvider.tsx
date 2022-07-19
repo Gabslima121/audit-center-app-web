@@ -8,8 +8,9 @@ import { AuthContext } from './AuthContext'
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const api = userApi()
-  const [user, setUser] = useState<UserType | null>(null)
+  const [user, setUser] = useState() as [UserType, (user: UserType) => void]
   const [roles, setRoles] = useState([])
+  const [token, setToken] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
   const [isSuperAdmin, setIsSuperAdmin] = useState(false)
   const [isAuditor, setIsAuditor] = useState(false)
@@ -20,6 +21,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     setUser(data?.user)
     setRoles(data?.user?.roles)
+    setToken(data?.accessToken)
 
     localStorage.setItem('user', JSON.stringify(data?.user))
     localStorage.setItem('authorization', data?.accessToken)
@@ -35,6 +37,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const auditorRole = _.includes(roleName, 'AUDITOR')
 
     const analystRole = _.includes(roleName, 'ANALYST')
+
 
     if (adminRoles) {
       setIsAdmin(true)
@@ -61,9 +64,24 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
   }
 
+  const validateToken = async () => {
+    const userData = localStorage.getItem('user')
+    const tokenData = localStorage.getItem('authorization')
+
+    await api.validateToken(tokenData!)
+
+    setUser(JSON.parse(userData!))
+    setRoles(JSON.parse(userData!).roles)
+    localStorage.setItem('authorization', tokenData!)
+  }
+
+  useEffect(() => {
+    validateToken()
+  }, [])
+
   useEffect(() => {
     getRoles()
-  }, [roles])
+  }, [user, roles])
 
   return (
     <AuthContext.Provider
