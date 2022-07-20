@@ -36,4 +36,21 @@ export const companyApi = () => ({
 
     return data
   },
+
+  deleteCompany: async (id: string) => {
+    const { status } = await api.delete(`company/delete/${id}`, headers)
+
+    if (status !== 200) return false
+
+    return true
+  },
+
+  getCompanyById: async (id: string) => {
+    const { status, data } = await api.get(`company/${id}`, headers)
+
+    console.log(data)
+    if (status !== 200) return data
+
+    return data
+  }
 })
