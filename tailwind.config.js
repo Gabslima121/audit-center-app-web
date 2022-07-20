@@ -13,6 +13,9 @@ module.exports = {
         },
         button_exclude: {
           100: "#C33A3A"
+        },
+        table_background: {
+          100: "#DCDCDC"
         }
       },
       borderRadius: {
