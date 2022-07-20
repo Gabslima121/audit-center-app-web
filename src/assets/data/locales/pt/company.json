@@ -1,5 +1,7 @@
 {
   "corporate_name_and_cnpj_are_required": "Razão Social e CNPJ são obrigatórios",
   "no_company_registered": "Nenhuma empresa registrada",
-  "company_not_found": "Empresa não encontrada"
+  "company_not_found": "Empresa não encontrada",
+  "company_deleted": "Empresa excluida com sucesso!",
+  "company_not_deleted": "Empresa não excluida"
 }

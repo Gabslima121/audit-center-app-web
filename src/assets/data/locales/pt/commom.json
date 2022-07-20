@@ -1,3 +1,9 @@
 {
-  "success": "Informações salvas com sucesso!"
+  "success": "Informações salvas com sucesso!",
+  "exclude": "Excluir",
+  "back" : "Voltar",
+  "tickets": "Tickets",
+  "define_sla": "Definir SLA",
+  "graphs": "Gráficos",
+  "back_to_admin_panel": "Acessar painel Administrativo"
 }
