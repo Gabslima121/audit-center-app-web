@@ -10,57 +10,72 @@ import { Graphs } from '../pages/Graphs/Graphs'
 import { Content } from '../components/Content/Content'
 import { User } from '../pages/User/User'
 import { MyProfile } from '../pages/MyProfile/MyProfile'
+import { CompanyDetailed } from '../pages/Company/CompanyDetailed/CompanyDetailed'
+import { CompanyProvider } from '../contexts/Company/CompanyProvider'
 
 const AppRoutes: React.FC = () => {
   return (
     <>
-      <div className="flex w-full h-screen mr-40 bg-brand-300 bg-opacity-50">
-        <SideBarProvider>
-          <SideBar />
-        </SideBarProvider>
-        <Content>
-          <Header />
-          <Routes>
-            <Route
-              path="/home"
-              element={
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/companys"
-              element={
-                <RequireAuth>
-                  <Company />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/graphs"
-              element={
-                <RequireAuth>
-                  <Graphs />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/users"
-              element={
-                <RequireAuth>
-                  <User />
-                </RequireAuth>
-              }
-            />
-            <Route path={`/my-profile/:id`} element={
-              <RequireAuth>
-                <MyProfile />
-              </RequireAuth>
-            } />
-          </Routes>
-        </Content>
-      </div>
+      <CompanyProvider>
+        <div className="flex w-full h-screen mr-40 bg-brand-300 bg-opacity-50">
+          <SideBarProvider>
+            <SideBar />
+          </SideBarProvider>
+          <Content>
+            <Header />
+            <Routes>
+              <Route
+                path="/home"
+                element={
+                  <RequireAuth>
+                    <Home />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/companys"
+                element={
+                  <RequireAuth>
+                    <Company />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/graphs"
+                element={
+                  <RequireAuth>
+                    <Graphs />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/users"
+                element={
+                  <RequireAuth>
+                    <User />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={`/my-profile/:id`}
+                element={
+                  <RequireAuth>
+                    <MyProfile />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={`/company/detailed/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanyDetailed />
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          </Content>
+        </div>
+      </CompanyProvider>
     </>
   )
 }
