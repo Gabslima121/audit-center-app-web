@@ -5,6 +5,16 @@ import { AuthContext } from '../../contexts/Auth/AuthContext'
 
 export function Header() {
   const { user } = useContext(AuthContext)
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    localStorage.removeItem('companyId')
+    localStorage.removeItem('company')
+
+    window.location.reload()
+  }
+
   return (
     <div className="bg-white rounded-3xl p-3">
       <div className="float-right">
@@ -16,7 +26,7 @@ export function Header() {
 
           <Link to="/" className="my-2 mx-2">
             <SignOut size={25} className="float-left" />
-            <p className="ml-8">Sair</p>
+            <p onClick={handleSignOut} className="ml-8">Sair</p>
           </Link>
         </div>
       </div>
