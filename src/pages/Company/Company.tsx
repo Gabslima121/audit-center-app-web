@@ -68,11 +68,7 @@ function Company() {
 
   useEffect(() => {
     getAllCompanies()
-  }, [])
-
-  useEffect(() => {
-    console.log(company)
-  }, [company])
+  }, [modalIsOpen])
 
   return (
     <div className="flex-auto mt-5">
