@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
 import DataTable from 'react-data-table-component'
-import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
+import { Modal, ModalBody, ModalFooter } from 'reactstrap'
 
 import translate from '../../helpers/translate'
-import { CompanyHeaders } from './useCompanyTable'
+import { useCompanyTable } from './useCompanyTable'
+import { companyApi } from '../../hooks/api/companyApi'
+import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
 
 import trash from '../../assets/img/trash.svg'
 
@@ -12,10 +13,21 @@ interface CompanyTableProps {
 }
 
 function CompanyTable({ companies }: CompanyTableProps) {
-  const { companyHeaders, modalIsOpen, setModalIsOpen, companyId } = CompanyHeaders()
+  
+  const companySerivce = companyApi()
+  const { companyHeaders, modalIsOpen, setModalIsOpen, companyId } =
+    useCompanyTable()
 
-  async function handleExcludeCompany(){
-    
+  async function handleExcludeCompany() {
+    const response = await companySerivce.deleteCompany(companyId)
+
+    if (response) {
+      sucessMessage(translate('company_deleted'))
+      setModalIsOpen(false)
+      return
+    }
+
+    errorMessage(translate('company_not_deleted'))
   }
 
   return (
@@ -44,14 +56,17 @@ function CompanyTable({ companies }: CompanyTableProps) {
           </ModalBody>
 
           <ModalFooter>
-            <button onClick={handleExcludeCompany} className="border-1 border-button_exclude-100 text-button_exclude-100 w-full p-1 rounded-md">
-              Excluir
+            <button
+              onClick={handleExcludeCompany}
+              className="border-1 border-button_exclude-100 text-button_exclude-100 w-full p-1 rounded-md"
+            >
+              {translate('exclude')}
             </button>
             <button
               onClick={() => setModalIsOpen(false)}
               className="border-1 border-brand-100 text-brand-100 w-full p-1 rounded-md"
             >
-              Voltar
+              {translate('back')}
             </button>
           </ModalFooter>
         </Modal>

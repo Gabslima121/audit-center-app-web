@@ -1,22 +1,23 @@
 import { Trash } from 'phosphor-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { Link } from 'react-router-dom'
 
+import { CompanyContext } from '../../contexts/Company/CompanyContext'
+
 interface DataRow {
-  id: string;
-  corporateName: string;
-  cnpj: string;
-  openTickets: number;
-  closedTickets: number;
+  id: string
+  corporateName: string
+  cnpj: string
+  openTickets: number
+  closedTickets: number
 }
 
-
-const CompanyHeaders = () => {
+const useCompanyTable = () => {
+  const { setCompanyId, companyId } = useContext(CompanyContext)
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const [companyId, setCompanyId] = useState('')
 
-  function handleOpenModal(incomingCompanyId: string) {
+  function handleOpenDeletModal(incomingCompanyId: string) {
     setCompanyId(incomingCompanyId)
     setModalIsOpen(true)
   }
@@ -29,7 +30,7 @@ const CompanyHeaders = () => {
     },
     {
       name: 'Razão Social',
-      selector:  row => row.corporateName,
+      selector: row => row.corporateName,
     },
     {
       name: 'CNPJ',
@@ -50,10 +51,18 @@ const CompanyHeaders = () => {
         <>
           <div className="flex flex-row">
             <button className="text-brand-300 mr-2">
-              <Link to={`/company/detailed/${row.id}`}>Acessar</Link>
+              <Link
+                onClick={() => setCompanyId(row.id)}
+                to={`/company/detailed/${row.id}`}
+              >
+                Acessar
+              </Link>
             </button>
 
-            <button onClick={() => handleOpenModal(row.id)} className="text-brand-300">
+            <button
+              onClick={() => handleOpenDeletModal(row.id)}
+              className="text-brand-300"
+            >
               <Trash size={24} color="#cc2828" />
             </button>
           </div>
@@ -70,4 +79,4 @@ const CompanyHeaders = () => {
   }
 }
 
-export { CompanyHeaders }
+export { useCompanyTable }
