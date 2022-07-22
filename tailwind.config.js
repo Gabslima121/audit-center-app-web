@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       colors: {
         brand: {
+          90: "#6bafed",
           100: "#126ABB",
           200: "#1C5B95",
           300: "#3A81C3",
@@ -12,7 +13,8 @@ module.exports = {
           100: '#B3B3B3'
         },
         button_exclude: {
-          100: "#C33A3A"
+          100: '#FBAEAE',
+          200: "#C33A3A"
         },
         table_background: {
           100: "#DCDCDC"
@@ -28,6 +30,9 @@ module.exports = {
       margin: {
         'modal-trash': '165px',
         'save-user-info': '630px',
+      },
+      boxShadow: {
+        '3xl': '10px 10px 10px rgba(243, 244, 246, 0.3)',
       }
     },
   },
