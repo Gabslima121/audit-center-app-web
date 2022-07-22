@@ -1,4 +1,6 @@
 {
   "no_audit_found": "Sem auditorias cadastradas",
-  "analyst_or_responsable_not_found": "Analista ou responsável não encontrado"
+  "analyst_or_responsable_not_found": "Analista ou responsável não encontrado",
+  "create_audit": "Criar Auditoria",
+  "delete_audit_confirmation": "Deseja mesmo remover esta Auditoria?"
 }
