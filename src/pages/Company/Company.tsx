@@ -7,7 +7,7 @@ import { Input } from '../../components/Input/Input'
 import { Label } from '../../components/Label/Label'
 import { CompanyTable } from '../../components/CompanyTable/CompanyTable'
 import { companyApi } from '../../hooks/api/companyApi'
-import { CompanyType } from '../../types/CompanyType'
+import { CompanyType } from '../../types/Company/CompanyType'
 
 import {
   warningMessage,

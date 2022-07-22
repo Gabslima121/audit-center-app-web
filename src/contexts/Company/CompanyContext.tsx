@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { CompanyType } from "../../types/CompanyType";
+import { CompanyType } from "../../types/Company/CompanyType";
 
 export type CompanyContextProps = {
   company: CompanyType;

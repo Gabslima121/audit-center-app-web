@@ -43,7 +43,7 @@ function Home() {
       </div>
 
       <div className="mt-16 bg-white rounded-lg p-2">
-        <AuditTable 
+        <AuditTable
           audits={tickets}
         />
       </div>

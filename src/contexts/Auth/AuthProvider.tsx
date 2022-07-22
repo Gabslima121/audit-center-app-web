@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     const analystRole = _.includes(roleName, 'ANALYST')
 
-
     if (adminRoles) {
       setIsAdmin(true)
       setIsSuperAdmin(true)
@@ -65,14 +64,14 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }
 
   const validateToken = async () => {
-    const userData = localStorage.getItem('user')
     const tokenData = localStorage.getItem('authorization')
 
-    await api.validateToken(tokenData!)
+    const { accessToken, payload } = await api.validateToken(tokenData!)
 
-    setUser(JSON.parse(userData!))
-    setRoles(JSON.parse(userData!).roles)
-    localStorage.setItem('authorization', tokenData!)
+    setUser(payload)
+    setRoles(payload.roles)
+    setToken(accessToken)
+    localStorage.setItem('authorization', accessToken)
   }
 
   useEffect(() => {

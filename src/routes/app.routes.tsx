@@ -12,6 +12,7 @@ import { User } from '../pages/User/User'
 import { MyProfile } from '../pages/MyProfile/MyProfile'
 import { CompanyDetailed } from '../pages/Company/CompanyDetailed/CompanyDetailed'
 import { CompanyProvider } from '../contexts/Company/CompanyProvider'
+import { CompanyTickets } from '../pages/Company/CompanyTickets/CompanyTickets'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -69,6 +70,14 @@ const AppRoutes: React.FC = () => {
                 element={
                   <RequireAuth>
                     <CompanyDetailed />
+                  </RequireAuth>
+                }
+              />
+               <Route
+                path={`/company/detailed/tickets/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanyTickets />
                   </RequireAuth>
                 }
               />

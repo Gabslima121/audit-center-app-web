@@ -5,6 +5,7 @@ export type UserType = {
   password?: string;
   roles: object[];
   cpf: string;
+  companyId: string;
 }
 
 export type RolesType = {

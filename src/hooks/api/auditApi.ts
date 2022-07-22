@@ -50,4 +50,14 @@ export const auditApi = () => ({
 
     return data
   },
+
+  getAuditByCompany: async (companyId: string) => {
+    const { status, data } = await api.get(`/tickets/get-by-company/${companyId}`, {
+      ...headers,
+    })
+
+    if (status !== 200) return data
+
+    return data
+  },
 })

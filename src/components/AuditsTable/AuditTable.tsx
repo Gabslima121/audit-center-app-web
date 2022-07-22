@@ -13,9 +13,6 @@ interface AuditTableProps {
 
 function AuditTable({ audits }: AuditTableProps) {
   const { auditHeaders, modalIsOpen, setModalIsOpen } = AuditHeaders()
-  useEffect(() => {
-    console.log(audits)
-  }, [])
 
   return (
     <>

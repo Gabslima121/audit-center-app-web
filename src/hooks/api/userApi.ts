@@ -5,8 +5,13 @@ import { headers } from '../../utils/getHeaders'
 
 export const userApi = () => ({
   validateToken: async (token: string) => {
-    const response = await api.post('/validate-token', { token })
-    return response.data
+    const { data, status } = await api.post('/validate-token', { token })
+    console.log(data)
+    if (status !== 200) {
+      return data
+    }
+
+    return data
   },
 
   signin: async (email: string, password: string) => {

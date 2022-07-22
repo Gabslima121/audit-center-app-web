@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { companyApi } from '../../hooks/api/companyApi'
-import { CompanyType } from '../../types/CompanyType'
-import { AuthContext } from '../Auth/AuthContext'
+import { CompanyType } from '../../types/Company/CompanyType'
 import { CompanyContext } from './CompanyContext'
 
 export const CompanyProvider = ({ children }: { children: JSX.Element }) => {

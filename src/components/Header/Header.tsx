@@ -7,7 +7,7 @@ export function Header() {
   const { user } = useContext(AuthContext)
 
   const handleSignOut = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem('authorization')
     localStorage.removeItem('user')
     localStorage.removeItem('companyId')
     localStorage.removeItem('company')

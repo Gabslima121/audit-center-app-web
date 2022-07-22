@@ -1,18 +1,9 @@
 import { api } from '../../api'
+import {
+  CreateCompanyDTO,
+  UpdateCompanyDTO,
+} from '../../types/Company/CompanyInterface'
 import { headers } from '../../utils/getHeaders'
-
-export interface CreateCompanyDTO {
-  id: string
-  corporateName: string
-  cnpj: string
-  state: string
-  city: string
-  cep: string
-  neighborhood: string
-  street: string
-  number: string
-  complement?: string
-}
 
 export const companyApi = () => ({
   createCompany: async (company: CreateCompanyDTO) => {
@@ -48,9 +39,22 @@ export const companyApi = () => ({
   getCompanyById: async (id: string) => {
     const { status, data } = await api.get(`company/${id}`, headers)
 
-    console.log(data)
     if (status !== 200) return data
 
     return data
-  }
+  },
+
+  updateCompanyById: async (id: string, company: UpdateCompanyDTO) => {
+    const { status } = await api.put(
+      `company/update/${id}`,
+      {
+        ...company,
+      },
+      headers,
+    )
+
+    if (status !== 200) return false
+
+    return true
+  },
 })

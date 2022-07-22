@@ -16,7 +16,7 @@ export function SideBar() {
         className="w-52 h-48 mb-6 p-2 ml-5"
       />
 
-      <p className="text-center text-sm">
+      <p className="text-center text-base">
         Bem-vindo! Você está acessando a empresa <strong>{company ? (`${company.corporateName}`) : ('Aduit Center')}</strong>
       </p>
 
