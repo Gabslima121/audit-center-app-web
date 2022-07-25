@@ -10,8 +10,6 @@ export function CompanyMenu() {
   const { isSuperAdmin, isAdmin } = useContext(AuthContext)
   const { setCompany, setCompanyId, companyId } = useContext(CompanyContext)
 
-  console.log(isSuperAdmin, isAdmin)
-
   const handleExcludeCompanyInfo = () => {
     localStorage.removeItem('companyId')
     localStorage.removeItem('company')
@@ -28,7 +26,7 @@ export function CompanyMenu() {
 
       {(isSuperAdmin || isAdmin) && (
         <>
-          <Link to="/define-sla" className="my-2">
+          <Link to={`/company/detailed/define-sla/${companyId}`} className="my-2">
             <Clock size={25} className="ml-2 float-left" />
             <p className="ml-10 mt-px text-base">{translate('define_sla')}</p>
           </Link>

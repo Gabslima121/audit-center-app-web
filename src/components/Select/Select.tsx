@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 interface OptionObject {
   id?: string
   name?: string
@@ -10,10 +8,11 @@ interface SelectProps {
   htmlFor?: string
   id?: string
   className?: string
-  options: OptionObject[]
+  options: OptionObject[];
   value?: string
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   placeholder?: string
+  disabled?: boolean
 }
 
 function Select(props: SelectProps) {

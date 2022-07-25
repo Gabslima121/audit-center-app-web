@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
-import { Button } from '../../../components/Button/Button'
-import { CompanyTicketsTable } from '../../../components/CompanyTicketsTable/CompanyTicketsTable'
-import { CompanyContext } from '../../../contexts/Company/CompanyContext'
-import translate from '../../../helpers/translate'
-import { auditApi } from '../../../hooks/api/auditApi'
-import { AddAuditModal } from '../../Home/AddAuditModal/AddAuditModal'
+import { Button } from '../../../../components/Button/Button'
+import { CompanyTicketsTable } from '../../../../components/CompanyTicketsTable/CompanyTicketsTable'
+import { CompanyContext } from '../../../../contexts/Company/CompanyContext'
+import translate from '../../../../helpers/translate'
+import { auditApi } from '../../../../hooks/api/auditApi'
+import { AddAuditModal } from '../../../Home/AddAuditModal/AddAuditModal'
 
 function CompanyTickets() {
   const { companyId } = useContext(CompanyContext)

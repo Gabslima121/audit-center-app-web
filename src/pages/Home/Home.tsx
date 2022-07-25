@@ -4,6 +4,7 @@ import { AuditTable } from '../../components/AuditsTable/AuditTable'
 import { Button } from '../../components/Button/Button'
 import { auditApi } from '../../hooks/api/auditApi'
 import { AddAuditModal } from './AddAuditModal/AddAuditModal'
+import { Container } from '../../components/Container/Container'
 
 function Home() {
   const ticketsService = auditApi()
@@ -35,18 +36,14 @@ function Home() {
           <Button onClick={handleOpenModal}>Cadastrar Auditoria</Button>
         </div>
 
-        <AddAuditModal isOpen={modalIsOpen}
-          setIsOpen={handleCloseModal}
-        />
+        <AddAuditModal isOpen={modalIsOpen} setIsOpen={handleCloseModal} />
 
         <h1 className="text-3xl	text-white">Página Inicial</h1>
       </div>
 
-      <div className="mt-16 bg-white rounded-lg p-2">
-        <AuditTable
-          audits={tickets}
-        />
-      </div>
+      <Container>
+        <AuditTable audits={tickets} />
+      </Container>
     </div>
   )
 }

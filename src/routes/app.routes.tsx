@@ -12,7 +12,8 @@ import { User } from '../pages/User/User'
 import { MyProfile } from '../pages/MyProfile/MyProfile'
 import { CompanyDetailed } from '../pages/Company/CompanyDetailed/CompanyDetailed'
 import { CompanyProvider } from '../contexts/Company/CompanyProvider'
-import { CompanyTickets } from '../pages/Company/CompanyTickets/CompanyTickets'
+import { CompanyTickets } from '../pages/Company/CompanyDetailed/CompanyTickets/CompanyTickets'
+import { CompanySLA } from '../pages/Company/CompanyDetailed/CompanySLA/CompanySLA'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -78,6 +79,14 @@ const AppRoutes: React.FC = () => {
                 element={
                   <RequireAuth>
                     <CompanyTickets />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={`/company/detailed/define-sla/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanySLA />
                   </RequireAuth>
                 }
               />
