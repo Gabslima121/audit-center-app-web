@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { useContext, useEffect, useState, ChangeEvent } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { MultiSelect } from 'react-multi-select-component'
 
 import { Input } from '../../components/Input/Input'
@@ -10,6 +10,7 @@ import { auditApi } from '../../hooks/api/auditApi'
 import { roleApi } from '../../hooks/api/roleApi'
 import { AUDIT_STATUS } from '../../helpers/constants'
 import { Button } from '../../components/Button/Button'
+import { Container } from '../../components/Container/Container'
 import { userApi } from '../../hooks/api/userApi'
 
 const USER_INITIAL_STATE = {
@@ -83,7 +84,7 @@ function MyProfile() {
 
   return (
     <div className="flex-auto mt-5">
-      <div className="mt-11 bg-white rounded-lg p-2">
+      <Container>
         <div>
           <b>
             <h1 className="text-2xl	text-black">Meu Perfil</h1>
@@ -94,7 +95,7 @@ function MyProfile() {
 
         <div className="mt-4">
           <form>
-            <div className="grid grid-cols-3 ml-2 mb-4">
+            <div className="grid grid-cols-3 gap-3 ml-2 mb-4">
               <div>
                 <Label
                   htmlFor="name"
@@ -105,7 +106,7 @@ function MyProfile() {
                   type="text"
                   id="name"
                   name="name"
-                  className="p-2 rounded-lg w-60 text-xs"
+                  className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                   value={userInfo?.name}
                   onChange={handleChange}
                 />
@@ -121,7 +122,7 @@ function MyProfile() {
                   type="text"
                   id="email"
                   name="email"
-                  className="p-2 rounded-lg w-60 text-xs"
+                  className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                   value={userInfo?.email}
                   onChange={handleChange}
                 />
@@ -136,14 +137,12 @@ function MyProfile() {
                 <Input
                   type="text"
                   id="cpf"
-                  className="p-2 rounded-lg w-60 text-xs opacity-60"
+                  className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
                   value={user?.cpf}
                   disabled={true}
                 />
               </div>
-            </div>
 
-            <div className="grid grid-cols-3 ml-2 mb-4">
               <div>
                 <Label
                   htmlFor="roles"
@@ -152,7 +151,7 @@ function MyProfile() {
                 />
                 <span className="ml-1 opacity-60">{`(${selectedRoles.length})`}</span>
                 <MultiSelect
-                  className="text-xs mr-2 opacity-80"
+                  className="text-lg w-full  mr-2 opacity-80"
                   options={allRoles}
                   value={selectedRoles}
                   onChange={(selected: any) => setSelectedRoles(selected)}
@@ -171,7 +170,7 @@ function MyProfile() {
                 <Input
                   type="text"
                   id="totalAudits"
-                  className="p-2 rounded-lg w-60 text-xs opacity-60"
+                  className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
                   value={totalWithNoStatus}
                   disabled={true}
                 />
@@ -186,21 +185,22 @@ function MyProfile() {
                 <Input
                   type="text"
                   id="totalDoneAudits"
-                  className="p-2 rounded-lg w-60 text-xs opacity-60"
+                  className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
                   value={totalWithStatus}
                   disabled={true}
                 />
               </div>
             </div>
-
-            <div className="flex w-32 ml-save-user-info">
-              <Button type="button" onClick={handleUpdateUserInfo}>
-                Salvar Informações
-              </Button>
+            <div className="flex flex-row-reverse">
+              <div>
+                <Button type="button" onClick={handleUpdateUserInfo}>
+                  Salvar Informações
+                </Button>
+              </div>
             </div>
           </form>
         </div>
-      </div>
+      </Container>
     </div>
   )
 }

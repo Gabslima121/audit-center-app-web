@@ -19,7 +19,7 @@ interface DataRow {
   }
 }
 
-const useCompanyTicketTable = () => {
+const useAuditTable = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [ticketId, setTicketId] = useState('')
 
@@ -28,7 +28,7 @@ const useCompanyTicketTable = () => {
     setModalIsOpen(true)
   }
 
-  const companyTicketsHeaders: TableColumn<DataRow>[] = [
+  const auditHeaders: TableColumn<DataRow>[] = [
     {
       name: 'ID',
       selector: row => row.id,
@@ -66,7 +66,7 @@ const useCompanyTicketTable = () => {
           <div className="flex flex-row">
             <button className="text-brand-300 mr-2">
               <Link
-                to={`/company/detailed/${row.id}`}
+                to={`/ticket/detailed/${row.id}`}
               >
                 Acessar
               </Link>
@@ -85,11 +85,11 @@ const useCompanyTicketTable = () => {
   ]
 
   return {
-    companyTicketsHeaders,
+    auditHeaders,
     modalIsOpen,
     setModalIsOpen,
     ticketId,
   }
 }
 
-export { useCompanyTicketTable }
+export { useAuditTable }

@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
 import DataTable from 'react-data-table-component'
-import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
+import { Modal, ModalBody, ModalFooter } from 'reactstrap'
 
 import translate from '../../helpers/translate'
-import { AuditHeaders } from './headers'
+import { useAuditTable } from './useAuditTable'
 
 import trash from '../../assets/img/trash.svg'
 
@@ -12,7 +11,7 @@ interface AuditTableProps {
 }
 
 function AuditTable({ audits }: AuditTableProps) {
-  const { auditHeaders, modalIsOpen, setModalIsOpen } = AuditHeaders()
+  const { auditHeaders, modalIsOpen, setModalIsOpen } = useAuditTable()
 
   return (
     <>
