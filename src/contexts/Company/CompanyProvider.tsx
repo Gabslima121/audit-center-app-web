@@ -27,7 +27,6 @@ export const CompanyProvider = ({ children }: { children: JSX.Element }) => {
   }
 
   useEffect(() => {
-    console.log(companyId)
     if (companyId) {
       getCompanyById()
       localStorage.setItem('companyId', companyId)

@@ -16,7 +16,6 @@ interface CreateAuditDTO {
 
 export const auditApi = () => ({
   createAudit: async (audit: CreateAuditDTO) => {
-    console.log(audit)
     const { status, data } = await api.post(
       '/tickets/create',
       {
@@ -52,12 +51,35 @@ export const auditApi = () => ({
   },
 
   getAuditByCompany: async (companyId: string) => {
-    const { status, data } = await api.get(`/tickets/get-by-company/${companyId}`, {
-      ...headers,
-    })
+    const { status, data } = await api.get(
+      `/tickets/get-by-company/${companyId}`,
+      {
+        ...headers,
+      },
+    )
 
     if (status !== 200) return data
 
+    return data
+  },
+
+  getAuditById: async (id: string | any) => {
+    const { status, data } = await api.get(`/tickets/${id}`, headers)
+
+    if (status !== 200) return data
+
+    return data
+  },
+
+  updateAudit: async (id: string | any, audit: any) => {
+    const { status, data } = await api.put(
+      `/tickets/update-ticket/${id}`,
+      audit,
+      headers,
+    )
+
+    if (status !== 200) return data
+      console.log(data)
     return data
   },
 })

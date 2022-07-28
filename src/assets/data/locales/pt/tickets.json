@@ -2,5 +2,15 @@
   "no_audit_found": "Sem auditorias cadastradas",
   "analyst_or_responsable_not_found": "Analista ou responsável não encontrado",
   "create_audit": "Criar Auditoria",
-  "delete_audit_confirmation": "Deseja mesmo remover esta Auditoria?"
+  "delete_audit_confirmation": "Deseja mesmo remover esta Auditoria?",
+  "ticket.title":"Título",
+  "ticket.responsable":"Responsável",
+  "ticket.analyst":"Analista",
+  "ticket.status":"Status",
+  "ticket.department":"Área Responsável",
+  "ticket.sla": "SLA",
+  "ticket.openDate":"Data de Abertura",
+  "ticket.limitDate":"Data Limite",
+  "ticket.description":"Descrição",
+  "ticket_updated":"Ticket atualizado com sucesso!"
 }

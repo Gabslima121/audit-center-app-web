@@ -3,6 +3,7 @@ interface LabelType {
   id?: string
   htmlFor?: string
   text?: string
+  disabled?: boolean
 }
 
 function Label(props: LabelType) {

@@ -1,4 +1,4 @@
-import { Trash } from 'phosphor-react'
+import { PencilCircle, Trash } from 'phosphor-react'
 import { useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { Link } from 'react-router-dom'
@@ -68,7 +68,7 @@ const useAuditTable = () => {
               <Link
                 to={`/ticket/detailed/${row.id}`}
               >
-                Acessar
+                <PencilCircle size={24} />
               </Link>
             </button>
 

@@ -6,7 +6,6 @@ import { headers } from '../../utils/getHeaders'
 export const userApi = () => ({
   validateToken: async (token: string) => {
     const { data, status } = await api.post('/validate-token', { token })
-    console.log(data)
     if (status !== 200) {
       return data
     }
@@ -39,6 +38,19 @@ export const userApi = () => ({
     const { data, status } = await api.put(
       `/user/update/${userId}`,
       { email, name },
+      headers,
+    )
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  },
+
+  getUserByCompanyId: async (companyId: string) => {
+    const { status, data } = await api.get(
+      `/user/get-user-by-company/${companyId}`,
       headers,
     )
 

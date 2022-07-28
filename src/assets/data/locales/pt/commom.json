@@ -7,5 +7,17 @@
   "sla": "SLA",
   "graphs": "Gráficos",
   "back_to_admin_panel": "Acessar painel Administrativo",
-  "save_informations": "Salvar informações"
+  "save_informations": "Salvar informações",
+  "ticket_detailed":"Detalhes da Auditoria",
+  "ticket_comments":"Comentários",
+  "audited_items":"Itens Auditados",
+  "ticket_item":"Item",
+  "ticket_item_description":"Descrição do Item",
+  "add_new_item":"Adicionar Novo Item",
+  "no_comments_registered":"Nenhum comentário registrado",
+  "type_comment": "Digite seu comentário",
+  "save_comment": "Salvar comentário",
+  "company": "Empresa",
+  "ticket_item_status": "Status do Item",
+  "select_sla": "Selecione o SLA"
 }

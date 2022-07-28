@@ -18,7 +18,6 @@ function CompanySlaTable({ sla }: CompanySlaTableProps) {
   async function handleExcludeSla() {
     const response = await slaService.deleteSla(slaId)
 
-    console.log(response)
     setModalIsOpen(false)
   }
 

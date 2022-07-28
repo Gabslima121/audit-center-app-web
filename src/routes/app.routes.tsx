@@ -14,6 +14,7 @@ import { CompanyDetailed } from '../pages/Company/CompanyDetailed/CompanyDetaile
 import { CompanyProvider } from '../contexts/Company/CompanyProvider'
 import { CompanyTickets } from '../pages/Company/CompanyDetailed/CompanyTickets/CompanyTickets'
 import { CompanySLA } from '../pages/Company/CompanyDetailed/CompanySLA/CompanySLA'
+import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -63,6 +64,14 @@ const AppRoutes: React.FC = () => {
                 element={
                   <RequireAuth>
                     <MyProfile />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={`/ticket/detailed/:id`}
+                element={
+                  <RequireAuth>
+                    <TicketDetailed />
                   </RequireAuth>
                 }
               />
