@@ -14,7 +14,7 @@ import { CompanyDetailed } from '../pages/Company/CompanyDetailed/CompanyDetaile
 import { CompanyProvider } from '../contexts/Company/CompanyProvider'
 import { CompanyTickets } from '../pages/Company/CompanyDetailed/CompanyTickets/CompanyTickets'
 import { CompanySLA } from '../pages/Company/CompanyDetailed/CompanySLA/CompanySLA'
-import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed'
+import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed/TicketDetailed'
 
 const AppRoutes: React.FC = () => {
   return (

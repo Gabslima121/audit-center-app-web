@@ -12,5 +12,6 @@
   "ticket.openDate":"Data de Abertura",
   "ticket.limitDate":"Data Limite",
   "ticket.description":"Descrição",
-  "ticket_updated":"Ticket atualizado com sucesso!"
+  "ticket_updated":"Ticket atualizado com sucesso!",
+  "ticket_item_status_placeholder": "Selecione o status do ticket"
 }

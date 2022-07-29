@@ -1,17 +1,17 @@
-import { RoleItemType } from "../types/RolesType"
+import { RoleItemType } from '../types/RolesType'
 
 export const USER_ROLES: RoleItemType[] = [
   {
-    name: "SUPER_ADMIN"
+    name: 'SUPER_ADMIN',
   },
   {
-    name: "ADMIN"
+    name: 'ADMIN',
   },
   {
-    name: "AUDITOR"
+    name: 'AUDITOR',
   },
   {
-    name: "ANALYST"
+    name: 'ANALYST',
   },
 ]
 
@@ -44,3 +44,18 @@ export const AUDIT_STATUS = {
   CANCELED: 'CANCELED',
   REVIEW: 'REVIEW',
 }
+
+export const AUDIT_ITEMS_STATUS: object[] = [
+  {
+    name: 'PENDING',
+  },
+  {
+    name: 'IN_PROGRESS',
+  },
+  {
+    name: 'DONE',
+  },
+  {
+    name: 'CANCELED',
+  },
+]

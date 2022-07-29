@@ -1,56 +1,29 @@
 import _ from 'lodash'
 import { MinusCircle, PlusCircle } from 'phosphor-react'
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
-import { Button } from '../../../components/Button/Button'
-import { Container } from '../../../components/Container/Container'
-import { Input } from '../../../components/Input/Input'
-import { Label } from '../../../components/Label/Label'
-import { Select } from '../../../components/Select/Select'
-import translate from '../../../helpers/translate'
-import { auditApi } from '../../../hooks/api/auditApi'
-import { slaApi } from '../../../hooks/api/slaApi'
-import { AUDIT_STATUS_ARRAY } from '../../../helpers/constants'
-import { userApi } from '../../../hooks/api/userApi'
-import { departmentsApi } from '../../../hooks/api/departmentsApi'
-import { sucessMessage, errorMessage } from '../../../utils/Toast/toast'
-
-const TICKET_INITIAL_STATE = {
-  id: '',
-  title: '',
-  responsable: {
-    name: '',
-    id: '',
-  },
-  responsableArea: {
-    name: '',
-    id: '',
-  },
-  analyst: {
-    name: '',
-    id: '',
-  },
-  status: '',
-  sla: {
-    name: '',
-    id: '',
-  },
-  openDate: '',
-  limitDate: '',
-  description: '',
-  company: {
-    corporateName: '',
-    id: '',
-  },
-  closeDate: '',
-}
+import { Button } from '../../../../components/Button/Button'
+import { Container } from '../../../../components/Container/Container'
+import { Input } from '../../../../components/Input/Input'
+import { Label } from '../../../../components/Label/Label'
+import { Select } from '../../../../components/Select/Select'
+import translate from '../../../../helpers/translate'
+import { auditApi } from '../../../../hooks/api/auditApi'
+import { slaApi } from '../../../../hooks/api/slaApi'
+import { AUDIT_STATUS_ARRAY } from '../../../../helpers/constants'
+import { userApi } from '../../../../hooks/api/userApi'
+import { departmentsApi } from '../../../../hooks/api/departmentsApi'
+import { sucessMessage, errorMessage } from '../../../../utils/Toast/toast'
+import { ticketItemApi } from '../../../../hooks/api/ticketItemApi'
+import { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE } from './schema'
+import { TicketItemInfo } from './TicketItemInfo'
 
 function TicketDetailed() {
-  const navigate = useNavigate()
   const slaService = slaApi()
   const auditSerivce = auditApi()
   const userService = userApi()
+  const ticketItemService = ticketItemApi()
   const departmentService = departmentsApi()
   const { id } = useParams()
   const [comments, setComments] = useState([])
@@ -59,6 +32,12 @@ function TicketDetailed() {
   const [slaOptions, setSlaOptions] = useState<any>([])
   const [userOptions, setUserOptions] = useState<any>([])
   const [departmentOptions, setDepartmentOptions] = useState<any>([])
+  const [ticketItemInfo, setTicketItemInfo] = useState(
+    TICKET_ITEM_INITIAL_STATE,
+  )
+  const [formValues, setFormValues] = useState({
+    ...TICKET_ITEM_INITIAL_STATE,
+  })
 
   const getTicektData = async () => {
     const ticket = await auditSerivce.getAuditById(id)
@@ -155,6 +134,22 @@ function TicketDetailed() {
     }))
   }
 
+  const getTicketItemById = async () => {
+    const response = await ticketItemService.getTicketItemByTicketId(id)
+
+    if (response) {
+      setTicketItemInfo(response)
+      return
+    }
+  }
+
+  const addFormFields = () => {
+    setFormValues((prevState: typeof formValues) => ({
+      ...prevState,
+      ...TICKET_ITEM_INITIAL_STATE,
+    }))
+  }
+
   async function handleUpdateTicketInfo() {
     const response = await auditSerivce.updateAudit(id, {
       ...ticketInfo,
@@ -164,7 +159,6 @@ function TicketDetailed() {
       sla: ticketInfo?.sla,
       company: ticketInfo?.company?.id,
     })
-    console.log(response)
     if (response) {
       sucessMessage(translate(`${response?.message}`))
       window.location.href = '/home'
@@ -177,8 +171,13 @@ function TicketDetailed() {
       getSlaByCompany()
       getUserByCompany()
       getDepartmentByCompany()
+      getTicketItemById()
     }
   }, [id, companyId])
+
+  useEffect(() => {
+    console.log(formValues)
+  }, [formValues])
 
   return (
     <div className="flex-auto mt-5">
@@ -375,57 +374,15 @@ function TicketDetailed() {
 
               <div className="m-4">
                 <form>
-                  <div className="grid grid-cols-4 gap-3 mt-3">
-                    <div className="col-span-1.5">
-                      <Label
-                        htmlFor="item"
-                        text={translate('ticket_item')}
-                        className="text-lg mb-1"
+                  <div className="grid grid-cols-5 gap-3 mt-3">
+                    {ticketItemInfo.map((item, index) => (
+                      <TicketItemInfo
+                        item={item?.item}
+                        status={item?.status}
+                        description={item.description}
+                        key={item?.id}
                       />
-                      <Input
-                        type="text"
-                        id="item"
-                        name="item"
-                        className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
-                        // value={companyInfo?.corporateName}
-                        // onChange={handleChange}
-                      />
-                    </div>
-
-                    <div className="col-span-1.5">
-                      <Label
-                        htmlFor="status"
-                        text={translate('ticket_item_status')}
-                        className="text-lg mb-1"
-                      />
-                      <Input
-                        type="text"
-                        id="status"
-                        name="status"
-                        className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
-                        // value={companyInfo?.corporateName}
-                        // onChange={handleChange}
-                      />
-                    </div>
-
-                    <div>
-                      <Label
-                        htmlFor="itemDescription"
-                        text={translate('ticket_item_description')}
-                        className="text-lg mb-1"
-                      />
-                      <textarea
-                        id="itemDescription"
-                        name="itemDescription"
-                        className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
-                        // value={companyInfo?.corporateName}
-                        // onChange={handleChange}
-                      />
-                    </div>
-
-                    <button className="mt-7">
-                      <MinusCircle size={24} color="#cc2828" />
-                    </button>
+                    ))}
                   </div>
 
                   <div className="inline-grid grid-cols-2 m-3 items-center">
@@ -433,7 +390,7 @@ function TicketDetailed() {
                       {translate('add_new_item')}
                     </span>
                     <PlusCircle
-                      onClick={() => console.log('oi')}
+                      onClick={() => addFormFields()}
                       size={24}
                       color="#2885CC"
                       className="cursor-pointer"
