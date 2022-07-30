@@ -53,11 +53,12 @@ function useTicketsDetailed() {
   }
 
   async function handleDeleteComment(commentId: string) {
-    const response = await commentsService.deleteComment(commentId)
+    setIsLoading(true)
+    await commentsService.deleteComment(commentId)
 
-    if (response) {
-      getCommentsByTicketId()
-    }
+    getCommentsByTicketId()
+    setIsLoading(false)
+    return sucessMessage(translate('comments_deleted'))
   }
 
   useEffect(() => {

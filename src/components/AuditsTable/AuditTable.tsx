@@ -5,13 +5,29 @@ import translate from '../../helpers/translate'
 import { useAuditTable } from './useAuditTable'
 
 import trash from '../../assets/img/trash.svg'
+import { auditApi } from '../../hooks/api/auditApi'
+import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
 
 interface AuditTableProps {
   audits: any[]
 }
 
 function AuditTable({ audits }: AuditTableProps) {
-  const { auditHeaders, modalIsOpen, setModalIsOpen } = useAuditTable()
+  const auditService = auditApi()
+  const { auditHeaders, modalIsOpen, setModalIsOpen, ticketId } =
+    useAuditTable()
+
+  async function handleExcludeTicket() {
+    const response = await auditService.deleteTicketById(ticketId)
+
+    if (response) {
+      sucessMessage(translate('ticket_deleted'))
+      setModalIsOpen(false)
+      return
+    }
+
+    errorMessage(translate('ticket_not_deleted'))
+  }
 
   return (
     <>
@@ -39,12 +55,15 @@ function AuditTable({ audits }: AuditTableProps) {
           </ModalBody>
 
           <ModalFooter>
-            <button className="border-1 border-button_exclude-100 text-button_exclude-100 w-full p-1 rounded-md">
+            <button
+              onClick={handleExcludeTicket}
+              className="border-1 border-button_exclude-200 text-button_exclude-200 hover:bg-button_exclude-100 w-full p-1 rounded-md"
+            >
               Excluir
             </button>
             <button
               onClick={() => setModalIsOpen(false)}
-              className="border-1 border-brand-100 text-brand-100 w-full p-1 rounded-md"
+              className="border-1 border-brand-100 text-brand-100 hover:bg-brand-90 w-full p-1 rounded-md"
             >
               Voltar
             </button>

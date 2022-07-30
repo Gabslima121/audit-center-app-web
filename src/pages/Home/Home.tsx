@@ -27,7 +27,7 @@ function Home() {
 
   useEffect(() => {
     getAllTickets()
-  }, [modalIsOpen])
+  }, [modalIsOpen, handleCloseModal])
 
   return (
     <div className="flex-auto mt-5">

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { MinusCircle, PlusCircle } from 'phosphor-react'
+import { MinusCircle, PlusCircle, Spinner } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -22,7 +22,13 @@ import { TicketComments } from './TicketComments'
 import { useTicketsDetailed } from './useTicketDetailed'
 
 function TicketDetailed() {
-  const { comments } = useTicketsDetailed()
+  const {
+    comments,
+    newComment,
+    setNewComment,
+    handleCreateComment,
+    isLoading,
+  } = useTicketsDetailed()
   const slaService = slaApi()
   const auditSerivce = auditApi()
   const userService = userApi()
@@ -421,6 +427,26 @@ function TicketDetailed() {
             ) : (
               <TicketComments />
             )}
+
+            <div className="absolute bottom-0 w-full">
+              <Label
+                htmlFor="typeComment"
+                text={translate('type_comment')}
+                className="text-lg mb-1"
+              />
+              <textarea
+                id="typeComment"
+                name="typeComment"
+                className="p-2 resize-none rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                value={newComment}
+                onChange={e => setNewComment(e?.target?.value)}
+              />
+              <div className="float-right">
+                <Button onClick={handleCreateComment}>
+                  {isLoading ? <Spinner /> : translate('save_comment')}
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </Container>

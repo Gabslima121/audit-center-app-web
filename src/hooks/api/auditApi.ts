@@ -79,7 +79,15 @@ export const auditApi = () => ({
     )
 
     if (status !== 200) return data
-      console.log(data)
+
     return data
   },
+
+  deleteTicketById: async (id: string) => {
+    const { status, data } = await api.delete(`/tickets/delete/${id}`, headers)
+
+    if (status !== 200) return data
+
+    return data
+  }
 })

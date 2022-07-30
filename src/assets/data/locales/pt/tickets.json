@@ -15,5 +15,8 @@
   "ticket_updated":"Ticket atualizado com sucesso!",
   "ticket_item_status_placeholder": "Selecione o status do ticket",
   "comments_registered": "Comentário registrado com sucesso!",
-  "comment_delete": "Excluir Comentário"
+  "comment_delete": "Excluir Comentário",
+  "comments_deleted": "Comentário excluído com sucesso!",
+  "ticket_deleted": "Ticket excluído com sucesso!",
+  "ticket_not_deleted": "Ticket não excluído!"
 }

@@ -8,10 +8,6 @@ import { useTicketsDetailed } from './useTicketDetailed'
 function TicketComments() {
   const {
     comments,
-    newComment,
-    setNewComment,
-    handleCreateComment,
-    isLoading,
     handleDeleteComment
   } = useTicketsDetailed()
   return (
@@ -49,26 +45,6 @@ function TicketComments() {
           </div>
         </>
       ))}
-
-      <div className="absolute bottom-0 w-full">
-        <Label
-          htmlFor="typeComment"
-          text={translate('type_comment')}
-          className="text-lg mb-1"
-        />
-        <textarea
-          id="typeComment"
-          name="typeComment"
-          className="p-2 resize-none rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
-          value={newComment}
-          onChange={e => setNewComment(e?.target?.value)}
-        />
-        <div className="float-right">
-          <Button onClick={handleCreateComment}>
-            {isLoading ? <Spinner /> : translate('save_comment')}
-          </Button>
-        </div>
-      </div>
     </div>
   )
 }
