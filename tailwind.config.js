@@ -19,6 +19,9 @@ module.exports = {
         },
         table_background: {
           100: "#DCDCDC"
+        },
+        exclude_text : {
+          100: '#cc2828'
         }
       },
       borderRadius: {
@@ -29,7 +32,7 @@ module.exports = {
         'header': '1059px'
       },
       height: {
-        'custom': '600px'
+        'custom': '700px'
       },
       margin: {
         'modal-trash': '165px',

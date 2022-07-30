@@ -18,15 +18,17 @@ import { sucessMessage, errorMessage } from '../../../../utils/Toast/toast'
 import { ticketItemApi } from '../../../../hooks/api/ticketItemApi'
 import { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE } from './schema'
 import { TicketItemInfo } from './TicketItemInfo'
+import { TicketComments } from './TicketComments'
+import { useTicketsDetailed } from './useTicketDetailed'
 
 function TicketDetailed() {
+  const { comments } = useTicketsDetailed()
   const slaService = slaApi()
   const auditSerivce = auditApi()
   const userService = userApi()
   const ticketItemService = ticketItemApi()
   const departmentService = departmentsApi()
   const { id } = useParams()
-  const [comments, setComments] = useState([])
   const [ticketInfo, setTicketInfo] = useState(TICKET_INITIAL_STATE)
   const [companyId, setCompanyId] = useState('')
   const [slaOptions, setSlaOptions] = useState<any>([])
@@ -175,9 +177,9 @@ function TicketDetailed() {
     }
   }, [id, companyId])
 
-  useEffect(() => {
-    console.log(formValues)
-  }, [formValues])
+  // useEffect(() => {
+  //   console.log(comments)
+  // }, [comments])
 
   return (
     <div className="flex-auto mt-5">
@@ -349,7 +351,7 @@ function TicketDetailed() {
                   <textarea
                     id="description"
                     name="description"
-                    className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                    className="p-2 resize-none rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                     value={ticketInfo?.description}
                     onChange={() => handleChangeTicketData('description')}
                   />
@@ -412,31 +414,13 @@ function TicketDetailed() {
           <div className="ml-2 col-span-2 relative">
             <h1 className="ml-2 text-3xl">{translate('ticket_comments')}</h1>
 
-            {comments ? (
+            {comments?.length! < 1 ? (
               <div className="text-center items-center">
                 <span>{translate('no_comments_registered')}</span>
               </div>
             ) : (
-              <div>
-                <h1>Aqui ficarao os comentarios</h1>
-              </div>
+              <TicketComments />
             )}
-
-            <div className="absolute bottom-0 w-full">
-              <Label
-                htmlFor="typeComment"
-                text={translate('type_comment')}
-                className="text-lg mb-1"
-              />
-              <textarea
-                id="typeComment"
-                name="typeComment"
-                className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
-              />
-              <div className="float-right">
-                <Button>{translate('save_comment')}</Button>
-              </div>
-            </div>
           </div>
         </div>
       </Container>

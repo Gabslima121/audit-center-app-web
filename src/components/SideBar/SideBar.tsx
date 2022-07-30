@@ -9,12 +9,16 @@ export function SideBar() {
   const { company } = useContext(CompanyContext)
   
   return (
-    <div className="w-64 bg-white rounded-r-half relative flex flex-col">
-      <img
+    <div className="w-80 bg-white rounded-r-half relative flex flex-col">
+      <div className="flex justify-center items-center">
+        <img src={logoImg} alt="logo" className="w-48 p-2 my-2" />
+      </div>
+
+      {/* <img
         src={logoImg}
         alt="Imagem do logo da Audit Center"
-        className="w-52 h-48 mb-6 p-2 ml-5"
-      />
+        className="w-48 h-48 mb-6 p-2"
+      /> */}
 
       <p className="text-center text-base">
         Bem-vindo! Você está acessando a empresa <strong>{company ? (`${company.corporateName}`) : ('Aduit Center')}</strong>
