@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { MinusCircle, PlusCircle } from 'phosphor-react'
+import { Check, MinusCircle, PlusCircle } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -11,7 +11,10 @@ import { Select } from '../../../../components/Select/Select'
 import translate from '../../../../helpers/translate'
 import { auditApi } from '../../../../hooks/api/auditApi'
 import { slaApi } from '../../../../hooks/api/slaApi'
-import { AUDIT_STATUS_ARRAY } from '../../../../helpers/constants'
+import {
+  AUDIT_ITEMS_STATUS,
+  AUDIT_STATUS_ARRAY,
+} from '../../../../helpers/constants'
 import { userApi } from '../../../../hooks/api/userApi'
 import { departmentsApi } from '../../../../hooks/api/departmentsApi'
 import { sucessMessage, errorMessage } from '../../../../utils/Toast/toast'
@@ -35,9 +38,11 @@ function TicketDetailed() {
   const [ticketItemInfo, setTicketItemInfo] = useState(
     TICKET_ITEM_INITIAL_STATE,
   )
-  const [formValues, setFormValues] = useState({
-    ...TICKET_ITEM_INITIAL_STATE,
-  })
+  const [formList, setFormList] = useState([
+    [
+      ...ticketItemInfo,
+    ],
+  ])
 
   const getTicektData = async () => {
     const ticket = await auditSerivce.getAuditById(id)
@@ -134,6 +139,33 @@ function TicketDetailed() {
     }))
   }
 
+  const handleAddFormList = () => {
+    setFormList((prevState: typeof formList) => [
+      ...prevState,
+      {
+        ...ticketItemInfo,
+      },
+    ])
+  }
+
+  const handleRemoveFormList = (index: number) => {
+    setFormList((prevState: typeof formList) => {
+      const newFormList = [...prevState]
+      newFormList.splice(index, 1)
+      return newFormList
+    })
+  }
+
+  const handleChangeFormList = (e: Event, index: any) => {
+    const { value, id } = e.target as HTMLInputElement
+
+    setFormList((prevState: typeof formList) => {
+      const newFormList = [...prevState]
+      newFormList[index][id] = value
+      return newFormList
+    })
+  }
+
   const getTicketItemById = async () => {
     const response = await ticketItemService.getTicketItemByTicketId(id)
 
@@ -141,13 +173,6 @@ function TicketDetailed() {
       setTicketItemInfo(response)
       return
     }
-  }
-
-  const addFormFields = () => {
-    setFormValues((prevState: typeof formValues) => ({
-      ...prevState,
-      ...TICKET_ITEM_INITIAL_STATE,
-    }))
   }
 
   async function handleUpdateTicketInfo() {
@@ -176,8 +201,8 @@ function TicketDetailed() {
   }, [id, companyId])
 
   useEffect(() => {
-    console.log(formValues)
-  }, [formValues])
+    console.log(formList)
+  }, [formList])
 
   return (
     <div className="flex-auto mt-5">
@@ -375,26 +400,103 @@ function TicketDetailed() {
               <div className="m-4">
                 <form>
                   <div className="grid grid-cols-5 gap-3 mt-3">
-                    {ticketItemInfo.map((item, index) => (
-                      <TicketItemInfo
-                        item={item?.item}
-                        status={item?.status}
-                        description={item.description}
-                        key={item?.id}
-                      />
-                    ))}
-                  </div>
+                    {formList.map((formItem: any, index) => (
+                      <>
+                        <div key={index} className="col-span-1.5">
+                          <Label
+                            htmlFor="item"
+                            text={translate('ticket_item')}
+                            className="text-lg mb-1"
+                          />
+                          <Input
+                            type="text"
+                            id="item"
+                            name="item"
+                            className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                            value={formItem?.item}
+                            onChange={(e: any) =>
+                              handleChangeFormList(e, index)
+                            }
+                          />
+                        </div>
 
-                  <div className="inline-grid grid-cols-2 m-3 items-center">
-                    <span className="mr-2 text-brand-400">
-                      {translate('add_new_item')}
-                    </span>
-                    <PlusCircle
-                      onClick={() => addFormFields()}
-                      size={24}
-                      color="#2885CC"
-                      className="cursor-pointer"
-                    />
+                        <div key={index} className="col-span-1.5">
+                          <Label
+                            htmlFor="itemStatus"
+                            text={translate('ticket_item_status')}
+                            className="text-lg mb-1"
+                          />
+                          <Select
+                            options={AUDIT_ITEMS_STATUS}
+                            id="itemStatus"
+                            className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                            value={formItem?.status}
+                            placeholder={translate(
+                              'ticket_item_status_placeholder',
+                            )}
+                            onChange={(e: any) =>
+                              handleChangeFormList(e?.target?.value, index)
+                            }
+                          />
+                        </div>
+
+                        <div key={index}>
+                          <Label
+                            htmlFor="itemDescription"
+                            text={translate('ticket_item_description')}
+                            className="text-lg mb-1"
+                          />
+                          <textarea
+                            id="itemDescription"
+                            name="description"
+                            className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                            value={formItem?.description}
+                            onChange={(e: any) =>
+                              handleChangeFormList(e, index)
+                            }
+                          />
+                        </div>
+
+                        {formList.length > 1 && (
+                          <>
+                            <div className="mt-14 w-7 ml-20">
+                              <span className="cursor-pointer">
+                                <Check size={24} color="#40a700" />
+                              </span>
+                            </div>
+
+                            <div className="mt-14 w-7">
+                              <span className="cursor-pointer">
+                                <MinusCircle
+                                  size={24}
+                                  color="#cc2828"
+                                  onClick={() => handleRemoveFormList(index)}
+                                />
+                              </span>
+                            </div>
+                          </>
+                        )}
+
+                        {formList.length - 1 === index && (
+                          <div className="inline-grid col-span-2 grid-cols-2 items-center w-full">
+                            <div>
+                              <span className="text-brand-400">
+                                {translate('add_new_item')}
+                              </span>
+                            </div>
+
+                            <div>
+                              <PlusCircle
+                                onClick={handleAddFormList}
+                                size={24}
+                                color="#2885CC"
+                                className="cursor-pointer"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    ))}
                   </div>
 
                   <div className="flex flex-row-reverse">

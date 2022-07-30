@@ -29,7 +29,7 @@ module.exports = {
         'header': '1059px'
       },
       height: {
-        'custom': '600px'
+        'custom': '700px'
       },
       margin: {
         'modal-trash': '165px',
