@@ -1,18 +1,18 @@
-interface inputProps {
-  type?: 'text' | 'password' | 'email';
-  placeholder?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputProps {
+  type?: 'text' | 'password' | 'email' | 'date'
+  placeholder?: string
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  className?: string
+  id?: string
+  value?: string | number
+  disabled?: boolean
+  name?: string
 }
 
-function Input(props: inputProps) {
+function Input(props: InputProps) {
   return (
-    <div className="w-100">
-      <div className="flex flex-1 flex-col">
-        <input
-          className="bg-input p-2 rounded-lg"
-          {...props}
-        />
-      </div>
+    <div className="flex flex-1">
+      <input {...props} />
     </div>
   )
 }

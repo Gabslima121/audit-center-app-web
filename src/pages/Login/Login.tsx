@@ -1,30 +1,37 @@
 import { useState, useEffect, useContext } from 'react'
 import { Button } from '../../components/Button/Button'
-import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
 import { LoginService } from './service'
-import logoImg from '../../assets/logo-redondo.svg'
+import logoImg from '../../assets/img/logo-redondo.svg'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
+
+import {
+  sucessMessage,
+  errorMessage,
+  warningMessage,
+} from '../../utils/Toast/toast'
+import translate from '../../helpers/translate'
 
 export function Login() {
   const navigate = useNavigate()
-  const { sigin, user } = useContext(AuthContext)
-  const loginService = new LoginService()
+  const { sigin } = useContext(AuthContext)
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    if (!userName || !password) {
-      toast.warning('Preencha todos os campos')
-    }
+    try {
+      if (!userName || !password) {
+        warningMessage('Preencha todos os campos')
+      }
 
-    const { accessToken, user } = await sigin(userName, password)
+      await sigin(userName, password)
 
-    if (user && accessToken) {
       navigate('/home')
+    } catch (e: any) {
+      return errorMessage(translate(`${e?.response?.data?.message}`))
     }
   }
 

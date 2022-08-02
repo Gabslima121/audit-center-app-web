@@ -1,0 +1,12 @@
+{
+  "create_sla": "Criar SLA",
+  "sla_creation": "Criação de SLA",
+  "sla_name": "Nome do SLA",
+  "sla_description": "Descrição do SLA",
+  "sla_type": "Tipo de SLA",
+  "sla": "Tempo de Resposta",
+  "sla_creation_description": "Preencha as informações abaixo para cadastrar um novo sla",
+  "sla.company": "Empresa",
+  "sla_type_placeholder": "Medida de tempo",
+  "no_sla_registered": "Nenhum SLA cadastrado"
+}

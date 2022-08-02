@@ -2,14 +2,13 @@ import { BrowserRouter } from 'react-router-dom'
 
 import Routes from './routes/routes'
 import { AuthProvider } from './contexts/Auth/AuthProvider'
-import { Header } from './components/Header/Header'
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <AuthProvider>
-          <Routes />
+            <Routes />
         </AuthProvider>
       </BrowserRouter>
     </>

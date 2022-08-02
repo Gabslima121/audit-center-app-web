@@ -1,0 +1,19 @@
+{
+  "corporate_name_and_cnpj_are_required": "Razão Social e CNPJ são obrigatórios",
+  "no_company_registered": "Nenhuma empresa registrada",
+  "company_not_found": "Empresa não encontrada",
+  "company_deleted": "Empresa excluida com sucesso!",
+  "company_not_deleted": "Empresa não excluida",
+  "company.data": "Dados da Empresa",
+  "company.cep": "CEP",
+  "company.city": "Cidade",
+  "company.cnpj": "CNPJ",
+  "company.corporate_name": "Razão Social",
+  "company.neighborhood": "Bairro",
+  "company.number": "Número",
+  "company.state": "Estado",
+  "company.street": "Rua",
+  "company.complement": "Complemento",
+  "company.details": "Detalhes",
+  "company.description": "Descrição"
+}

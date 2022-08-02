@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
 
-export const errorMessage = (mensage) =>
+export const errorMessage = (mensage: string) =>
   toast.error(mensage, {
-    position: 'top-center',
+    position: 'top-right',
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -12,9 +12,9 @@ export const errorMessage = (mensage) =>
   });
 
   
-export const sucessMessage = (mensage) =>
+export const sucessMessage = (mensage: string) =>
   toast.success(mensage, {
-    position: 'top-center',
+    position: 'top-right',
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -23,9 +23,9 @@ export const sucessMessage = (mensage) =>
     progress: undefined,
   });
 
-export const warningMessage = (mensage) =>
+export const warningMessage = (mensage: string) =>
   toast.warning(mensage, {
-    position: 'top-center',
+    position: 'top-right',
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
