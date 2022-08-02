@@ -60,4 +60,29 @@ export const userApi = () => ({
 
     return data
   },
+
+  deleteUserById: async (id: string) => {
+    const { status, data } = await api.delete(`/user/delete/${id}`, headers)
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  },
+
+  createUser: async (user: any) => {
+    const { status, data } = await api.post('/user/create', user, headers)
+
+    console.log(data)
+
+    if (status !== 201) {
+      return data?.response?.data?.message
+    }
+
+    return {
+      status: 200,
+      message: 'user_created',
+    }
+  }
 })

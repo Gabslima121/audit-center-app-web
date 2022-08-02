@@ -29,7 +29,7 @@ function CompanySLA() {
 
   useEffect(() => {
     getAllSlaByCompany()
-  }, [modalIsOpen, sla])
+  }, [modalIsOpen])
 
   return (
     <div className="flex-auto mt-5">

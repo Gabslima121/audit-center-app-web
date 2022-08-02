@@ -1,46 +1,44 @@
+import { useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { Modal, ModalBody, ModalFooter } from 'reactstrap'
-
 import translate from '../../helpers/translate'
-import { useCompanyTable } from './useCompanyTable'
-import { companyApi } from '../../hooks/api/companyApi'
-import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
-
+import { useUserTable } from './useUserTable'
 import trash from '../../assets/img/trash.svg'
+import { userApi } from '../../hooks/api/userApi'
+import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
 
-interface CompanyTableProps {
-  companies: any[]
+export interface UserTableProps {
+  user: any[]
 }
 
-function CompanyTable({ companies }: CompanyTableProps) {
-  
-  const companySerivce = companyApi()
-  const { companyHeaders, modalIsOpen, setModalIsOpen, incomingCompanyId } =
-    useCompanyTable()
+function UserTable({ user }: UserTableProps) {
+  const userService = userApi()
+  const { userHeaders, incomingUserId, modalIsOpen, setModalIsOpen } =
+    useUserTable()
 
-  async function handleExcludeCompany() {
-    const response = await companySerivce.deleteCompany(incomingCompanyId)
+  const handleExcludeUser = async () => {
+    const response = await userService.deleteUserById(incomingUserId)
 
     if (response) {
-      sucessMessage(translate('company_deleted'))
+      sucessMessage(translate('user_deleted'))
       setModalIsOpen(false)
       return
     }
 
-    errorMessage(translate('company_not_deleted'))
+    errorMessage(translate('user_not_deleted'))
   }
 
   return (
     <>
       <DataTable
-        columns={companyHeaders}
-        data={companies}
+        columns={userHeaders}
+        data={user}
         responsive
         highlightOnHover
         dense
         pagination={true}
-        paginationTotalRows={companies?.length}
-        noDataComponent={translate('no_company_registered')}
+        paginationTotalRows={user?.length}
+        noDataComponent={translate('user.no_found')}
       />
 
       <div>
@@ -51,22 +49,22 @@ function CompanyTable({ companies }: CompanyTableProps) {
 
           <ModalBody>
             <h2 className="text-center text-2xl">
-              Deseja mesmo remover esta empresa?
+              Deseja mesmo remover esta auditoria?
             </h2>
           </ModalBody>
 
           <ModalFooter>
             <button
-              onClick={handleExcludeCompany}
+              onClick={handleExcludeUser}
               className="border-1 border-button_exclude-200 text-button_exclude-200 hover:bg-button_exclude-100 w-full p-1 rounded-md"
             >
-              {translate('exclude')}
+              Excluir
             </button>
             <button
               onClick={() => setModalIsOpen(false)}
               className="border-1 border-brand-100 text-brand-100 hover:bg-brand-90 w-full p-1 rounded-md"
             >
-              {translate('back')}
+              Voltar
             </button>
           </ModalFooter>
         </Modal>
@@ -75,4 +73,4 @@ function CompanyTable({ companies }: CompanyTableProps) {
   )
 }
 
-export { CompanyTable }
+export { UserTable }

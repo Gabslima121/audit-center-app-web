@@ -15,6 +15,7 @@ import {
   sucessMessage,
 } from '../../utils/Toast/toast'
 import translate from '../../helpers/translate'
+import { Container } from '../../components/Container/Container'
 
 function Company() {
   const companyService = companyApi()
@@ -240,9 +241,9 @@ function Company() {
         <h1 className="text-3xl	text-white">Empresas</h1>
       </div>
 
-      <div className="mt-16 bg-white rounded-lg p-2">
+      <Container>
         <CompanyTable companies={company} />
-      </div>
+      </Container>
     </div>
   )
 }

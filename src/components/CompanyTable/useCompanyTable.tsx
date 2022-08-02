@@ -14,11 +14,12 @@ interface DataRow {
 }
 
 const useCompanyTable = () => {
-  const { setCompanyId, companyId } = useContext(CompanyContext)
+  const [ incomingCompanyId, setIncomingCompanyId ] = useState('')
+  const { setCompanyId } = useContext(CompanyContext)
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
   function handleOpenDeletModal(incomingCompanyId: string) {
-    setCompanyId(incomingCompanyId)
+    setIncomingCompanyId(incomingCompanyId)
     setModalIsOpen(true)
   }
 
@@ -75,7 +76,7 @@ const useCompanyTable = () => {
     companyHeaders,
     modalIsOpen,
     setModalIsOpen,
-    companyId,
+    incomingCompanyId,
   }
 }
 
