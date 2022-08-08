@@ -16,5 +16,7 @@
   "user.add_modal.info": "Preencha as informações abaixo para cadastrar um novo usuário",
   "user.company.corporate_name": "Nome da Empresa",
   "user_created": "Usuário criado com sucesso",
-  "user_not_created": "Não foi possível criar o usuário"
+  "user_not_created": "Não foi possível criar o usuário",
+  "user.edit_info": "Editar Usuário",
+  "user.company": "Empresa"
 }

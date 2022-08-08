@@ -21,5 +21,6 @@
   "ticket_item_status": "Status do Item",
   "select_sla": "Selecione o SLA",
   "users": "Usuários",
-  "add_user": "Adicionar Usuário"
+  "add_user": "Adicionar Usuário",
+  "error_to_save_informations": "Error ao salvar as informações"
 }

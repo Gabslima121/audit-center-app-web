@@ -15,6 +15,7 @@ import { CompanyProvider } from '../contexts/Company/CompanyProvider'
 import { CompanyTickets } from '../pages/Company/CompanyDetailed/CompanyTickets/CompanyTickets'
 import { CompanySLA } from '../pages/Company/CompanyDetailed/CompanySLA/CompanySLA'
 import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed/TicketDetailed'
+import { UserEdit } from '../pages/User/SuperAdmin/UserEdit/UserEdit'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -83,7 +84,7 @@ const AppRoutes: React.FC = () => {
                   </RequireAuth>
                 }
               />
-               <Route
+              <Route
                 path={`/company/detailed/tickets/:id`}
                 element={
                   <RequireAuth>
@@ -99,11 +100,19 @@ const AppRoutes: React.FC = () => {
                   </RequireAuth>
                 }
               />
+              <Route path={'/user/edit/:id'} element={
+              <RequireAuth>
+                <UserEdit />
+              </RequireAuth>
+              } 
+              />
             </Routes>
           </Content>
         </div>
       </CompanyProvider>
     </>
+
+    
   )
 }
 
