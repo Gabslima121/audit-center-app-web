@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const roleName: string[] = _.map(roles, 'name')
 
     const adminRoles =
-      _.includes(roleName, 'ADMIN') && _.includes(roleName, 'SUPER_ADMIN')
+      _.includes(roleName, 'ADMIN') || _.includes(roleName, 'SUPER_ADMIN')
 
     const auditorRole = _.includes(roleName, 'AUDITOR')
 
