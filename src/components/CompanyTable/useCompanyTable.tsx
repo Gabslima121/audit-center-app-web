@@ -1,5 +1,5 @@
 import { Trash } from 'phosphor-react'
-import { useEffect, useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { Link } from 'react-router-dom'
 
@@ -9,8 +9,7 @@ interface DataRow {
   id: string
   corporateName: string
   cnpj: string
-  openTickets: number
-  closedTickets: number
+  total: number
 }
 
 const useCompanyTable = () => {
@@ -39,11 +38,7 @@ const useCompanyTable = () => {
     },
     {
       name: 'Quantidade de Chamados em Aberto',
-      selector: row => row.openTickets,
-    },
-    {
-      name: 'Quantidade de Chamados Concluídos',
-      selector: row => row.closedTickets,
+      selector: row => row.total,
     },
     {
       name: 'Ações',

@@ -13,7 +13,6 @@ interface CompanyTableProps {
 }
 
 function CompanyTable({ companies }: CompanyTableProps) {
-  
   const companySerivce = companyApi()
   const { companyHeaders, modalIsOpen, setModalIsOpen, incomingCompanyId } =
     useCompanyTable()

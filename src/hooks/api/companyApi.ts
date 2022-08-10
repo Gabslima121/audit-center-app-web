@@ -57,4 +57,15 @@ export const companyApi = () => ({
 
     return true
   },
+
+  getCompanyByTicketStatus: async (params: string) => {
+    const { data, status } = await api.get(
+      '/company/companies-by-ticket-status',
+      { ...headers, params: { status: params } },
+    )
+
+    if (status !== 200) return data
+
+    return data
+  },
 })
