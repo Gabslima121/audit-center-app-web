@@ -5,6 +5,8 @@ import { Button } from '../../components/Button/Button'
 import { auditApi } from '../../hooks/api/auditApi'
 import { AddAuditModal } from './AddAuditModal/AddAuditModal'
 import { Container } from '../../components/Container/Container'
+import _ from 'lodash'
+import { Loading } from '../../components/Loading/Loading'
 
 function Home() {
   const ticketsService = auditApi()
@@ -42,7 +44,7 @@ function Home() {
       </div>
 
       <Container>
-        <AuditTable audits={tickets} />
+        {_.isEmpty(tickets) ? <Loading /> : <AuditTable audits={tickets} />}
       </Container>
     </div>
   )

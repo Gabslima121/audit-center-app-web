@@ -4,16 +4,31 @@ import translate from '../../helpers/translate'
 import { useCompanyTicketTable } from './useCompanyTicketsTable'
 
 import trash from '../../assets/img/trash.svg'
+import { auditApi } from '../../hooks/api/auditApi'
+import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
+import { customStyles } from '../../utils/tableStyle'
 
 interface CompanyTicketsTableProps {
   tickets: any[]
 }
 
 function CompanyTicketsTable({ tickets }: CompanyTicketsTableProps) {
+  const auditService = auditApi()
   const { companyTicketsHeaders, modalIsOpen, setModalIsOpen, ticketId } =
     useCompanyTicketTable()
 
-  const handleExcludeCompanyTicket = async () => {}
+  const handleExcludeCompanyTicket = async () => {
+
+      const response = await auditService.deleteTicketById(ticketId)
+  
+      if (response) {
+        sucessMessage(translate('ticket_deleted'))
+        setModalIsOpen(false)
+        return
+      }
+  
+      errorMessage(translate('ticket_not_deleted'))
+    }
 
   return (
     <>
@@ -26,6 +41,7 @@ function CompanyTicketsTable({ tickets }: CompanyTicketsTableProps) {
         pagination={true}
         paginationTotalRows={tickets?.length}
         noDataComponent={translate('no_audit_found')}
+        customStyles={customStyles}
       />
 
       <div>

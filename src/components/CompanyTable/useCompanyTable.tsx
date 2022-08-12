@@ -14,7 +14,7 @@ interface DataRow {
 
 const useCompanyTable = () => {
   const [ incomingCompanyId, setIncomingCompanyId ] = useState('')
-  const { setCompanyId } = useContext(CompanyContext)
+  const { setSelectedCompanyId } = useContext(CompanyContext)
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
   function handleOpenDeletModal(incomingCompanyId: string) {
@@ -48,7 +48,7 @@ const useCompanyTable = () => {
           <div className="flex flex-row">
             <button className="text-brand-300 mr-2">
               <Link
-                onClick={() => setCompanyId(row.id)}
+                onClick={() => setSelectedCompanyId(row.id)}
                 to={`/company/detailed/${row.id}`}
               >
                 Acessar

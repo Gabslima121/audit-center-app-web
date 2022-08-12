@@ -16,6 +16,9 @@ import { CompanyTickets } from '../pages/Company/CompanyDetailed/CompanyTickets/
 import { CompanySLA } from '../pages/Company/CompanyDetailed/CompanySLA/CompanySLA'
 import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed/TicketDetailed'
 import { UserEdit } from '../pages/User/SuperAdmin/UserEdit/UserEdit'
+import { CompanyTicketsEdit } from '../pages/Company/CompanyDetailed/CompanyTicketsEdit/CompanyTicketsEdit'
+import { AuthContext } from '../contexts/Auth/AuthContext'
+import { useContext } from 'react'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -72,7 +75,7 @@ const AppRoutes: React.FC = () => {
                 path={`/ticket/detailed/:id`}
                 element={
                   <RequireAuth>
-                    <TicketDetailed />
+                    <TicketDetailed currentUrl="/ticket/detailed/:id" />
                   </RequireAuth>
                 }
               />
@@ -93,6 +96,14 @@ const AppRoutes: React.FC = () => {
                 }
               />
               <Route
+                path={`/company/detailed/tickets/:id/edit-ticket/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanyTicketsEdit />
+                  </RequireAuth>
+                }
+              />
+              <Route
                 path={`/company/detailed/define-sla/:id`}
                 element={
                   <RequireAuth>
@@ -100,19 +111,19 @@ const AppRoutes: React.FC = () => {
                   </RequireAuth>
                 }
               />
-              <Route path={'/user/edit/:id'} element={
-              <RequireAuth>
-                <UserEdit />
-              </RequireAuth>
-              } 
+              <Route
+                path={'/user/edit/:id'}
+                element={
+                  <RequireAuth>
+                    <UserEdit />
+                  </RequireAuth>
+                }
               />
             </Routes>
           </Content>
         </div>
       </CompanyProvider>
     </>
-
-    
   )
 }
 

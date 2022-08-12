@@ -1,10 +1,12 @@
 import _ from 'lodash'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useContext, useEffect, useState } from 'react'
 
 import { userApi } from '../../hooks/api/userApi'
 import { UserType } from '../../types/UserType'
+import { setLocalStorage } from '../../utils/localStorage'
 import { AuthContext } from './AuthContext'
+import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
+import translate from '../../helpers/translate'
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const api = userApi()
@@ -12,6 +14,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [roles, setRoles] = useState([])
   const [token, setToken] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
+  const [userCompanyId, setUserCompanyId] = useState('')
+  const [userCompany, setUserCompany] = useState()
   const [isSuperAdmin, setIsSuperAdmin] = useState(false)
   const [isAuditor, setIsAuditor] = useState(false)
   const [isAnalyst, setIsAnalyst] = useState(false)
@@ -19,12 +23,33 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const sigin = async (email: string, password: string) => {
     const data = await api.signin(email, password)
 
-    setUser(data?.user)
-    setRoles(data?.user?.roles)
-    setToken(data?.accessToken)
+    if (data) {
+      setUserStorageInfo(data, data?.accessToken)
+      sucessMessage(translate('user_connected'))
+      return data
+    }
 
-    localStorage.setItem('user', JSON.stringify(data?.user))
-    localStorage.setItem('authorization', data?.accessToken)
+    errorMessage(data.error)
+    return null
+  }
+
+  const setUserStorageInfo = (data: any, accessToken: string) => {
+    const { user } = data
+
+    setUser(user)
+    setRoles(user?.roles)
+    setToken(accessToken)
+    setUserCompanyId(user?.companyId)
+    setUserCompany(user?.company)
+
+    setLocalStorage('user', user)
+    setLocalStorage('authorization', accessToken)
+
+    if (user?.companyId && user?.company) {
+      setLocalStorage('companyId', user?.companyId)
+      setLocalStorage('company', user?.company)
+    }
+
     return data
   }
 
@@ -41,24 +66,16 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     if (adminRoles) {
       setIsAdmin(true)
       setIsSuperAdmin(true)
-      setIsAnalyst(false)
-      setIsAuditor(false)
       return
     }
 
     if (auditorRole) {
       setIsAuditor(true)
-      setIsAdmin(false)
-      setIsSuperAdmin(false)
-      setIsAnalyst(false)
       return
     }
 
     if (analystRole) {
       setIsAnalyst(true)
-      setIsAdmin(false)
-      setIsSuperAdmin(false)
-      setIsAuditor(false)
       return
     }
   }
@@ -66,12 +83,11 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const validateToken = async () => {
     const tokenData = localStorage.getItem('authorization')
 
-    const { accessToken, payload } = await api.validateToken(tokenData!)
+    const data = await api.validateToken(tokenData!)
 
-    setUser(payload)
-    setRoles(payload.roles)
-    setToken(accessToken)
-    localStorage.setItem('authorization', accessToken)
+    setUserStorageInfo(data, data?.accessToken)
+
+    return data
   }
 
   useEffect(() => {
@@ -93,6 +109,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         isSuperAdmin,
         isAuditor,
         isAnalyst,
+        userCompanyId,
+        userCompany,
       }}
     >
       {children}

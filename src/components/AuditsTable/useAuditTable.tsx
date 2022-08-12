@@ -17,6 +17,9 @@ interface DataRow {
   responsable: {
     name: string,
   }
+  analyst: {
+    name: string,
+  }
 }
 
 const useAuditTable = () => {
@@ -55,8 +58,12 @@ const useAuditTable = () => {
       selector: row => row.company.corporateName,
     },
     {
-      name: 'Responsável',
+      name: 'Auditor',
       selector: row => row.responsable.name,
+    },
+    {
+      name: 'Analista',
+      selector: row => row.analyst.name,
     },
     {
       name: 'Ações',

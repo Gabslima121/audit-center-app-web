@@ -6,6 +6,7 @@ import { useUserTable } from './useUserTable'
 import trash from '../../assets/img/trash.svg'
 import { userApi } from '../../hooks/api/userApi'
 import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
+import { customStyles } from '../../utils/tableStyle'
 
 export interface UserTableProps {
   user: any[]
@@ -39,6 +40,7 @@ function UserTable({ user }: UserTableProps) {
         pagination={true}
         paginationTotalRows={user?.length}
         noDataComponent={translate('user.no_found')}
+        customStyles={customStyles}
       />
 
       <div>

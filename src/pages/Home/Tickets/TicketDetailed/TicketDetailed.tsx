@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { MinusCircle, PlusCircle, Spinner } from 'phosphor-react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { Button } from '../../../../components/Button/Button'
 import { Container } from '../../../../components/Container/Container'
@@ -21,7 +21,12 @@ import { TicketItemInfo } from './TicketItemInfo'
 import { TicketComments } from './TicketComments'
 import { useTicketsDetailed } from './useTicketDetailed'
 
-function TicketDetailed() {
+interface TicketDetailedProps {
+  currentUrl: string
+}
+
+function TicketDetailed({ currentUrl }: TicketDetailedProps) {
+  const navigate = useNavigate()
   const {
     comments,
     newComment,
@@ -159,6 +164,9 @@ function TicketDetailed() {
   }
 
   async function handleUpdateTicketInfo() {
+    console.log(ticketInfo?.responsableArea?.id)
+    const url = currentUrl.split('/')[1]
+
     const response = await auditSerivce.updateAudit(id, {
       ...ticketInfo,
       analyst: ticketInfo?.analyst?.id,
@@ -167,9 +175,15 @@ function TicketDetailed() {
       sla: ticketInfo?.sla,
       company: ticketInfo?.company?.id,
     })
+
     if (response) {
-      sucessMessage(translate(`${response?.message}`))
-      window.location.href = '/home'
+      if (url === 'tickets'){
+        sucessMessage(translate(`${response?.message}`))
+        return window.location.href = '/home'
+      } else {
+        sucessMessage(translate(`${response?.message}`))
+        navigate(-1)
+      }
     }
   }
 
@@ -183,9 +197,9 @@ function TicketDetailed() {
     }
   }, [id, companyId])
 
-  // useEffect(() => {
-  //   console.log(comments)
-  // }, [comments])
+  useEffect(() => {
+    console.log(ticketInfo)
+  }, [ticketInfo])
 
   return (
     <div className="flex-auto mt-5">

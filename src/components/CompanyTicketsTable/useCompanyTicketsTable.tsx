@@ -1,7 +1,7 @@
-import { Trash } from 'phosphor-react'
+import { PencilCircle, Trash } from 'phosphor-react'
 import { useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 interface DataRow {
   id: string
@@ -17,11 +17,16 @@ interface DataRow {
   responsable: {
     name: string,
   }
+  analyst: {
+    name: string,
+  }
 }
 
 const useCompanyTicketTable = () => {
+  const location = useLocation()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [ticketId, setTicketId] = useState('')
+  const currentUrl = location.pathname
 
   function handleOpenDeletModal(incomingTicketId: string) {
     setTicketId(incomingTicketId)
@@ -55,8 +60,12 @@ const useCompanyTicketTable = () => {
       selector: row => row.company.corporateName,
     },
     {
-      name: 'Responsável',
+      name: 'Auditor',
       selector: row => row.responsable.name,
+    },
+    {
+      name: 'Analista',
+      selector: row => row.analyst.name,
     },
     {
       name: 'Ações',
@@ -66,9 +75,9 @@ const useCompanyTicketTable = () => {
           <div className="flex flex-row">
             <button className="text-brand-300 mr-2">
               <Link
-                to={`/company/detailed/${row.id}`}
+                to={`${currentUrl}/edit-ticket/${row.id}`}
               >
-                Acessar
+                <PencilCircle size={24} />
               </Link>
             </button>
 
