@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { userApi } from '../../hooks/api/userApi'
 import { UserType } from '../../types/UserType'
@@ -9,6 +10,7 @@ import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
 import translate from '../../helpers/translate'
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const navigate = useNavigate()
   const api = userApi()
   const [user, setUser] = useState() as [UserType, (user: UserType) => void]
   const [roles, setRoles] = useState([])
@@ -91,12 +93,22 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }
 
   useEffect(() => {
+    if (user && isSuperAdmin) {
+      return navigate('/home')
+    }
+
+    if (user && (isAdmin || isAuditor || isAnalyst)) {
+      return navigate(`/company/detailed/tickets/${user?.companyId}`)
+    }
+  }, [isAuditor, isAdmin, isAnalyst, isSuperAdmin, user])
+
+  useEffect(() => {
     validateToken()
   }, [])
 
   useEffect(() => {
     getRoles()
-  }, [user, roles])
+  }, [roles])
 
   return (
     <AuthContext.Provider

@@ -4,7 +4,7 @@ import { CompanyContext } from '../../../../contexts/Company/CompanyContext'
 import { auditApi } from '../../../../hooks/api/auditApi'
 
 const useCompanyTickets = () => {
-  const { isAuditor, user, isAnalyst, isAdmin, isSuperAdmin } =
+  const { isAuditor, user, isAnalyst, isAdmin, isSuperAdmin, userCompanyId } =
     useContext(AuthContext)
   const { selectedCompanyId } = useContext(CompanyContext)
   const ticketsService = auditApi()
@@ -20,7 +20,7 @@ const useCompanyTickets = () => {
   }
 
   const getAllTicketsByCompany = async () => {
-    const tickets = await ticketsService.getAuditByCompany(selectedCompanyId)
+    const tickets = await ticketsService.getAuditByCompany(selectedCompanyId || userCompanyId)
 
     setTickets(tickets)
   }
@@ -34,31 +34,30 @@ const useCompanyTickets = () => {
   }
 
   async function getTicketsByAnalyst() {
-    const { data } = await ticketsService.getAduditsByAnalyst()
+    const response = await ticketsService.getAduditsByAnalyst()
 
-    if (!data) setTickets([])
+    if (!response) setTickets([])
 
-    setTickets(data?.tickets)
+    setTickets(response)
   }
 
   const handleGetTickets = async () => {
-    if (isSuperAdmin) {
+    if (isSuperAdmin || isAuditor) {
       await getAllTicketsByCompany()
     }
 
-    if (isAuditor) {
-      await getTicketsByAuditor()
-    }
-
     if (isAnalyst) {
-      console.log('isAnalyst', isAnalyst)
       await getTicketsByAnalyst()
     }
   }
 
   useEffect(() => {
     handleGetTickets()
-  }, [isAuditor, user])
+  }, [isAnalyst, isAuditor, user])
+
+  useEffect(() => {
+    console.log(tickets)
+  }, [tickets])
 
   return {
     tickets,

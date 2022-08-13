@@ -14,7 +14,6 @@ import {
 import translate from '../../helpers/translate'
 
 export function Login() {
-  const navigate = useNavigate()
   const { sigin } = useContext(AuthContext)
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -29,7 +28,6 @@ export function Login() {
 
       await sigin(userName, password)
 
-      navigate('/home')
     } catch (e: any) {
       return errorMessage(translate(`${e?.response?.data?.message}`))
     }

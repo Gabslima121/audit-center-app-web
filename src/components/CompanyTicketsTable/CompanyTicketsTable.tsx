@@ -7,6 +7,7 @@ import trash from '../../assets/img/trash.svg'
 import { auditApi } from '../../hooks/api/auditApi'
 import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
 import { customStyles } from '../../utils/tableStyle'
+import { useEffect } from 'react'
 
 interface CompanyTicketsTableProps {
   tickets: any[]
@@ -18,17 +19,20 @@ function CompanyTicketsTable({ tickets }: CompanyTicketsTableProps) {
     useCompanyTicketTable()
 
   const handleExcludeCompanyTicket = async () => {
+    const response = await auditService.deleteTicketById(ticketId)
 
-      const response = await auditService.deleteTicketById(ticketId)
-  
-      if (response) {
-        sucessMessage(translate('ticket_deleted'))
-        setModalIsOpen(false)
-        return
-      }
-  
-      errorMessage(translate('ticket_not_deleted'))
+    if (response) {
+      sucessMessage(translate('ticket_deleted'))
+      setModalIsOpen(false)
+      return
     }
+
+    errorMessage(translate('ticket_not_deleted'))
+  }
+
+  useEffect(() => {
+    console.log('CompanyTickets', tickets)
+  }, [tickets])
 
   return (
     <>

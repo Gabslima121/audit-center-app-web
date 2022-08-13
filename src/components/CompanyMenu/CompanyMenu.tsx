@@ -7,7 +7,7 @@ import { CompanyContext } from '../../contexts/Company/CompanyContext'
 import translate from '../../helpers/translate'
 
 export function CompanyMenu() {
-  const { isSuperAdmin, isAdmin } = useContext(AuthContext)
+  const { isSuperAdmin, isAdmin, userCompanyId } = useContext(AuthContext)
   const { setCompany, setSelectedCompanyId, selectedCompanyId } = useContext(CompanyContext)
 
   const handleExcludeCompanyInfo = () => {
@@ -19,7 +19,7 @@ export function CompanyMenu() {
 
   return (
     <div className="flex flex-col mt-9 flex-auto">
-      <Link to={`/company/detailed/tickets/${selectedCompanyId}`} className="my-2">
+      <Link to={`/company/detailed/tickets/${selectedCompanyId || userCompanyId}`} className="my-2">
         <Ticket size={25} className="ml-2 float-left" />
         <p className="ml-10 mt-px text-base">{translate('menu.tickets')}</p>
       </Link>

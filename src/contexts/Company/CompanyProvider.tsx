@@ -8,7 +8,8 @@ import { CompanyContext } from './CompanyContext'
 
 export const CompanyProvider = ({ children }: { children: JSX.Element }) => {
   const companyService = companyApi()
-  const { isAuditor, user, companyId } = useContext(AuthContext)
+  const { isAuditor, userCompanyId, isAdmin, isAnalyst } =
+    useContext(AuthContext)
   const [selectedCompanyId, setSelectedCompanyId] = useState('') as [
     string,
     (selectedCompanyId: string | null) => void,
@@ -30,7 +31,7 @@ export const CompanyProvider = ({ children }: { children: JSX.Element }) => {
   }
 
   // const handleSetUserCompanyId = () => {
-    
+
   // }
 
   useEffect(() => {
@@ -40,13 +41,11 @@ export const CompanyProvider = ({ children }: { children: JSX.Element }) => {
       return
     }
 
-    if (isAuditor) {
-      console.log(isAuditor)
-      setSelectedCompanyId(companyId)
-      setLocalStorage('companyId', companyId)
+    if (isAuditor || isAnalyst || isAdmin) {
+      setLocalStorage('companyId', userCompanyId)
       return
     }
-  }, [user, selectedCompanyId])
+  }, [userCompanyId, selectedCompanyId])
 
   return (
     <CompanyContext.Provider
