@@ -3,8 +3,8 @@ import { CompanyType } from "../../types/Company/CompanyType";
 
 export type CompanyContextProps = {
   company: CompanyType;
-  companyId: string;
-  setCompanyId: (companyId: string | null) => void;
+  selectedCompanyId: string;
+  setSelectedCompanyId: (companyId: string | null) => void;
   setCompany: (company: CompanyType | null) => void;
 }
 

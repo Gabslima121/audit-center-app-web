@@ -7,6 +7,7 @@ import { useAuditTable } from './useAuditTable'
 import trash from '../../assets/img/trash.svg'
 import { auditApi } from '../../hooks/api/auditApi'
 import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
+import { customStyles } from '../../utils/tableStyle'
 
 interface AuditTableProps {
   audits: any[]
@@ -40,6 +41,7 @@ function AuditTable({ audits }: AuditTableProps) {
         pagination={true}
         paginationTotalRows={audits?.length}
         noDataComponent={translate('no_audit_found')}
+        customStyles={customStyles}
       />
 
       <div>

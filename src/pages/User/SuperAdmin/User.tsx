@@ -1,6 +1,8 @@
+import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import { Button } from '../../../components/Button/Button'
 import { Container } from '../../../components/Container/Container'
+import { Loading } from '../../../components/Loading/Loading'
 import {
   UserTable,
   UserTableProps,
@@ -45,7 +47,7 @@ function User() {
       </div>
 
       <Container>
-        <UserTable user={userList} />
+        {_.isEmpty(userList) ? <Loading /> : <UserTable user={userList} />}
       </Container>
     </div>
   )

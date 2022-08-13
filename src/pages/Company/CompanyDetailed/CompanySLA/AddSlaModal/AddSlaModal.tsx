@@ -50,7 +50,7 @@ interface AddSlaModalProps {
 function AddSlaModal({ isOpen, setIsOpen }: AddSlaModalProps) {
   const companyService = companyApi()
   const slaService = slaApi()
-  const { companyId, company } = useContext(CompanyContext)
+  const { selectedCompanyId, company } = useContext(CompanyContext)
   const [slaInfo, setSlaInfo] = useState({
     ...SLA_INITIAL_STATE,
   })
@@ -70,7 +70,7 @@ function AddSlaModal({ isOpen, setIsOpen }: AddSlaModalProps) {
   }
 
   const getCompanyById = async () => {
-    const companyExists = await companyService.getCompanyById(companyId)
+    const companyExists = await companyService.getCompanyById(selectedCompanyId)
     const selectedCompany = [
       {
         id: companyExists?.id,
@@ -93,18 +93,18 @@ function AddSlaModal({ isOpen, setIsOpen }: AddSlaModalProps) {
   }
 
   useEffect(() => {
-    if (!companyId) {
+    if (!selectedCompanyId) {
       getAllCompanies()
       setIsDisabled(false)
     }
 
-    if (companyId && company) {
+    if (selectedCompanyId && company) {
       getCompanyById()
     }
-  }, [companyId, company])
+  }, [selectedCompanyId, company])
 
   useEffect(() =>{
-    setSlaInfo({ ...SLA_INITIAL_STATE, company: companyId })
+    setSlaInfo({ ...SLA_INITIAL_STATE, company: selectedCompanyId })
   }, [isOpen])
 
   return (

@@ -7,13 +7,13 @@ import { companyApi } from '../../hooks/api/companyApi'
 import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
 
 import trash from '../../assets/img/trash.svg'
+import { customStyles } from '../../utils/tableStyle'
 
 interface CompanyTableProps {
   companies: any[]
 }
 
 function CompanyTable({ companies }: CompanyTableProps) {
-  
   const companySerivce = companyApi()
   const { companyHeaders, modalIsOpen, setModalIsOpen, incomingCompanyId } =
     useCompanyTable()
@@ -41,6 +41,7 @@ function CompanyTable({ companies }: CompanyTableProps) {
         pagination={true}
         paginationTotalRows={companies?.length}
         noDataComponent={translate('no_company_registered')}
+        customStyles={customStyles}
       />
 
       <div>

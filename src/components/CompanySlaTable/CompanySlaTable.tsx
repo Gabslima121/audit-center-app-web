@@ -5,6 +5,8 @@ import { useCompanySlaTable } from './useCompanySlaTable'
 
 import trash from '../../assets/img/trash.svg'
 import { slaApi } from '../../hooks/api/slaApi'
+import { customStyles } from '../../utils/tableStyle'
+import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
 
 interface CompanySlaTableProps {
   sla: any[]
@@ -18,7 +20,13 @@ function CompanySlaTable({ sla }: CompanySlaTableProps) {
   async function handleExcludeSla() {
     const response = await slaService.deleteSla(slaId)
 
-    setModalIsOpen(false)
+    if (response) {
+      sucessMessage(translate('sla_deleted'))
+      setModalIsOpen(false)
+      return
+    }
+
+    errorMessage(translate('sla_not_deleted'))
   }
 
   return (
@@ -32,6 +40,7 @@ function CompanySlaTable({ sla }: CompanySlaTableProps) {
         pagination={true}
         paginationTotalRows={sla?.length}
         noDataComponent={translate('no_sla_registered')}
+        customStyles={customStyles}
       />
 
       <div>
@@ -42,7 +51,7 @@ function CompanySlaTable({ sla }: CompanySlaTableProps) {
 
           <ModalBody>
             <h2 className="text-center text-2xl">
-              Deseja mesmo remover esta empresa?
+              {translate('delete_sla_confirmation')}
             </h2>
           </ModalBody>
 
