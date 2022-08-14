@@ -17,12 +17,14 @@
   "no_comments_registered": "Nenhum comentário registrado",
   "type_comment": "Digite seu comentário",
   "save_comment": "Salvar comentário",
-  "company": "Empresa",
+  "commom.company": "Empresa",
   "ticket_item_status": "Status do Item",
   "select_sla": "Selecione o SLA",
   "users": "Usuários",
   "add_user": "Adicionar Usuário",
   "error_to_save_informations": "Error ao salvar as informações",
   "delete_sla_confirmation" : "Tem certeza que deseja excluir este SLA?",
-  "user_connected": "Usuário conectado"
+  "user_connected": "Usuário conectado",
+  "cancel": "Cancelar",
+  "add_audit": "Cadastrar Auditoria"
 }

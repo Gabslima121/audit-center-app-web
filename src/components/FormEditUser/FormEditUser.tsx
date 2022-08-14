@@ -25,7 +25,6 @@ function FormEditUser() {
 
   useEffect(() => {
     setCurrentUrl(location.pathname.split('/'))
-    // console.log(userInfo)
   }, [])
 
   return (

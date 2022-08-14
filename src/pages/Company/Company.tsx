@@ -255,7 +255,7 @@ function Company() {
           <Button onClick={handleOpenModal}>Cadastrar Empresa</Button>
         </div>
 
-        <h1 className="text-3xl	text-white">Empresas</h1>
+        <h1 className="text-3xl	text-white">{translate('commom.company')}</h1>
       </div>
 
       <Container>

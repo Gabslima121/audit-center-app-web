@@ -64,7 +64,7 @@ function MyProfile() {
 
     const { message } = await userService.updateUser({ userId, name, email })
 
-    console.log(message)
+    //TODO show message
   }
 
   const handleChange = (event: { target: { name: any; value: any } }) => {

@@ -15,7 +15,7 @@ export const USER_ROLES: RoleItemType[] = [
   },
 ]
 
-export const AUDIT_STATUS_ARRAY: object[] = [
+export const AUDIT_STATUS_ARRAY = [
   {
     name: 'OPEN',
   },

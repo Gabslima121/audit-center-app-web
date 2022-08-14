@@ -4,7 +4,7 @@ import { CompanyContext } from '../../../../contexts/Company/CompanyContext'
 import { auditApi } from '../../../../hooks/api/auditApi'
 
 const useCompanyTickets = () => {
-  const { isAuditor, user, isAnalyst, isAdmin, isSuperAdmin, userCompanyId } =
+  const { isAuditor, user, isAnalyst, isSuperAdmin, userCompanyId } =
     useContext(AuthContext)
   const { selectedCompanyId } = useContext(CompanyContext)
   const ticketsService = auditApi()
@@ -53,11 +53,7 @@ const useCompanyTickets = () => {
 
   useEffect(() => {
     handleGetTickets()
-  }, [isAnalyst, isAuditor, user])
-
-  useEffect(() => {
-    console.log(tickets)
-  }, [tickets])
+  }, [isAnalyst, isAuditor, user, modalIsOpen])
 
   return {
     tickets,

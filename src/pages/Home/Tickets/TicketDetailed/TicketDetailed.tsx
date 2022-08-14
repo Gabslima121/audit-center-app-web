@@ -164,7 +164,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   }
 
   async function handleUpdateTicketInfo() {
-    console.log(ticketInfo?.responsableArea?.id)
     const url = currentUrl.split('/')[1]
 
     const response = await auditSerivce.updateAudit(id, {
@@ -196,10 +195,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       getTicketItemById()
     }
   }, [id, companyId])
-
-  useEffect(() => {
-    console.log(ticketInfo)
-  }, [ticketInfo])
 
   return (
     <div className="flex-auto mt-5">
@@ -348,7 +343,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                   <div>
                     <Label
                       htmlFor="company"
-                      text={translate('company')}
+                      text={translate('commom.company')}
                       className="text-lg mb-1 opacity-60"
                     />
                     <Input
