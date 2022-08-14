@@ -2,10 +2,17 @@ export type UserType = {
   id: string;
   name: string;
   email: string;
-  password?: string;
-  roles: object[];
+  passwor?: string;
+  roles: any;
   cpf: string;
-  companyId: string;
+  companies: {
+    id: string;
+    corporateName: string;
+  };
+  department: {
+    id: string;
+    name: string;
+  };
 }
 
 export type RolesType = {

@@ -99,4 +99,27 @@ export const userApi = () => ({
 
     return data
   },
+
+  getAnalystByCompanyId: async (companyId: string) => {
+    const { status, data } = await api.get(
+      `/user/get-analysts-by-company/${companyId}`,
+      headers,
+    )
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  },
+
+  getUserById: async (id: any) => {
+    const { status, data } = await api.get(`/user/${id}`, headers)
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  }
 })

@@ -39,11 +39,14 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const userService = userApi()
   const ticketItemService = ticketItemApi()
   const departmentService = departmentsApi()
+
   const { id } = useParams()
+
   const [ticketInfo, setTicketInfo] = useState(TICKET_INITIAL_STATE)
   const [companyId, setCompanyId] = useState('')
   const [slaOptions, setSlaOptions] = useState<any>([])
-  const [userOptions, setUserOptions] = useState<any>([])
+  const [auditorOptions, setAuditorOptions] = useState<any>([])
+  const [analystsOptions, setAnalystsOptions] = useState<any>([])
   const [departmentOptions, setDepartmentOptions] = useState<any>([])
   const [ticketItemInfo, setTicketItemInfo] = useState(
     TICKET_ITEM_INITIAL_STATE,
@@ -89,36 +92,16 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     }))
   }
 
-  const getUserByCompany = async () => {
-    const users = await userService.getUserByCompanyId(companyId)
+  const getAuditorByCompany = async () => {
+    const auditors = await userService.getAuditorByCompanyId(companyId)
 
-    const mappedUsers = _.map(users, user => {
-      return {
-        id: user?.id,
-        name: user?.name,
-      }
-    })
+    setAuditorOptions(auditors)
+  }
 
-    const responsableUser = _.filter(users, (user: any) => {
-      return user?.id === ticketInfo?.responsable?.id
-    })
+  const getAnalystByCompany = async () => {
+    const analysts = await userService.getAnalystByCompanyId(companyId)
 
-    const analystUser = _.filter(users, (user: any) => {
-      return user?.id === ticketInfo?.analyst?.id
-    })
-
-    setUserOptions(mappedUsers)
-    setTicketInfo((prevState: typeof ticketInfo) => ({
-      ...prevState,
-      responsable: {
-        name: responsableUser[0]?.name,
-        id: responsableUser[0]?.id,
-      },
-      analyst: {
-        name: analystUser[0]?.name,
-        id: analystUser[0]?.id,
-      },
-    }))
+    setAnalystsOptions(analysts)
   }
 
   const getDepartmentByCompany = async () => {
@@ -190,11 +173,16 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     getTicektData()
     if (companyId) {
       getSlaByCompany()
-      getUserByCompany()
+      getAuditorByCompany()
+      getAnalystByCompany()
       getDepartmentByCompany()
       getTicketItemById()
     }
   }, [id, companyId])
+
+  useEffect(() => {
+    console.log(analystsOptions)
+  }, [analystsOptions])
 
   return (
     <div className="flex-auto mt-5">
@@ -217,7 +205,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       name="title"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                       value={ticketInfo?.title}
-                      onChange={() => handleChangeTicketData('title')}
+                      onChange={(e) => handleChangeTicketData('title',e )}
                     />
                   </div>
 
@@ -228,7 +216,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       className="text-lg mb-1"
                     />
                     <Select
-                      options={userOptions}
+                      options={auditorOptions}
                       id="responsable"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                       value={ticketInfo?.responsable?.id}
@@ -264,7 +252,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       className="text-lg mb-1"
                     />
                     <Select
-                      options={userOptions}
+                      options={analystsOptions}
                       id="analyst"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                       value={ticketInfo?.analyst?.id}
@@ -368,7 +356,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                     name="description"
                     className="p-2 resize-none rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                     value={ticketInfo?.description}
-                    onChange={() => handleChangeTicketData('description')}
+                    onChange={(e) => handleChangeTicketData('description', e)}
                   />
                 </div>
 

@@ -1,7 +1,10 @@
+import { CodeSharp } from '@material-ui/icons'
 import _ from 'lodash'
 import { useContext, useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
+
 import { AuthContext } from '../../contexts/Auth/AuthContext'
-import { AUDIT_STATUS } from '../../helpers/constants'
+import { AUDIT_STATUS, ROLES } from '../../helpers/constants'
 import translate from '../../helpers/translate'
 import { auditApi } from '../../hooks/api/auditApi'
 import { roleApi } from '../../hooks/api/roleApi'
@@ -12,95 +15,93 @@ const USER_INITIAL_STATE = {
   id: '',
   name: '',
   email: '',
+  roles: [],
+  cpf: '',
+  companies: {
+    id: '',
+    corporateName: '',
+  },
+  department: {
+    id: '',
+    name: '',
+  },
 }
 
-const useFormEditUser = () => {
+const useFormUser = () => {
+  const { id } = useParams()
+  const { user } = useContext(AuthContext)
+
+  const userService = userApi()
   const roleService = roleApi()
   const ticketService = auditApi()
-  const userService = userApi()
-  const { roles, user } = useContext(AuthContext)
-  const [allRoles, setAllRoles] = useState<any>([])
-  const [selectedRoles, setSelectedRoles] = useState<any>([])
-  const [totalWithNoStatus, setTotalWithNoStatus] = useState<number>(0)
-  const [totalWithStatus, setTotalWithStatus] = useState<number>(0)
-  const [userInfo, setUserInfo] = useState<any>({ ...USER_INITIAL_STATE })
-  const [currentUrl, setCurrentUrl] = useState() as any
 
-  async function getAllRoles() {
-    const allRole = await roleService.getAllRoles()
+  const [currentUrl, setCurrentUrl] = useState([''])
+  const [userInfo, setUserInfo] = useState(USER_INITIAL_STATE)
+  const [roleOptions, setRoleOptions] = useState([])
+  const [userRole, setUserRole] = useState([])
+  const [totalAudits, setTotalAudits] = useState(0)
 
-    const mappedRoles = roleService.mapRolesToSelect(allRole)
+  const getSelectedUserInfo = async () => {
+    const user = await userService.getUserById(id)
 
-    setAllRoles(mappedRoles)
+    setUserInfo(user)
   }
 
-  function getSelectedRoles() {
-    const mappedRoles = roleService.mapRolesToSelect(roles)
+  const getAllRoles = async () => {
+    const roles = await roleService.getAllRoles()
 
-    setSelectedRoles(mappedRoles)
+    setRoleOptions(roles)
   }
 
-  async function getNumberOfTotalTicketsWithNoStatus() {
-    const { total } = await ticketService.getAuditByResponsable()
+  const mapUserRolesToSelect = () => {
+    const mappedRoles = roleService.mapRolesToSelect(userInfo?.roles)
 
-    setTotalWithNoStatus(total)
+    setUserRole(mappedRoles)
   }
 
-  async function getNumberOfTotalTicketsWithStatus() {
-    const { total } = await ticketService.getAuditByResponsable(
-      AUDIT_STATUS.DONE,
-    )
+  const getTotalAuditsPerUser = async () => {
+    const roleName = roleService.mapRoleName(userInfo?.roles)
 
-    setTotalWithStatus(total)
-  }
+    if (roleName === ROLES.ANALYST) {
+      const analystAudits = await ticketService.getAduditsByAnalyst()
+      const total = analystAudits.length
 
-  async function handleUpdateUserInfo() {
-    const { id: userId } = user
-    const { name, email } = userInfo
-
-    const { message } = await userService.updateUser({ userId, name, email })
-
-    if (message) {
-      return sucessMessage(translate('success'))
+      setTotalAudits(total)
+      return
     }
 
-    return errorMessage(translate('error_to_save_informations'))
-  }
+    if (roleName === ROLES.AUDITOR) {
+      const auditorAudits = await ticketService.getAuditByResponsable()
+      const total = auditorAudits.length
 
-  const handleChange = (event: { target: { name: any; value: any } }) => {
-    setUserInfo((prevState: typeof userInfo) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }))
+      setTotalAudits(total)
+      return
+    }
+    // const tickets = await ticketService.(id)
   }
 
   useEffect(() => {
-    if (
-      _.isArray(currentUrl) &&
-      currentUrl[1] === 'user' &&
-      currentUrl[2] === 'edit'
-    ) {
-      setUserInfo({})
+    if (currentUrl[1] === 'user' && currentUrl[2] === 'edit') {
+      getSelectedUserInfo()
+    } else {
+      setUserInfo({ ...user })
     }
-    setUserInfo({ ...user })
     getAllRoles()
-    getSelectedRoles()
-    getNumberOfTotalTicketsWithNoStatus()
-    getNumberOfTotalTicketsWithStatus()
-  }, [])
+  }, [currentUrl])
+
+  useEffect(() => {
+    mapUserRolesToSelect()
+    getTotalAuditsPerUser()
+  }, [userInfo])
 
   return {
-    userInfo,
-    allRoles,
-    selectedRoles,
-    totalWithNoStatus,
-    totalWithStatus,
-    handleChange,
-    handleUpdateUserInfo,
-    setSelectedRoles,
     currentUrl,
+    userInfo,
     setCurrentUrl,
+    roleOptions,
+    userRole,
+    totalAudits,
   }
 }
 
-export { useFormEditUser }
+export { useFormUser }
