@@ -1,9 +1,10 @@
 import { SignOut, UserRectangle } from 'phosphor-react'
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../contexts/Auth/AuthContext'
 
 export function Header() {
+  const navigate = useNavigate()
   const { user } = useContext(AuthContext)
 
   const handleSignOut = () => {
@@ -12,22 +13,29 @@ export function Header() {
     localStorage.removeItem('companyId')
     localStorage.removeItem('company')
 
+    navigate('/')
     window.location.reload()
+  }
+
+  const handleRedirectToMyProfile = () => {
+    navigate(`/my-profile/${user?.id}`)
   }
 
   return (
     <div className="bg-white rounded-3xl p-3">
       <div className="float-right">
         <div className="flex flex-row mt-2 flex-auto">
-          <Link to={`/my-profile/${user?.id}`} className="my-2 mx-2">
+          <button onClick={handleRedirectToMyProfile} className="my-2 mx-2 hover:text-brand-300">
             <UserRectangle size={25} className="float-left" />
             <p className="ml-8">Meu Perfil</p>
-          </Link>
+          </button>
 
-          <Link to="/" className="my-2 mx-2">
+          <button onClick={handleSignOut} className="my-2 mx-2 hover:text-brand-300">
             <SignOut size={25} className="float-left" />
-            <p onClick={handleSignOut} className="ml-8">Sair</p>
-          </Link>
+            <p className="ml-8 ">
+              Sair
+            </p>
+          </button>
         </div>
       </div>
     </div>

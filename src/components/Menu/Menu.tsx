@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import { AuthContext } from '../../contexts/Auth/AuthContext'
+import translate from '../../helpers/translate'
 
 export function Menu() {
   const { isSuperAdmin } = useContext(AuthContext)
@@ -23,7 +24,7 @@ export function Menu() {
 
           <Link to="/companys" className="my-2">
             <Buildings size={25} className="ml-2 float-left" />
-            <p className="ml-10 mt-px">Empresas</p>
+            <p className="ml-10 mt-px">{translate('commom.company')}</p>
           </Link>
         </>
       )}

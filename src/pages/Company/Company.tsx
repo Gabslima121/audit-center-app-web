@@ -15,6 +15,9 @@ import {
   sucessMessage,
 } from '../../utils/Toast/toast'
 import translate from '../../helpers/translate'
+import { Container } from '../../components/Container/Container'
+import _ from 'lodash'
+import { Loading } from '../../components/Loading/Loading'
 
 function Company() {
   const companyService = companyApi()
@@ -61,9 +64,24 @@ function Company() {
   }
 
   async function getAllCompanies() {
-    const companies = await companyService.getAllCompanies()
+    const companies = await companyService.getCompanyByTicketStatus('OPEN')
 
-    setCompany(companies)
+    const mappedCompanies = _.map(companies, ({ company, total }) => {
+      return {
+        id: company?.id,
+        corporateName: company.corporateName,
+        cnpj: company.cnpj,
+        state: company.state,
+        city: company.city,
+        cep: company.cep,
+        neighborhood: company.neighborhood,
+        street: company.street,
+        number: company.number,
+        complement: company.complement,
+        total,
+      }
+    })
+    setCompany(mappedCompanies)
   }
 
   useEffect(() => {
@@ -237,12 +255,16 @@ function Company() {
           <Button onClick={handleOpenModal}>Cadastrar Empresa</Button>
         </div>
 
-        <h1 className="text-3xl	text-white">Empresas</h1>
+        <h1 className="text-3xl	text-white">{translate('commom.company')}</h1>
       </div>
 
-      <div className="mt-16 bg-white rounded-lg p-2">
-        <CompanyTable companies={company} />
-      </div>
+      <Container>
+        {_.isEmpty(company) ? (
+          <Loading />
+        ) : (
+          <CompanyTable companies={company} />
+        )}
+      </Container>
     </div>
   )
 }

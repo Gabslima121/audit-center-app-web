@@ -12,6 +12,8 @@ export type AuthContextProps = {
   isSuperAdmin: boolean;
   isAuditor: boolean;
   isAnalyst: boolean;
+  userCompanyId: string;
+  userCompany: any;
   // logout: () => void;
 }
 

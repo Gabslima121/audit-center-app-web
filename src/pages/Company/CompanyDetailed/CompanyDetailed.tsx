@@ -22,7 +22,7 @@ const COMPANY_INITIAL_STATE = {
 
 function CompanyDetailed() {
   const companyService = companyApi()
-  const { company, companyId } = useContext(CompanyContext)
+  const { company, selectedCompanyId } = useContext(CompanyContext)
   const [companyInfo, setCompanyInfo] = useState({
     ...COMPANY_INITIAL_STATE,
   })
@@ -49,7 +49,7 @@ function CompanyDetailed() {
     } = companyInfo
 
     try {
-      await companyService.updateCompanyById(companyId, {
+      await companyService.updateCompanyById(selectedCompanyId, {
         corporateName,
         cnpj,
         cep,

@@ -48,9 +48,12 @@ export const userApi = () => ({
     return data
   },
 
-  getUserByCompanyId: async (companyId: string) => {
+  getUserByCompanyIdAndDepartmentId: async (
+    companyId: string,
+    departmentId: string,
+  ) => {
     const { status, data } = await api.get(
-      `/user/get-user-by-company/${companyId}`,
+      `/user/get-user-by-company-and-department/${companyId}/${departmentId}`,
       headers,
     )
 
@@ -60,4 +63,63 @@ export const userApi = () => ({
 
     return data
   },
+
+  deleteUserById: async (id: string) => {
+    const { status, data } = await api.delete(`/user/delete/${id}`, headers)
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  },
+
+  createUser: async (user: any) => {
+    const { status, data } = await api.post('/user/create', user, headers)
+
+    if (status !== 201) {
+      return data?.response?.data?.message
+    }
+
+    return {
+      status: 200,
+      message: 'user_created',
+    }
+  },
+
+  getAuditorByCompanyId: async (companyId: string) => {
+    const { status, data } = await api.get(
+      `/user/get-auditor-by-company/${companyId}`,
+      headers,
+    )
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  },
+
+  getAnalystByCompanyId: async (companyId: string) => {
+    const { status, data } = await api.get(
+      `/user/get-analysts-by-company/${companyId}`,
+      headers,
+    )
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  },
+
+  getUserById: async (id: any) => {
+    const { status, data } = await api.get(`/user/${id}`, headers)
+
+    if (status !== 200) {
+      return data.response.data.message
+    }
+
+    return data
+  }
 })

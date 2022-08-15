@@ -1,0 +1,9 @@
+{
+  "department.create_department": "Criar Departamento",
+  "department.name": "Nome",
+  "department.company": "Empresa",
+  "department.create_description": "Preencha as informações abaixo para cadastrar um novo departamento",
+  "department.description": "Descrição",
+  "department.created": "Departamento criado com sucesso",
+  "department.confirm_delete": "Deseja realmente excluir este departamento?"
+}

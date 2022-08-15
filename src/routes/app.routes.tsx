@@ -8,13 +8,16 @@ import { RequireAuth } from '../contexts/Auth/RequireAuth'
 import { Header } from '../components/Header/Header'
 import { Graphs } from '../pages/Graphs/Graphs'
 import { Content } from '../components/Content/Content'
-import { User } from '../pages/User/User'
+import { User } from '../pages/User/SuperAdmin/User'
 import { MyProfile } from '../pages/MyProfile/MyProfile'
 import { CompanyDetailed } from '../pages/Company/CompanyDetailed/CompanyDetailed'
 import { CompanyProvider } from '../contexts/Company/CompanyProvider'
 import { CompanyTickets } from '../pages/Company/CompanyDetailed/CompanyTickets/CompanyTickets'
 import { CompanySLA } from '../pages/Company/CompanyDetailed/CompanySLA/CompanySLA'
 import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed/TicketDetailed'
+import { UserEdit } from '../pages/User/SuperAdmin/UserEdit/UserEdit'
+import { CompanyTicketsEdit } from '../pages/Company/CompanyDetailed/CompanyTicketsEdit/CompanyTicketsEdit'
+import { CompanyDepartments } from '../pages/Company/CompanyDetailed/CompanyDepartments/CompanyDepartments'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -71,7 +74,7 @@ const AppRoutes: React.FC = () => {
                 path={`/ticket/detailed/:id`}
                 element={
                   <RequireAuth>
-                    <TicketDetailed />
+                    <TicketDetailed currentUrl="/ticket/detailed/:id" />
                   </RequireAuth>
                 }
               />
@@ -83,7 +86,7 @@ const AppRoutes: React.FC = () => {
                   </RequireAuth>
                 }
               />
-               <Route
+              <Route
                 path={`/company/detailed/tickets/:id`}
                 element={
                   <RequireAuth>
@@ -92,10 +95,34 @@ const AppRoutes: React.FC = () => {
                 }
               />
               <Route
+                path={`/company/detailed/departments/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanyDepartments />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={`/company/detailed/tickets/:id/edit-ticket/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanyTicketsEdit />
+                  </RequireAuth>
+                }
+              />
+              <Route
                 path={`/company/detailed/define-sla/:id`}
                 element={
                   <RequireAuth>
                     <CompanySLA />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={'/user/edit/:id'}
+                element={
+                  <RequireAuth>
+                    <UserEdit />
                   </RequireAuth>
                 }
               />

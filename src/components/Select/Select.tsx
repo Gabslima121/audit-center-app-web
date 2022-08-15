@@ -2,6 +2,7 @@ interface OptionObject {
   id?: string
   name?: string
   corporateName?: string
+  label?: string
 }
 
 interface SelectProps {
@@ -21,7 +22,7 @@ function Select(props: SelectProps) {
       <option>{props.placeholder}</option>
       {props?.options.map(item => (
         <option key={item?.id} value={item?.id}>
-          {item?.name || item?.corporateName}
+          {item?.name || item?.corporateName || item?.label}
         </option>
       ))}
     </select>

@@ -50,6 +50,14 @@ export const auditApi = () => ({
     return data
   },
 
+  getAduditsByAnalyst: async () => {
+    const { status, data } = await api.get('/tickets/get-by-analyst', headers)
+
+    if (status !== 200) return data
+
+    return data
+  },
+
   getAuditByCompany: async (companyId: string) => {
     const { status, data } = await api.get(
       `/tickets/get-by-company/${companyId}`,
@@ -79,7 +87,15 @@ export const auditApi = () => ({
     )
 
     if (status !== 200) return data
-      console.log(data)
+
     return data
   },
+
+  deleteTicketById: async (id: string) => {
+    const { status, data } = await api.delete(`/tickets/delete/${id}`, headers)
+
+    if (status !== 200) return data
+
+    return data
+  }
 })

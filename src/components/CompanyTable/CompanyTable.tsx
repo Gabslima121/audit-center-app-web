@@ -7,19 +7,19 @@ import { companyApi } from '../../hooks/api/companyApi'
 import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
 
 import trash from '../../assets/img/trash.svg'
+import { customStyles } from '../../utils/tableStyle'
 
 interface CompanyTableProps {
   companies: any[]
 }
 
 function CompanyTable({ companies }: CompanyTableProps) {
-  
   const companySerivce = companyApi()
-  const { companyHeaders, modalIsOpen, setModalIsOpen, companyId } =
+  const { companyHeaders, modalIsOpen, setModalIsOpen, incomingCompanyId } =
     useCompanyTable()
 
   async function handleExcludeCompany() {
-    const response = await companySerivce.deleteCompany(companyId)
+    const response = await companySerivce.deleteCompany(incomingCompanyId)
 
     if (response) {
       sucessMessage(translate('company_deleted'))
@@ -41,6 +41,7 @@ function CompanyTable({ companies }: CompanyTableProps) {
         pagination={true}
         paginationTotalRows={companies?.length}
         noDataComponent={translate('no_company_registered')}
+        customStyles={customStyles}
       />
 
       <div>
@@ -58,13 +59,13 @@ function CompanyTable({ companies }: CompanyTableProps) {
           <ModalFooter>
             <button
               onClick={handleExcludeCompany}
-              className="border-1 border-button_exclude-100 text-button_exclude-100 w-full p-1 rounded-md"
+              className="border-1 border-button_exclude-200 text-button_exclude-200 hover:bg-button_exclude-100 w-full p-1 rounded-md"
             >
               {translate('exclude')}
             </button>
             <button
               onClick={() => setModalIsOpen(false)}
-              className="border-1 border-brand-100 text-brand-100 w-full p-1 rounded-md"
+              className="border-1 border-brand-100 text-brand-100 hover:bg-brand-90 w-full p-1 rounded-md"
             >
               {translate('back')}
             </button>

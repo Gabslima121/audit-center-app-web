@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { companyApi } from '../../hooks/api/companyApi'
 import { CompanyType } from '../../types/Company/CompanyType'
+import { setLocalStorage } from '../../utils/localStorage'
+import { AuthContext } from '../Auth/AuthContext'
 import { CompanyContext } from './CompanyContext'
 
 export const CompanyProvider = ({ children }: { children: JSX.Element }) => {
   const companyService = companyApi()
-  const [companyId, setCompanyId] = useState('') as [
+  const { isAuditor, userCompanyId, isAdmin, isAnalyst } =
+    useContext(AuthContext)
+  const [selectedCompanyId, setSelectedCompanyId] = useState('') as [
     string,
-    (companyId: string | null) => void,
+    (selectedCompanyId: string | null) => void,
   ]
   const [company, setCompany] = useState() as [
     CompanyType,
@@ -18,7 +22,7 @@ export const CompanyProvider = ({ children }: { children: JSX.Element }) => {
   //TODO - Fazer o contexto da company
 
   const getCompanyById = async () => {
-    const companyExists = await companyService.getCompanyById(companyId)
+    const companyExists = await companyService.getCompanyById(selectedCompanyId)
 
     if (companyExists) {
       setCompany(companyExists)
@@ -26,19 +30,29 @@ export const CompanyProvider = ({ children }: { children: JSX.Element }) => {
     }
   }
 
+  // const handleSetUserCompanyId = () => {
+
+  // }
+
   useEffect(() => {
-    if (companyId) {
+    if (selectedCompanyId) {
       getCompanyById()
-      localStorage.setItem('companyId', companyId)
+      setLocalStorage('companyId', selectedCompanyId)
+      return
     }
-  }, [companyId])
+
+    if (isAuditor || isAnalyst || isAdmin) {
+      setLocalStorage('companyId', userCompanyId)
+      return
+    }
+  }, [userCompanyId, selectedCompanyId])
 
   return (
     <CompanyContext.Provider
       value={{
-        companyId,
+        selectedCompanyId,
         company,
-        setCompanyId,
+        setSelectedCompanyId,
         setCompany,
       }}
     >

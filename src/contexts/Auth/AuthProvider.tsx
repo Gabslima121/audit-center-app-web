@@ -1,17 +1,23 @@
 import _ from 'lodash'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { userApi } from '../../hooks/api/userApi'
 import { UserType } from '../../types/UserType'
+import { setLocalStorage } from '../../utils/localStorage'
 import { AuthContext } from './AuthContext'
+import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
+import translate from '../../helpers/translate'
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const navigate = useNavigate()
   const api = userApi()
   const [user, setUser] = useState() as [UserType, (user: UserType) => void]
   const [roles, setRoles] = useState([])
   const [token, setToken] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
+  const [userCompanyId, setUserCompanyId] = useState('')
+  const [userCompany, setUserCompany] = useState()
   const [isSuperAdmin, setIsSuperAdmin] = useState(false)
   const [isAuditor, setIsAuditor] = useState(false)
   const [isAnalyst, setIsAnalyst] = useState(false)
@@ -19,12 +25,33 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const sigin = async (email: string, password: string) => {
     const data = await api.signin(email, password)
 
-    setUser(data?.user)
-    setRoles(data?.user?.roles)
-    setToken(data?.accessToken)
+    if (data) {
+      setUserStorageInfo(data, data?.accessToken)
+      sucessMessage(`${translate('user_connected')} ${data?.user?.name}`)
+      return data
+    }
 
-    localStorage.setItem('user', JSON.stringify(data?.user))
-    localStorage.setItem('authorization', data?.accessToken)
+    errorMessage(data.error)
+    return null
+  }
+
+  const setUserStorageInfo = (data: any, accessToken: string) => {
+    const { user } = data
+
+    setUser(user)
+    setRoles(user?.roles)
+    setToken(accessToken)
+    setUserCompanyId(user?.companyId)
+    setUserCompany(user?.company)
+
+    setLocalStorage('user', user)
+    setLocalStorage('authorization', accessToken)
+
+    if (user?.companyId && user?.company) {
+      setLocalStorage('companyId', user?.companyId)
+      setLocalStorage('company', user?.company)
+    }
+
     return data
   }
 
@@ -32,7 +59,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const roleName: string[] = _.map(roles, 'name')
 
     const adminRoles =
-      _.includes(roleName, 'ADMIN') && _.includes(roleName, 'SUPER_ADMIN')
+      _.includes(roleName, 'ADMIN') || _.includes(roleName, 'SUPER_ADMIN')
 
     const auditorRole = _.includes(roleName, 'AUDITOR')
 
@@ -41,24 +68,16 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     if (adminRoles) {
       setIsAdmin(true)
       setIsSuperAdmin(true)
-      setIsAnalyst(false)
-      setIsAuditor(false)
       return
     }
 
     if (auditorRole) {
       setIsAuditor(true)
-      setIsAdmin(false)
-      setIsSuperAdmin(false)
-      setIsAnalyst(false)
       return
     }
 
     if (analystRole) {
       setIsAnalyst(true)
-      setIsAdmin(false)
-      setIsSuperAdmin(false)
-      setIsAuditor(false)
       return
     }
   }
@@ -66,13 +85,22 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const validateToken = async () => {
     const tokenData = localStorage.getItem('authorization')
 
-    const { accessToken, payload } = await api.validateToken(tokenData!)
+    const data = await api.validateToken(tokenData!)
 
-    setUser(payload)
-    setRoles(payload.roles)
-    setToken(accessToken)
-    localStorage.setItem('authorization', accessToken)
+    setUserStorageInfo(data, data?.accessToken)
+
+    return data
   }
+
+  useEffect(() => {
+    if (user && isSuperAdmin) {
+      return navigate('/home')
+    }
+
+    if (user && (isAdmin || isAuditor || isAnalyst)) {
+      return navigate(`/company/detailed/tickets/${user?.companyId}`)
+    }
+  }, [isAuditor, isAdmin, isAnalyst, isSuperAdmin, user])
 
   useEffect(() => {
     validateToken()
@@ -80,7 +108,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
   useEffect(() => {
     getRoles()
-  }, [user, roles])
+  }, [roles])
 
   return (
     <AuthContext.Provider
@@ -93,6 +121,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         isSuperAdmin,
         isAuditor,
         isAnalyst,
+        userCompanyId,
+        userCompany,
       }}
     >
       {children}

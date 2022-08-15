@@ -19,6 +19,9 @@ module.exports = {
         },
         table_background: {
           100: "#DCDCDC"
+        },
+        exclude_text : {
+          100: '#cc2828'
         }
       },
       borderRadius: {

@@ -7,6 +7,18 @@
   "user.roles": "Permissões",
   "user.total_audits": "Número total de Auditorias",
   "user.total_pending_audits": "Número total de auditorias Pendentes",
-  "user.total_done_audits" : "Número de auditorias concluídas",
-  "user.select_role": "Selecione uma permissão"
+  "user.total_done_audits": "Número de auditorias concluídas",
+  "user.select_role": "Selecione uma permissão",
+  "user.no_found": "Nenhum usuário Registrado",
+  "user_deleted": "Usuário deletado com sucesso",
+  "user_not_deleted": "Não foi possível deletar o usuário",
+  "user.add_modal.title": "Criação de Usuário",
+  "user.add_modal.info": "Preencha as informações abaixo para cadastrar um novo usuário",
+  "user.company.corporate_name": "Nome da Empresa",
+  "user_created": "Usuário criado com sucesso",
+  "user_not_created": "Não foi possível criar o usuário",
+  "user.edit_info": "Editar Usuário",
+  "user.company": "Empresa",
+  "user.department": "Departamento",
+  "user.confirm_delete": "Deseja deletar este usuário?"
 }

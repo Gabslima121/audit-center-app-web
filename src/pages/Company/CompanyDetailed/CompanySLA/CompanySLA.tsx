@@ -1,14 +1,16 @@
+import _ from 'lodash'
 import { useContext, useEffect, useState } from 'react'
 import { Button } from '../../../../components/Button/Button'
 import { CompanySlaTable } from '../../../../components/CompanySlaTable/CompanySlaTable'
 import { Container } from '../../../../components/Container/Container'
+import { Loading } from '../../../../components/Loading/Loading'
 import { CompanyContext } from '../../../../contexts/Company/CompanyContext'
 import translate from '../../../../helpers/translate'
 import { slaApi } from '../../../../hooks/api/slaApi'
 import { AddSlaModal } from './AddSlaModal/AddSlaModal'
 
 function CompanySLA() {
-  const { companyId } = useContext(CompanyContext)
+  const { selectedCompanyId } = useContext(CompanyContext)
   const slaService = slaApi()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [sla, setSla] = useState([])
@@ -22,14 +24,14 @@ function CompanySLA() {
   }
 
   const getAllSlaByCompany = async () => {
-    const slaData = await slaService.getAllSlaByCompany(companyId)
+    const slaData = await slaService.getAllSlaByCompany(selectedCompanyId)
 
     setSla(slaData)
   }
 
   useEffect(() => {
     getAllSlaByCompany()
-  }, [modalIsOpen, sla])
+  }, [modalIsOpen])
 
   return (
     <div className="flex-auto mt-5">
@@ -44,7 +46,7 @@ function CompanySLA() {
       </div>
 
       <Container>
-        <CompanySlaTable sla={sla} />
+        {_.isEmpty(sla) ? <Loading /> : <CompanySlaTable sla={sla} />}
       </Container>
     </div>
   )

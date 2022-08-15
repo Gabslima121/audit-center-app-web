@@ -8,5 +8,7 @@
   "sla_creation_description": "Preencha as informações abaixo para cadastrar um novo sla",
   "sla.company": "Empresa",
   "sla_type_placeholder": "Medida de tempo",
-  "no_sla_registered": "Nenhum SLA cadastrado"
+  "no_sla_registered": "Nenhum SLA cadastrado",
+  "sla_deleted": "SLA deletado com sucesso",
+  "sla_not_deleted": "Não foi possível deletar o SLA"
 }
