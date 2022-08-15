@@ -17,8 +17,7 @@ import { CompanySLA } from '../pages/Company/CompanyDetailed/CompanySLA/CompanyS
 import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed/TicketDetailed'
 import { UserEdit } from '../pages/User/SuperAdmin/UserEdit/UserEdit'
 import { CompanyTicketsEdit } from '../pages/Company/CompanyDetailed/CompanyTicketsEdit/CompanyTicketsEdit'
-import { AuthContext } from '../contexts/Auth/AuthContext'
-import { useContext } from 'react'
+import { CompanyDepartments } from '../pages/Company/CompanyDetailed/CompanyDepartments/CompanyDepartments'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -92,6 +91,14 @@ const AppRoutes: React.FC = () => {
                 element={
                   <RequireAuth>
                     <CompanyTickets />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={`/company/detailed/departments/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanyDepartments />
                   </RequireAuth>
                 }
               />

@@ -26,5 +26,6 @@
   "delete_sla_confirmation" : "Tem certeza que deseja excluir este SLA?",
   "user_connected": "Usuário conectado",
   "cancel": "Cancelar",
-  "add_audit": "Cadastrar Auditoria"
+  "add_audit": "Cadastrar Auditoria",
+  "departments": "Departamentos"
 }

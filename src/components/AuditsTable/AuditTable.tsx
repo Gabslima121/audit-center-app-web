@@ -8,12 +8,14 @@ import trash from '../../assets/img/trash.svg'
 import { auditApi } from '../../hooks/api/auditApi'
 import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
 import { customStyles } from '../../utils/tableStyle'
+import { useEffect } from 'react'
 
 interface AuditTableProps {
   audits: any[]
+  getAllTickets: () => void
 }
 
-function AuditTable({ audits }: AuditTableProps) {
+function AuditTable({ audits, getAllTickets}: AuditTableProps) {
   const auditService = auditApi()
   const { auditHeaders, modalIsOpen, setModalIsOpen, ticketId } =
     useAuditTable()
@@ -29,6 +31,10 @@ function AuditTable({ audits }: AuditTableProps) {
 
     errorMessage(translate('ticket_not_deleted'))
   }
+
+  useEffect(() => {
+    getAllTickets()
+  }, [modalIsOpen])
 
   return (
     <>

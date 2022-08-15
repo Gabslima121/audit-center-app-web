@@ -140,6 +140,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   }
 
   const addFormFields = () => {
+    console.log(formValues)
     setFormValues((prevState: typeof formValues) => ({
       ...prevState,
       ...TICKET_ITEM_INITIAL_STATE,
@@ -179,10 +180,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       getTicketItemById()
     }
   }, [id, companyId])
-
-  useEffect(() => {
-    console.log(analystsOptions)
-  }, [analystsOptions])
 
   return (
     <div className="flex-auto mt-5">
@@ -384,7 +381,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       <TicketItemInfo
                         item={item?.item}
                         status={item?.status}
-                        description={item.description}
+                        description={item?.description}
                         key={item?.id}
                       />
                     ))}

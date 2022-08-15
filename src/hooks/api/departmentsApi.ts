@@ -20,5 +20,19 @@ export const departmentsApi = () => ({
     }
 
     return data
+  },
+
+  createDepartment: async (department: any, companyId: any) => {
+    const { status, data } = await api.post(
+      `departments/create/${companyId}`,
+      department,
+      headers,
+    )
+
+    if (status !== 201) {
+      return data.response.data.message
+    }
+
+    return data
   }
 })

@@ -19,5 +19,6 @@
   "user_not_created": "Não foi possível criar o usuário",
   "user.edit_info": "Editar Usuário",
   "user.company": "Empresa",
-  "user.department": "Departamento"
+  "user.department": "Departamento",
+  "user.confirm_delete": "Deseja deletar este usuário?"
 }

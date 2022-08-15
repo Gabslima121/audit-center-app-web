@@ -1,4 +1,4 @@
-import { ChartBar, Clock, Notepad, Ticket, User } from 'phosphor-react'
+import { ChartBar, Clock, DiamondsFour, Notepad, Ticket, User } from 'phosphor-react'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -19,7 +19,7 @@ export function CompanyMenu() {
 
   return (
     <div className="flex flex-col mt-9 flex-auto">
-      <Link to={`/company/detailed/tickets/${selectedCompanyId || userCompanyId}`} className="my-2">
+      <Link to={`/company/detailed/tickets/${selectedCompanyId || userCompanyId}`} className="my-2 hover:text-brand-300">
         <Ticket size={25} className="ml-2 float-left" />
         <p className="ml-10 mt-px text-base">{translate('menu.tickets')}</p>
       </Link>
@@ -28,28 +28,36 @@ export function CompanyMenu() {
         <>
           <Link
             to={`/company/detailed/define-sla/${selectedCompanyId}`}
-            className="my-2"
+            className="my-2 hover:text-brand-300"
           >
             <Clock size={25} className="ml-2 float-left" />
             <p className="ml-10 mt-px text-base">{translate('define_sla')}</p>
           </Link>
+
+          <Link
+            to={`/company/detailed/departments/${selectedCompanyId}`}
+            className="my-2 hover:text-brand-300"
+          >
+            <DiamondsFour size={25} className="ml-2 float-left" />
+            <p className="ml-10 mt-px text-base">{translate('departments')}</p>
+          </Link>
         </>
       )}
 
-      <Link to="/graphs" className="my-2">
+      <Link to="/graphs" className="my-2 hover:text-brand-300">
         <ChartBar size={25} className="ml-2 float-left" />
         <p className="ml-10 mt-px text-base">{translate('graphs')}</p>
       </Link>
 
       {isSuperAdmin && (
         <>
-          <Link to={`/company/detailed/${selectedCompanyId}`} className="my-2">
+          <Link to={`/company/detailed/${selectedCompanyId}`} className="my-2 hover:text-brand-300">
             <Notepad size={25} className="ml-2 float-left" />
             <p className="ml-10 mt-px text-base">
               {translate('company.details')}
             </p>
           </Link>
-          <Link to="/home" className="my-2">
+          <Link to="/home" className="my-2 hover:text-brand-300">
             <User size={25} className="ml-2 float-left" />
             <p
               onClick={handleExcludeCompanyInfo}

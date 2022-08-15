@@ -1,68 +1,52 @@
-import { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { Modal, ModalBody, ModalFooter } from 'reactstrap'
 import translate from '../../helpers/translate'
-import { useUserTable } from './useUserTable'
-import trash from '../../assets/img/trash.svg'
-import { userApi } from '../../hooks/api/userApi'
-import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
-import { customStyles } from '../../utils/tableStyle'
 
-export interface UserTableProps {
-  user: any[]
-  getAllUsers: () => void
+import trash from '../../assets/img/trash.svg'
+import { customStyles } from '../../utils/tableStyle'
+import { useCompanyDepartmentsTable } from './useCompanyDepartmentsTable'
+
+interface CompanyDepartmentsTableProps {
+  departments: any[]
 }
 
-function UserTable({ user, getAllUsers }: UserTableProps) {
-  const userService = userApi()
-  const { userHeaders, incomingUserId, modalIsOpen, setModalIsOpen } =
-    useUserTable()
-
-  const handleExcludeUser = async () => {
-    const response = await userService.deleteUserById(incomingUserId)
-
-    if (response) {
-      sucessMessage(translate('user_deleted'))
-      setModalIsOpen(false)
-      return
-    }
-
-    errorMessage(translate('user_not_deleted'))
-  }
-
-  useEffect(() => {
-    getAllUsers()
-  }, [modalIsOpen])
-
+function CompanyDepartmentsTable({
+  departments,
+}: CompanyDepartmentsTableProps) {
+  const { departmentsHeaders, modalIsOpen, deparmentId, setModalIsOpen } =
+    useCompanyDepartmentsTable()
   return (
     <>
       <DataTable
-        columns={userHeaders}
-        data={user}
+        columns={departmentsHeaders}
+        data={departments}
         responsive
         highlightOnHover
         dense
         pagination={true}
-        paginationTotalRows={user?.length}
-        noDataComponent={translate('user.no_found')}
+        paginationTotalRows={departments?.length}
+        noDataComponent={translate('no_sla_registered')}
         customStyles={customStyles}
       />
 
       <div>
-        <Modal isOpen={modalIsOpen} className="mt-28">
+        <Modal
+          isOpen={modalIsOpen}
+          className="mt-28"
+        >
           <div className="ml-modal-trash items-center">
             <img src={trash} alt="Imagem de um lixo" />
           </div>
 
           <ModalBody>
             <h2 className="text-center text-2xl">
-              {translate('user.confirm_delete')}
+              {translate('department.confirm_delete')}
             </h2>
           </ModalBody>
 
           <ModalFooter>
             <button
-              onClick={handleExcludeUser}
+              // onClick={handleExcludeSla}
               className="border-1 border-button_exclude-200 text-button_exclude-200 hover:bg-button_exclude-100 w-full p-1 rounded-md"
             >
               {translate('exclude')}
@@ -80,4 +64,4 @@ function UserTable({ user, getAllUsers }: UserTableProps) {
   )
 }
 
-export { UserTable }
+export { CompanyDepartmentsTable }
