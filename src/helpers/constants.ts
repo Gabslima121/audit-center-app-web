@@ -47,19 +47,15 @@ export const AUDIT_STATUS = {
 
 export const AUDIT_ITEMS_STATUS: object[] = [
   {
-    id: 1,
     name: 'PENDING',
   },
   {
-    id: 2,
     name: 'IN_PROGRESS',
   },
   {
-    id: 3,
     name: 'DONE',
   },
   {
-    id: 4,
     name: 'CANCELED',
   },
 ]

@@ -10,28 +10,28 @@ export function Menu() {
 
   return (
     <div className="flex flex-col mt-9 flex-auto">
-      <Link to="/home" className="my-2">
+      <Link to="/home" className="my-2 hover:text-brand-300">
         <House size={25} className="ml-2 float-left" />
-        <p className="ml-10 mt-px">Página Inicial</p>
+        <p className="ml-10 mt-px">{translate('admin.menu.home')}</p>
       </Link>
 
       {isSuperAdmin && (
         <>
-          <Link to="/users" className="my-2">
+          <Link to="/users" className="my-2 hover:text-brand-300">
             <User size={25} className="ml-2 float-left" />
-            <p className="ml-10 mt-px">Usuários</p>
+            <p className="ml-10 mt-px">{translate('admin.menu.users')}</p>
           </Link>
 
-          <Link to="/companys" className="my-2">
+          <Link to="/companys" className="my-2 hover:text-brand-300">
             <Buildings size={25} className="ml-2 float-left" />
-            <p className="ml-10 mt-px">{translate('commom.company')}</p>
+            <p className="ml-10 mt-px">{translate('admin.menu.companies')}</p>
           </Link>
         </>
       )}
 
-      <Link to="/graphs" className="my-2">
+      <Link to="/graphs" className="my-2 hover:text-brand-300">
         <ChartBar size={25} className="ml-2 float-left" />
-        <p className="ml-10 mt-px">Gráficos</p>
+        <p className="ml-10 mt-px">{translate('admin.menu.graphs')}</p>
       </Link>
     </div>
   )

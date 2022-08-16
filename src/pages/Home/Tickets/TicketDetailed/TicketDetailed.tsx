@@ -50,10 +50,12 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const [auditorOptions, setAuditorOptions] = useState<any>([])
   const [analystsOptions, setAnalystsOptions] = useState<any>([])
   const [departmentOptions, setDepartmentOptions] = useState<any>([])
+
+  //TODO refactor this states
   const [ticketItemInfo, setTicketItemInfo] = useState(
     TICKET_ITEM_INITIAL_STATE,
   )
-  const [formList, setFormList] = useState([[ticketItemInfo]])
+  const [formList, setFormList] = useState(TICKET_ITEM_INITIAL_STATE)
 
   const getTicektData = async () => {
     const ticket = await auditSerivce.getAuditById(id)
@@ -131,12 +133,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   }
 
   const handleAddFormList = () => {
-    setFormList(prevState => [
-      ...prevState,
-      {
-        ...ticketItemInfo,
-      },
-    ])
+    setFormList(prevState => [...prevState, ...TICKET_ITEM_INITIAL_STATE])
   }
 
   const handleRemoveFormList = (index: number) => {
@@ -160,15 +157,17 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const getTicketItemById = async () => {
     const response = await ticketItemService.getTicketItemByTicketId(id)
 
-    forEach(response, ticketItem => {
-      setTicketItemInfo((prevState: typeof ticketItemInfo) => ({
-        ...prevState,
+    const mappedResponse = _.map(response, (ticketItem: any) => {
+      return {
         item: ticketItem?.item,
         description: ticketItem?.description,
         status: ticketItem?.status,
         id: ticketItem?.id,
-      }))
+      }
     })
+
+    setTicketItemInfo(mappedResponse)
+    setFormList(mappedResponse)
   }
 
   async function handleUpdateTicketInfo() {
@@ -204,6 +203,10 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       getTicketItemById()
     }
   }, [id, companyId])
+
+  useEffect(() => {
+    console.log(formList)
+  }, [formList])
 
   return (
     <div className="flex-auto mt-5">
@@ -401,7 +404,10 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
               <div className="m-4">
                 <form>
                   {formList.map((formItem: any, index: any) => (
-                    <div key={formItem?.id} className="grid grid-cols-5 gap-3 mt-3">
+                    <div
+                      key={formItem?.id}
+                      className="grid grid-cols-5 gap-3 mt-3"
+                    >
                       <div className="col-span-1.5">
                         <Label
                           htmlFor="item"
@@ -420,13 +426,13 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
 
                       <div key={index} className="col-span-1.5">
                         <Label
-                          htmlFor="itemStatus"
+                          htmlFor="status"
                           text={translate('ticket_item_status')}
                           className="text-lg mb-1"
                         />
                         <Select
                           options={AUDIT_ITEMS_STATUS}
-                          id="itemStatus"
+                          id="status"
                           className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                           value={formItem?.status}
                           placeholder={translate(
@@ -440,12 +446,12 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
 
                       <div key={index}>
                         <Label
-                          htmlFor="itemDescription"
+                          htmlFor="description"
                           text={translate('ticket_item_description')}
                           className="text-lg mb-1"
                         />
                         <textarea
-                          id="itemDescription"
+                          id="description"
                           name="description"
                           className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                           value={formItem?.description}
@@ -453,7 +459,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                         />
                       </div>
 
-                      {formList.length > 1 && (
+                      {formList.length && (
                         <>
                           <div className="mt-14 w-7 ml-20">
                             <span className="cursor-pointer">
@@ -472,27 +478,25 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                           </div>
                         </>
                       )}
-
-                      {formList.length - 1 === index && (
-                        <div className="inline-grid col-span-2 grid-cols-2 items-center w-full">
-                          <div>
-                            <span className="text-brand-400">
-                              {translate('add_new_item')}
-                            </span>
-                          </div>
-
-                          <div>
-                            <PlusCircle
-                              onClick={handleAddFormList}
-                              size={24}
-                              color="#2885CC"
-                              className="cursor-pointer"
-                            />
-                          </div>
-                        </div>
-                      )}
                     </div>
                   ))}
+
+                  <div className="inline-grid col-span-2 grid-cols-2 items-center w-full mt-5">
+                    <div>
+                      <span className="text-brand-400">
+                        {translate('add_new_item')}
+                      </span>
+                    </div>
+
+                    <div>
+                      <PlusCircle
+                        onClick={handleAddFormList}
+                        size={24}
+                        color="#2885CC"
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
 
                   <div className="flex flex-row-reverse">
                     <div>

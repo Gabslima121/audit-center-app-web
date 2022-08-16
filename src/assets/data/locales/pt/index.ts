@@ -6,6 +6,7 @@ import roles from './roles.json'
 import sla from './sla.json'
 import departments from './departments.json'
 import graphs from './graphs.json'
+import menu from './menu.json'
 
 export default {
   ...user,
@@ -16,4 +17,5 @@ export default {
   ...sla,
   ...departments,
   ...graphs,
+  ...menu
 }
