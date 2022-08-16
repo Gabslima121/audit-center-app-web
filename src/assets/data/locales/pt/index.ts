@@ -5,6 +5,7 @@ import tickets from './tickets.json'
 import roles from './roles.json'
 import sla from './sla.json'
 import departments from './departments.json'
+import graphs from './graphs.json'
 
 export default {
   ...user,
@@ -14,4 +15,5 @@ export default {
   ...roles,
   ...sla,
   ...departments,
+  ...graphs,
 }
