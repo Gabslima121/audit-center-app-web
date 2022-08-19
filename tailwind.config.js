@@ -32,6 +32,7 @@ module.exports = {
         'header': '1059px'
       },
       height: {
+        'graphs': '650px',
         'custom': '700px'
       },
       margin: {

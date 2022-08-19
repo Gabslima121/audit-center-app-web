@@ -44,7 +44,11 @@ function Home() {
       </div>
 
       <Container>
-        {_.isEmpty(tickets) ? <Loading /> : <AuditTable audits={tickets} />}
+        {_.isEmpty(tickets) ? (
+          <Loading />
+        ) : (
+          <AuditTable audits={tickets} getAllTickets={getAllTickets} />
+        )}
       </Container>
     </div>
   )

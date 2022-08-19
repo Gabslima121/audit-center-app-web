@@ -14,4 +14,13 @@ export const roleApi = () => ({
       label: role.name,
     }))
   },
+
+  mapRoleName: (roles: any) => {
+    let roleName = ''
+    roles.forEach((role: any) => {
+      roleName = role.name
+    })
+
+    return roleName
+  },
 })

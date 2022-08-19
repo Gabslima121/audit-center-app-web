@@ -47,7 +47,11 @@ function User() {
       </div>
 
       <Container>
-        {_.isEmpty(userList) ? <Loading /> : <UserTable user={userList} />}
+        {_.isEmpty(userList) ? (
+          <Loading />
+        ) : (
+          <UserTable user={userList} getAllUsers={getAllUsers} />
+        )}
       </Container>
     </div>
   )

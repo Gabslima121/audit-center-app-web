@@ -4,6 +4,9 @@ import commom from './commom.json'
 import tickets from './tickets.json'
 import roles from './roles.json'
 import sla from './sla.json'
+import departments from './departments.json'
+import graphs from './graphs.json'
+import menu from './menu.json'
 
 export default {
   ...user,
@@ -11,5 +14,8 @@ export default {
   ...commom,
   ...tickets,
   ...roles,
-  ...sla
+  ...sla,
+  ...departments,
+  ...graphs,
+  ...menu
 }

@@ -1,32 +1,20 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { MultiSelect } from 'react-multi-select-component'
+import { useLocation } from 'react-router-dom'
 
 import translate from '../../helpers/translate'
 import { Button } from '../Button/Button'
 import { Input } from '../Input/Input'
 import { Label } from '../Label/Label'
-import { useFormEditUser } from './useFormEditUser'
+import { useFormUser } from './useFormEditUser'
 
 function FormEditUser() {
-  const {
-    allRoles,
-    handleChange,
-    handleUpdateUserInfo,
-    selectedRoles,
-    totalWithNoStatus,
-    totalWithStatus,
-    userInfo,
-    setSelectedRoles,
-    setCurrentUrl,
-    currentUrl,
-  } = useFormEditUser()
   const location = useLocation()
+  const { userInfo, setCurrentUrl, roleOptions, userRole, totalAudits } = useFormUser()
 
   useEffect(() => {
     setCurrentUrl(location.pathname.split('/'))
-    // console.log(userInfo)
-  }, [])
+  }, [location])
 
   return (
     <div className="mt-4">
@@ -44,7 +32,7 @@ function FormEditUser() {
               name="name"
               className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
               value={userInfo?.name}
-              onChange={handleChange}
+              // onChange={handleChange}
             />
           </div>
 
@@ -60,7 +48,7 @@ function FormEditUser() {
               name="email"
               className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
               value={userInfo?.email}
-              onChange={handleChange}
+              // onChange={handleChange}
             />
           </div>
 
@@ -85,15 +73,13 @@ function FormEditUser() {
               text={translate('user.roles')}
               className="text-base mb-1 opacity-60"
             />
-            <span className="ml-1 opacity-60">{`(${selectedRoles.length})`}</span>
+            {/* <span className="ml-1 opacity-60">{`(${selectedRoles.length})`}</span> */}
             <MultiSelect
               className="text-lg w-full  mr-2 opacity-80"
-              options={allRoles}
-              value={selectedRoles}
-              onChange={(selected: any) => setSelectedRoles(selected)}
-              labelledBy={'roles'}
-              hasSelectAll={false}
+              options={roleOptions}
+              value={userRole}
               disabled={true}
+              labelledBy={''}
             />
           </div>
 
@@ -108,7 +94,7 @@ function FormEditUser() {
               id="totalAudits"
               className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
               disabled={true}
-              value={totalWithNoStatus}
+              value={totalAudits}
             />
           </div>
 
@@ -123,30 +109,46 @@ function FormEditUser() {
               id="totalDoneAudits"
               className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
               disabled={true}
-              value={totalWithStatus}
+              // value={totalWithStatus}
             />
           </div>
 
-          {(currentUrl && currentUrl[1] === 'user' && currentUrl[2] === 'edit') && (
-            <div>
-              <Label
-                htmlFor="company"
-                text={translate('user.company')}
-                className="text-base mb-1 opacity-60"
-              />
-              <Input
-                type="text"
-                id="company"
-                className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
-                disabled={true}
-                value={userInfo.company?.corporateName}
-              />
-            </div>
-          )}
+          <div>
+            <Label
+              htmlFor="company"
+              text={translate('user.company')}
+              className="text-base mb-1 opacity-60"
+            />
+            <Input
+              type="text"
+              id="company"
+              className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
+              disabled={true}
+              value={userInfo?.companies?.corporateName}
+            />
+          </div>
+
+          <div>
+            <Label
+              htmlFor="department"
+              text={translate('user.department')}
+              className="text-base mb-1 opacity-60"
+            />
+            <Input
+              type="text"
+              id="department"
+              className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
+              disabled={true}
+              value={userInfo?.department?.name}
+            />
+          </div>
         </div>
         <div className="flex flex-row-reverse">
           <div>
-            <Button type="button" onClick={handleUpdateUserInfo}>
+            <Button
+              type="button"
+              // onClick={handleUpdateUserInfo}
+            >
               {translate('save_informations')}
             </Button>
           </div>

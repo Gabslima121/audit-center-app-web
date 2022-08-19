@@ -34,8 +34,6 @@ export const ticketsCommentsApi = () => ({
       headers,
     )
 
-    console.log(data)
-
     if (status !== 200) return data
 
     return data

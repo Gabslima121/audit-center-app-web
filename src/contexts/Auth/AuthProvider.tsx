@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     if (data) {
       setUserStorageInfo(data, data?.accessToken)
-      sucessMessage(translate('user_connected'))
+      sucessMessage(`${translate('user_connected')} ${data?.user?.name}`)
       return data
     }
 

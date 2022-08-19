@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import { MinusCircle, PlusCircle, Spinner } from 'phosphor-react'
+import _, { forEach } from 'lodash'
+import { Check, MinusCircle, PlusCircle, Spinner } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
@@ -11,13 +11,15 @@ import { Select } from '../../../../components/Select/Select'
 import translate from '../../../../helpers/translate'
 import { auditApi } from '../../../../hooks/api/auditApi'
 import { slaApi } from '../../../../hooks/api/slaApi'
-import { AUDIT_STATUS_ARRAY } from '../../../../helpers/constants'
+import {
+  AUDIT_ITEMS_STATUS,
+  AUDIT_STATUS_ARRAY,
+} from '../../../../helpers/constants'
 import { userApi } from '../../../../hooks/api/userApi'
 import { departmentsApi } from '../../../../hooks/api/departmentsApi'
-import { sucessMessage, errorMessage } from '../../../../utils/Toast/toast'
+import { sucessMessage } from '../../../../utils/Toast/toast'
 import { ticketItemApi } from '../../../../hooks/api/ticketItemApi'
 import { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE } from './schema'
-import { TicketItemInfo } from './TicketItemInfo'
 import { TicketComments } from './TicketComments'
 import { useTicketsDetailed } from './useTicketDetailed'
 
@@ -39,18 +41,21 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const userService = userApi()
   const ticketItemService = ticketItemApi()
   const departmentService = departmentsApi()
+
   const { id } = useParams()
+
   const [ticketInfo, setTicketInfo] = useState(TICKET_INITIAL_STATE)
   const [companyId, setCompanyId] = useState('')
   const [slaOptions, setSlaOptions] = useState<any>([])
-  const [userOptions, setUserOptions] = useState<any>([])
+  const [auditorOptions, setAuditorOptions] = useState<any>([])
+  const [analystsOptions, setAnalystsOptions] = useState<any>([])
   const [departmentOptions, setDepartmentOptions] = useState<any>([])
+
+  //TODO refactor this states
   const [ticketItemInfo, setTicketItemInfo] = useState(
     TICKET_ITEM_INITIAL_STATE,
   )
-  const [formValues, setFormValues] = useState({
-    ...TICKET_ITEM_INITIAL_STATE,
-  })
+  const [formList, setFormList] = useState(TICKET_ITEM_INITIAL_STATE)
 
   const getTicektData = async () => {
     const ticket = await auditSerivce.getAuditById(id)
@@ -89,36 +94,16 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     }))
   }
 
-  const getUserByCompany = async () => {
-    const users = await userService.getUserByCompanyId(companyId)
+  const getAuditorByCompany = async () => {
+    const auditors = await userService.getAuditorByCompanyId(companyId)
 
-    const mappedUsers = _.map(users, user => {
-      return {
-        id: user?.id,
-        name: user?.name,
-      }
-    })
+    setAuditorOptions(auditors)
+  }
 
-    const responsableUser = _.filter(users, (user: any) => {
-      return user?.id === ticketInfo?.responsable?.id
-    })
+  const getAnalystByCompany = async () => {
+    const analysts = await userService.getAnalystByCompanyId(companyId)
 
-    const analystUser = _.filter(users, (user: any) => {
-      return user?.id === ticketInfo?.analyst?.id
-    })
-
-    setUserOptions(mappedUsers)
-    setTicketInfo((prevState: typeof ticketInfo) => ({
-      ...prevState,
-      responsable: {
-        name: responsableUser[0]?.name,
-        id: responsableUser[0]?.id,
-      },
-      analyst: {
-        name: analystUser[0]?.name,
-        id: analystUser[0]?.id,
-      },
-    }))
+    setAnalystsOptions(analysts)
   }
 
   const getDepartmentByCompany = async () => {
@@ -147,24 +132,45 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     }))
   }
 
+  const handleAddFormList = () => {
+    setFormList(prevState => [...prevState, ...TICKET_ITEM_INITIAL_STATE])
+  }
+
+  const handleRemoveFormList = (index: number) => {
+    setFormList((prevState: typeof formList) => {
+      const newFormList = [...prevState]
+      newFormList.splice(index, 1)
+      return newFormList
+    })
+  }
+
+  const handleChangeFormList = (e: Event, index: any) => {
+    const { value, id } = e.target as HTMLInputElement
+
+    setFormList((prevState: typeof formList) => {
+      const newFormList = [...prevState]
+      newFormList[index][id] = value
+      return newFormList
+    })
+  }
+
   const getTicketItemById = async () => {
     const response = await ticketItemService.getTicketItemByTicketId(id)
 
-    if (response) {
-      setTicketItemInfo(response)
-      return
-    }
-  }
+    const mappedResponse = _.map(response, (ticketItem: any) => {
+      return {
+        item: ticketItem?.item,
+        description: ticketItem?.description,
+        status: ticketItem?.status,
+        id: ticketItem?.id,
+      }
+    })
 
-  const addFormFields = () => {
-    setFormValues((prevState: typeof formValues) => ({
-      ...prevState,
-      ...TICKET_ITEM_INITIAL_STATE,
-    }))
+    setTicketItemInfo(mappedResponse)
+    setFormList(mappedResponse)
   }
 
   async function handleUpdateTicketInfo() {
-    console.log(ticketInfo?.responsableArea?.id)
     const url = currentUrl.split('/')[1]
 
     const response = await auditSerivce.updateAudit(id, {
@@ -177,9 +183,9 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     })
 
     if (response) {
-      if (url === 'tickets'){
+      if (url === 'tickets') {
         sucessMessage(translate(`${response?.message}`))
-        return window.location.href = '/home'
+        return (window.location.href = '/home')
       } else {
         sucessMessage(translate(`${response?.message}`))
         navigate(-1)
@@ -191,15 +197,16 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     getTicektData()
     if (companyId) {
       getSlaByCompany()
-      getUserByCompany()
+      getAuditorByCompany()
+      getAnalystByCompany()
       getDepartmentByCompany()
       getTicketItemById()
     }
   }, [id, companyId])
 
   useEffect(() => {
-    console.log(ticketInfo)
-  }, [ticketInfo])
+    console.log(formList)
+  }, [formList])
 
   return (
     <div className="flex-auto mt-5">
@@ -222,7 +229,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       name="title"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                       value={ticketInfo?.title}
-                      onChange={() => handleChangeTicketData('title')}
+                      onChange={e => handleChangeTicketData('title', e)}
                     />
                   </div>
 
@@ -233,7 +240,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       className="text-lg mb-1"
                     />
                     <Select
-                      options={userOptions}
+                      options={auditorOptions}
                       id="responsable"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                       value={ticketInfo?.responsable?.id}
@@ -269,7 +276,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       className="text-lg mb-1"
                     />
                     <Select
-                      options={userOptions}
+                      options={analystsOptions}
                       id="analyst"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                       value={ticketInfo?.analyst?.id}
@@ -348,7 +355,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                   <div>
                     <Label
                       htmlFor="company"
-                      text={translate('company')}
+                      text={translate('commom.company')}
                       className="text-lg mb-1 opacity-60"
                     />
                     <Input
@@ -373,7 +380,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                     name="description"
                     className="p-2 resize-none rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                     value={ticketInfo?.description}
-                    onChange={() => handleChangeTicketData('description')}
+                    onChange={e => handleChangeTicketData('description', e)}
                   />
                 </div>
 
@@ -396,27 +403,99 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
 
               <div className="m-4">
                 <form>
-                  <div className="grid grid-cols-5 gap-3 mt-3">
-                    {ticketItemInfo.map((item, index) => (
-                      <TicketItemInfo
-                        item={item?.item}
-                        status={item?.status}
-                        description={item.description}
-                        key={item?.id}
-                      />
-                    ))}
-                  </div>
+                  {formList.map((formItem: any, index: any) => (
+                    <div
+                      key={formItem?.id}
+                      className="grid grid-cols-5 gap-3 mt-3"
+                    >
+                      <div className="col-span-1.5">
+                        <Label
+                          htmlFor="item"
+                          text={translate('ticket_item')}
+                          className="text-lg mb-1"
+                        />
+                        <Input
+                          type="text"
+                          id="item"
+                          name="item"
+                          className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                          value={formItem?.item}
+                          onChange={(e: any) => handleChangeFormList(e, index)}
+                        />
+                      </div>
 
-                  <div className="inline-grid grid-cols-2 m-3 items-center">
-                    <span className="mr-2 text-brand-400">
-                      {translate('add_new_item')}
-                    </span>
-                    <PlusCircle
-                      onClick={() => addFormFields()}
-                      size={24}
-                      color="#2885CC"
-                      className="cursor-pointer"
-                    />
+                      <div key={index} className="col-span-1.5">
+                        <Label
+                          htmlFor="status"
+                          text={translate('ticket_item_status')}
+                          className="text-lg mb-1"
+                        />
+                        <Select
+                          options={AUDIT_ITEMS_STATUS}
+                          id="status"
+                          className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                          value={formItem?.status}
+                          placeholder={translate(
+                            'ticket_item_status_placeholder',
+                          )}
+                          onChange={(e: any) =>
+                            handleChangeFormList(e?.target?.value, index)
+                          }
+                        />
+                      </div>
+
+                      <div key={index}>
+                        <Label
+                          htmlFor="description"
+                          text={translate('ticket_item_description')}
+                          className="text-lg mb-1"
+                        />
+                        <textarea
+                          id="description"
+                          name="description"
+                          className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                          value={formItem?.description}
+                          onChange={(e: any) => handleChangeFormList(e, index)}
+                        />
+                      </div>
+
+                      {formList.length && (
+                        <>
+                          <div className="mt-14 w-7 ml-20">
+                            <span className="cursor-pointer">
+                              <Check size={24} color="#40a700" />
+                            </span>
+                          </div>
+
+                          <div className="mt-14 w-7">
+                            <span className="cursor-pointer">
+                              <MinusCircle
+                                size={24}
+                                color="#cc2828"
+                                onClick={() => handleRemoveFormList(index)}
+                              />
+                            </span>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ))}
+
+                  <div className="inline-grid col-span-2 grid-cols-2 items-center w-full mt-5">
+                    <div>
+                      <span className="text-brand-400">
+                        {translate('add_new_item')}
+                      </span>
+                    </div>
+
+                    <div>
+                      <PlusCircle
+                        onClick={handleAddFormList}
+                        size={24}
+                        color="#2885CC"
+                        className="cursor-pointer"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-row-reverse">

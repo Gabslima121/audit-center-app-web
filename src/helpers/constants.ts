@@ -15,7 +15,7 @@ export const USER_ROLES: RoleItemType[] = [
   },
 ]
 
-export const AUDIT_STATUS_ARRAY: object[] = [
+export const AUDIT_STATUS_ARRAY = [
   {
     name: 'OPEN',
   },
@@ -59,3 +59,10 @@ export const AUDIT_ITEMS_STATUS: object[] = [
     name: 'CANCELED',
   },
 ]
+
+export const ROLES = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ADMIN: 'ADMIN',
+  AUDITOR: 'AUDITOR',
+  ANALYST: 'ANALYST',
+}

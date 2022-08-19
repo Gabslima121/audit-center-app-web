@@ -9,6 +9,7 @@ import { Label } from '../../../../components/Label/Label'
 import { Select } from '../../../../components/Select/Select'
 import translate from '../../../../helpers/translate'
 import { companyApi } from '../../../../hooks/api/companyApi'
+import { departmentsApi } from '../../../../hooks/api/departmentsApi'
 import { roleApi } from '../../../../hooks/api/roleApi'
 import { userApi } from '../../../../hooks/api/userApi'
 import { sucessMessage, errorMessage } from '../../../../utils/Toast/toast'
@@ -19,6 +20,7 @@ const USER_INITIAL_STATE = {
   companyId: '',
   cpf: '',
   roleId: '',
+  departmentId: '',
 }
 
 interface AddUserModalProps {
@@ -30,9 +32,12 @@ function AddUserModal({ isOpen, setIsOpen }: AddUserModalProps) {
   const companyService = companyApi()
   const roleService = roleApi()
   const userService = userApi()
+  const departmentService = departmentsApi()
+
   const [userInfo, setUserInfo] = useState({ ...USER_INITIAL_STATE })
   const [allCompanies, setAllCompanies] = useState<any>([])
   const [allRoles, setAllRoles] = useState<any>([])
+  const [allDepartments, setAllDepartments] = useState<any>([])
 
   const getCompanies = async () => {
     const companies = await companyService.getAllCompanies()
@@ -59,6 +64,12 @@ function AddUserModal({ isOpen, setIsOpen }: AddUserModalProps) {
     return errorMessage(translate('user_not_created'))
   }
 
+  const getAllDepartmentsByCompanyId = async () => {
+    const departments = await departmentService.getDepartmentsByCompanyId(userInfo?.companyId)
+
+    setAllDepartments(departments)
+  }
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     property: string,
@@ -76,6 +87,7 @@ function AddUserModal({ isOpen, setIsOpen }: AddUserModalProps) {
   useEffect(() => {
     getCompanies()
     getAllRoles()
+    getAllDepartmentsByCompanyId()
   }, [])
 
   return (
@@ -153,6 +165,22 @@ function AddUserModal({ isOpen, setIsOpen }: AddUserModalProps) {
                   className="p-2 rounded-lg w-full text-lg border-gray-500 focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                   value={userInfo?.companyId}
                   onChange={event => handleChange(event, 'companyId')}
+                />
+              </div>
+
+              <div>
+                <Label
+                  htmlFor="department"
+                  text={translate('user.department')}
+                  className="text-base mb-1"
+                />
+                <Select
+                  options={allDepartments}
+                  id="department"
+                  className="p-2 rounded-lg w-full text-lg border-gray-500 focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+                  value={userInfo?.departmentId}
+                  onChange={event => handleChange(event, 'departmentId')}
+                  disabled={!userInfo?.companyId}
                 />
               </div>
 

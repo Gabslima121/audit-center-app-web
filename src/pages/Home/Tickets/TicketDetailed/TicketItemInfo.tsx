@@ -6,31 +6,37 @@ import { AUDIT_ITEMS_STATUS } from '../../../../helpers/constants'
 import translate from '../../../../helpers/translate'
 
 interface TicketItemInfoProps {
-  item: string
-  status: string
-  description: string
+  formValue: [
+    {
+      item: string
+      status: string
+      description: string
+    },
+  ]
 }
 
-function TicketItemInfo({ description, item, status }: TicketItemInfoProps) {
+function TicketItemInfo({ formValue }: TicketItemInfoProps) {
   return (
     <>
-      <div className="col-span-1.5">
-        <Label
-          htmlFor="item"
-          text={translate('ticket_item')}
-          className="text-lg mb-1"
-        />
-        <Input
-          type="text"
-          id="item"
-          name="item"
-          className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
-          value={item}
-          // onChange={handleChange}
-        />
-      </div>
+      {formValue.map((item, index) => (
+        <div key={index} className="col-span-1.5">
+          <Label
+            htmlFor="item"
+            text={translate('ticket_item')}
+            className="text-lg mb-1"
+          />
+          <Input
+            type="text"
+            id="item"
+            name="item"
+            className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
+            value={item.item}
+            // onChange={handleChange}
+          />
+        </div>
+      ))}
 
-      <div className="col-span-1.5">
+      {/* <div className="col-span-1.5">
         <Label
           htmlFor="status"
           text={translate('ticket_item_status')}
@@ -71,7 +77,7 @@ function TicketItemInfo({ description, item, status }: TicketItemInfoProps) {
         <span className="cursor-pointer">
           <MinusCircle size={24} color="#cc2828" />
         </span>
-      </div>
+      </div> */}
     </>
   )
 }

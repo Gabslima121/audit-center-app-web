@@ -64,8 +64,8 @@ function Company() {
   }
 
   async function getAllCompanies() {
-    const companies = await companyService.getCompanyByTicketStatus('OPEN')
-
+    const companies = await companyService.getCompanyAndTicketsByStatus('OPEN')
+    console.log(companies)
     const mappedCompanies = _.map(companies, ({ company, total }) => {
       return {
         id: company?.id,
@@ -255,7 +255,7 @@ function Company() {
           <Button onClick={handleOpenModal}>Cadastrar Empresa</Button>
         </div>
 
-        <h1 className="text-3xl	text-white">Empresas</h1>
+        <h1 className="text-3xl	text-white">{translate('commom.company')}</h1>
       </div>
 
       <Container>

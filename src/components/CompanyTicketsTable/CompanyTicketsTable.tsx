@@ -30,10 +30,6 @@ function CompanyTicketsTable({ tickets }: CompanyTicketsTableProps) {
     errorMessage(translate('ticket_not_deleted'))
   }
 
-  useEffect(() => {
-    console.log('CompanyTickets', tickets)
-  }, [tickets])
-
   return (
     <>
       <DataTable
