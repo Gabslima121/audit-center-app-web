@@ -58,10 +58,25 @@ export const companyApi = () => ({
     return true
   },
 
-  getCompanyByTicketStatus: async () => {
+  getAllCompaniesAndEachTicket: async () => {
+    const { data, status } = await api.get('company/companies-and-tickets', {
+      ...headers,
+    })
+
+    if (status !== 200) return data
+
+    return data
+  },
+
+  getCompanyAndTicketsByStatus: async (ticketStatus: string) => {
     const { data, status } = await api.get(
-      '/company/companies-by-ticket-status',
-      { ...headers },
+      'company/companies-and-tickets-by-status',
+      {
+        ...headers,
+        params: {
+          status: ticketStatus,
+        },
+      },
     )
 
     if (status !== 200) return data

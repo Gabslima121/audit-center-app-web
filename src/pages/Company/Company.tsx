@@ -64,8 +64,8 @@ function Company() {
   }
 
   async function getAllCompanies() {
-    const companies = await companyService.getCompanyByTicketStatus('OPEN')
-
+    const companies = await companyService.getCompanyAndTicketsByStatus('OPEN')
+    console.log(companies)
     const mappedCompanies = _.map(companies, ({ company, total }) => {
       return {
         id: company?.id,
