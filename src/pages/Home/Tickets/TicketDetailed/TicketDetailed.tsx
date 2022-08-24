@@ -144,14 +144,14 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     })
   }
 
-  const handleChangeFormList = (e: Event, index: any) => {
+  const handleChangeFormList = (e: Event, index: number) => {
     const { value, id } = e.target as HTMLInputElement
 
-    setFormList((prevState: typeof formList) => {
-      const newFormList = [...prevState]
-      newFormList[index][id] = value
-      return newFormList
-    })
+    // setFormList((prevState) => {
+    //   const newFormList = [...prevState]
+    //   newFormList[index][id] = value
+    //   return newFormList
+    // })
   }
 
   const getTicketItemById = async () => {

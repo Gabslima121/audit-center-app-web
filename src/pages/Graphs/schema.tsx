@@ -9,7 +9,7 @@ const TOTAL_AUDITS_PER_COMPANY = {
     },
     yaxis: {
       labels: {
-        formatter: y => `${y.toFixed(0)}`,
+        formatter: (y: number) => `${y.toFixed(0)}`,
       },
     },
     stroke: {
@@ -32,7 +32,7 @@ const DONE_AUDITS_PER_COMPANY = {
     },
     yaxis: {
       labels: {
-        formatter: y => `${y.toFixed(0)}`,
+        formatter: (y: number) => `${y.toFixed(0)}`,
       },
     },
     stroke: {

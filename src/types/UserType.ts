@@ -13,6 +13,7 @@ export type UserType = {
     id: string;
     name: string;
   };
+  companyId: string;
 }
 
 export type RolesType = {

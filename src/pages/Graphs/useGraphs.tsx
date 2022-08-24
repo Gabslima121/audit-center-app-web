@@ -16,7 +16,7 @@ const useGraphs = () => {
     DONE_AUDITS_PER_COMPANY,
   )
 
-  const mountChartTotalAuditsByCompany = (totalAuditPerCompany): any => {
+  const mountChartTotalAuditsByCompany = (totalAuditPerCompany: { name: any; totalTickets: any }[]) => {
     setValueTotalAuditsPerCompany({
       options: valueTotalAuditsPerCompany?.options,
       title: translate('graphs.total_audits_per_company'),
@@ -40,7 +40,7 @@ const useGraphs = () => {
     mountChartTotalAuditsByCompany(mappedTotalTickets)
   }
 
-  const mountChartDoneAuditsByCompany = (doneAuditPerCompany): any => {
+  const mountChartDoneAuditsByCompany = (doneAuditPerCompany: { name: any; totalTickets: any }[]): any => {
     setValueDoneAuditsPerCompany({
       options: valueDoneAuditsPerCompany?.options,
       title: translate('graphs.total_audits_per_company'),
