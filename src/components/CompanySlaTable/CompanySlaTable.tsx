@@ -7,12 +7,14 @@ import trash from '../../assets/img/trash.svg'
 import { slaApi } from '../../hooks/api/slaApi'
 import { customStyles } from '../../utils/tableStyle'
 import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
+import { useEffect } from 'react'
 
 interface CompanySlaTableProps {
   sla: any[]
+  getAllSlaByCompany: () => void
 }
 
-function CompanySlaTable({ sla }: CompanySlaTableProps) {
+function CompanySlaTable({ sla, getAllSlaByCompany }: CompanySlaTableProps) {
   const slaService = slaApi()
   const { slaHeaders, modalIsOpen, setModalIsOpen, slaId } =
     useCompanySlaTable()
@@ -28,6 +30,10 @@ function CompanySlaTable({ sla }: CompanySlaTableProps) {
 
     errorMessage(translate('sla_not_deleted'))
   }
+
+  useEffect(() => {
+    getAllSlaByCompany()
+  }, [modalIsOpen])
 
   return (
     <>

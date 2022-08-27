@@ -46,7 +46,7 @@ function CompanySLA() {
       </div>
 
       <Container>
-        {_.isEmpty(sla) ? <Loading /> : <CompanySlaTable sla={sla} />}
+        {_.isEmpty(sla) ? <Loading /> : <CompanySlaTable sla={sla} getAllSlaByCompany={getAllSlaByCompany}/>}
       </Container>
     </div>
   )

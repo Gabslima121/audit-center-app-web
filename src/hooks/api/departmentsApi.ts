@@ -10,10 +10,7 @@ export const departmentsApi = () => ({
   },
 
   getDepartmentsByCompanyId: async (companyId: string) => {
-    const { status, data } = await api.get(
-      `/departments/${companyId}`,
-      headers,
-    )
+    const { status, data } = await api.get(`/departments/${companyId}`, headers)
 
     if (status !== 200) {
       return data.response.data.message
@@ -30,9 +27,22 @@ export const departmentsApi = () => ({
     )
 
     if (status !== 201) {
-      return data.response.data.message
+      return data?.response?.data?.message
     }
 
     return data
-  }
+  },
+
+  deleteDepartment: async (id: string) => {
+    const { status, data } = await api.delete(
+      `/departments/delete-department/${id}`,
+      headers,
+    )
+
+    if (status !== 200) {
+      return data?.response?.data?.message
+    }
+
+    return data
+  },
 })

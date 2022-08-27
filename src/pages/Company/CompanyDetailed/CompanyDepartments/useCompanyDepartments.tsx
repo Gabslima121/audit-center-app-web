@@ -18,20 +18,19 @@ const useComanpyDepartments = () => {
       selectedCompanyId,
     )
 
-    console.log(departments)
-
     setDepartments(departments)
   }
 
   useEffect(() => {
     getDepartmentsByCompanyId()
-  }, [])
+  }, [modalIsOpen])
 
   return {
     handleOpenModal,
     modalIsOpen,
     setModalIsOpen,
     departments,
+    getDepartmentsByCompanyId,
   }
 }
 
