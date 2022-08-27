@@ -5,16 +5,40 @@ import translate from '../../helpers/translate'
 import trash from '../../assets/img/trash.svg'
 import { customStyles } from '../../utils/tableStyle'
 import { useCompanyDepartmentsTable } from './useCompanyDepartmentsTable'
+import { departmentsApi } from '../../hooks/api/departmentsApi'
+import { errorMessage, sucessMessage } from '../../utils/Toast/toast'
+import { useEffect } from 'react'
 
 interface CompanyDepartmentsTableProps {
   departments: any[]
+  getAllDepartments: () => void
 }
 
 function CompanyDepartmentsTable({
   departments,
+  getAllDepartments,
 }: CompanyDepartmentsTableProps) {
+  const departmentService = departmentsApi()
   const { departmentsHeaders, modalIsOpen, deparmentId, setModalIsOpen } =
     useCompanyDepartmentsTable()
+
+  async function handleExcludeDepartment() {
+    const { status, message } = await departmentService.deleteDepartment(
+      deparmentId,
+    )
+
+    if (status && message) {
+      setModalIsOpen(false)
+      return sucessMessage(translate(`${message}`))
+    }
+
+    return errorMessage('Deparment not deleted')
+  }
+
+  useEffect(() => {
+    getAllDepartments()
+  }, [modalIsOpen])
+
   return (
     <>
       <DataTable
@@ -30,10 +54,7 @@ function CompanyDepartmentsTable({
       />
 
       <div>
-        <Modal
-          isOpen={modalIsOpen}
-          className="mt-28"
-        >
+        <Modal isOpen={modalIsOpen} className="mt-28">
           <div className="ml-modal-trash items-center">
             <img src={trash} alt="Imagem de um lixo" />
           </div>
@@ -46,7 +67,7 @@ function CompanyDepartmentsTable({
 
           <ModalFooter>
             <button
-              // onClick={handleExcludeSla}
+              onClick={handleExcludeDepartment}
               className="border-1 border-button_exclude-200 text-button_exclude-200 hover:bg-button_exclude-100 w-full p-1 rounded-md"
             >
               {translate('exclude')}

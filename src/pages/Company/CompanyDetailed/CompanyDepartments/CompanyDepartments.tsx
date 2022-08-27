@@ -1,5 +1,4 @@
 import { isEmpty } from 'lodash'
-import { useEffect } from 'react'
 import { Button } from '../../../../components/Button/Button'
 import { CompanyDepartmentsTable } from '../../../../components/CompanyDepartments/CompanyDepartmentsTable'
 import { Container } from '../../../../components/Container/Container'
@@ -9,12 +8,13 @@ import { AddDepartmentModal } from './AddDepartmentModal/AddDepartmentModal'
 import { useComanpyDepartments } from './useCompanyDepartments'
 
 function CompanyDepartments() {
-  const { handleOpenModal, modalIsOpen, setModalIsOpen, departments } =
-    useComanpyDepartments()
-
-  useEffect(() => {
-    console.log(departments)
-  }, [departments])
+  const {
+    handleOpenModal,
+    modalIsOpen,
+    setModalIsOpen,
+    departments,
+    getDepartmentsByCompanyId,
+  } = useComanpyDepartments()
 
   return (
     <div className="flex-auto mt-5">
@@ -37,7 +37,10 @@ function CompanyDepartments() {
         {isEmpty(departments) ? (
           <Loading />
         ) : (
-          <CompanyDepartmentsTable departments={departments} />
+          <CompanyDepartmentsTable
+            departments={departments}
+            getAllDepartments={getDepartmentsByCompanyId}
+          />
         )}
       </Container>
     </div>

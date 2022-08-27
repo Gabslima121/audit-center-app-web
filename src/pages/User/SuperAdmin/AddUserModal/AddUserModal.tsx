@@ -65,7 +65,9 @@ function AddUserModal({ isOpen, setIsOpen }: AddUserModalProps) {
   }
 
   const getAllDepartmentsByCompanyId = async () => {
-    const departments = await departmentService.getDepartmentsByCompanyId(userInfo?.companyId)
+    const departments = await departmentService.getDepartmentsByCompanyId(
+      userInfo?.companyId,
+    )
 
     setAllDepartments(departments)
   }
@@ -87,8 +89,11 @@ function AddUserModal({ isOpen, setIsOpen }: AddUserModalProps) {
   useEffect(() => {
     getCompanies()
     getAllRoles()
-    getAllDepartmentsByCompanyId()
   }, [])
+
+  useEffect(() => {
+    getAllDepartmentsByCompanyId()
+  }, [userInfo?.companyId])
 
   return (
     <Modal isOpen={isOpen}>

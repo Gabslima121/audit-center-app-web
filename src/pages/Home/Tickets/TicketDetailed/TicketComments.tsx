@@ -27,6 +27,7 @@ function TicketComments() {
               <textarea
                 className="w-3/4 h-auto resize-none p-2 rounded-lg text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                 value={comment?.content}
+                disabled={true}
               />
             </div>
 

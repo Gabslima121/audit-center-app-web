@@ -53,6 +53,10 @@ function AddDepartmentModal({ isOpen, closeModal }: DepartmentModalProps) {
   }
 
   useEffect(() => {
+    if (isOpen === true) {
+      setDepartment(DEPARTMENT_INITIAL_STATE)
+    }
+
     const selectedCompany = [
       {
         id: company?.id,
@@ -138,10 +142,7 @@ function AddDepartmentModal({ isOpen, closeModal }: DepartmentModalProps) {
 
             <div className="flex flex-row-reverse">
               <div>
-                <Button
-                  onClick={handleCreateDepartment}
-                  type="button"
-                >
+                <Button onClick={handleCreateDepartment} type="button">
                   {translate('save_informations')}
                 </Button>
               </div>

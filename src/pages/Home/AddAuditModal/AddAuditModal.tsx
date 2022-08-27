@@ -67,22 +67,21 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
       ticket?.company,
     )
 
+    debugger
+
     setDepartmentOptions(departments)
   }
 
-  const getAnalystByCompanyIdAndDepartmentId = async () => {
-    const { analyst } = await userService.getUserByCompanyIdAndDepartmentId(
-      ticket?.company,
-      ticket?.responsableArea,
-    )
+  const getUserByCompanyIdAndDepartmentId = async () => {
+    const { analystArray, auditorArray } =
+      await userService.getUserByCompanyIdAndDepartmentId(
+        ticket?.company,
+        ticket?.responsableArea,
+      )
+    debugger
 
-    setAnalystsOptions(analyst)
-  }
-
-  const getAuditorsByCompanyId = async () => {
-    const auditors = await userService.getAuditorByCompanyId(ticket?.company)
-
-    setAuditorsOptions(auditors)
+    setAnalystsOptions(analystArray)
+    setAuditorsOptions(auditorArray)
   }
 
   const getSlaByCompanyId = async () => {
@@ -164,14 +163,13 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
   useEffect(() => {
     if (ticket?.company) {
       getDepartmentsByCompanyId()
-      getAuditorsByCompanyId()
       getSlaByCompanyId()
     }
 
     if (ticket?.responsableArea) {
-      getAnalystByCompanyIdAndDepartmentId()
+      getUserByCompanyIdAndDepartmentId()
     }
-  }, [ticket])
+  }, [ticket.company, ticket.responsableArea])
 
   return (
     <Modal isOpen={isOpen}>

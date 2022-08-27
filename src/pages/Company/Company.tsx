@@ -64,23 +64,24 @@ function Company() {
   }
 
   async function getAllCompanies() {
-    const companies = await companyService.getCompanyAndTicketsByStatus('OPEN')
-    console.log(companies)
-    const mappedCompanies = _.map(companies, ({ company, total }) => {
+    const companies = await companyService.getAllCompanies()
+
+    const mappedCompanies = _.map(companies, company => {
       return {
         id: company?.id,
-        corporateName: company.corporateName,
-        cnpj: company.cnpj,
-        state: company.state,
-        city: company.city,
-        cep: company.cep,
-        neighborhood: company.neighborhood,
-        street: company.street,
-        number: company.number,
-        complement: company.complement,
-        total,
+        corporateName: company?.corporateName,
+        cnpj: company?.cnpj,
+        state: company?.state,
+        city: company?.city,
+        cep: company?.cep,
+        neighborhood: company?.neighborhood,
+        street: company?.street,
+        number: company?.number,
+        complement: company?.complement,
+        total: company?.tickets?.length
       }
     })
+
     setCompany(mappedCompanies)
   }
 
