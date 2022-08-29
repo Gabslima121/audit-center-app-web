@@ -22,6 +22,7 @@ import { ticketItemApi } from '../../../../hooks/api/ticketItemApi'
 import { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE } from './schema'
 import { TicketComments } from './TicketComments'
 import { useTicketsDetailed } from './useTicketDetailed'
+import moment from 'moment'
 
 interface TicketDetailedProps {
   currentUrl: string
@@ -59,9 +60,12 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
 
   const getTicektData = async () => {
     const ticket = await auditSerivce.getAuditById(id)
+
     setTicketInfo((prevState: typeof ticketInfo) => ({
       ...prevState,
       ...ticket,
+      openDate: moment(ticket?.openDate).format('DD/MM/YYYY'),
+      limitDate: moment(ticket?.limitDate).format('DD/MM/YYYY')
     }))
 
     setCompanyId(ticket?.company?.id)
@@ -173,6 +177,8 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   async function handleUpdateTicketInfo() {
     const url = currentUrl.split('/')[1]
 
+    debugger
+
     const response = await auditSerivce.updateAudit(id, {
       ...ticketInfo,
       analyst: ticketInfo?.analyst?.id,
@@ -180,6 +186,8 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       responsableArea: ticketInfo?.responsableArea?.id,
       sla: ticketInfo?.sla,
       company: ticketInfo?.company?.id,
+      openDate: new Date(ticketInfo?.openDate),
+      limitDate: new Date(ticketInfo?.limitDate)
     })
 
     if (response) {
@@ -205,8 +213,8 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   }, [id, companyId])
 
   useEffect(() => {
-    console.log(formList)
-  }, [formList])
+    console.log(typeof ticketInfo.openDate)
+  }, [ticketInfo])
 
   return (
     <div className="flex-auto mt-5">

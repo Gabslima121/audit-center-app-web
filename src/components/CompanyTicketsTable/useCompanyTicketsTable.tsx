@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { PencilCircle, Trash } from 'phosphor-react'
 import { useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -45,7 +46,7 @@ const useCompanyTicketTable = () => {
     },
     {
       name: 'Data de Abertura',
-      selector: row => row.openDate,
+      selector: row => moment(row.openDate).format('DD/MM/YYYY'),
     },
     {
       name: 'Departamento',

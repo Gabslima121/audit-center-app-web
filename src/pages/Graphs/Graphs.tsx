@@ -2,11 +2,16 @@ import Chart from 'react-apexcharts'
 import { Container } from '../../components/Container/Container'
 import translate from '../../helpers/translate'
 import { GraphsDoneAuditsPerCompany } from './DoneAuditsPerCompany/GraphsDoneAuditsPerCompany'
+import { GraphsPendingAuditsPerCompany } from './PendingAuditsPerCompany/PendingAuditsPerCompany'
 import { GraphsTotalAuditsPerCompany } from './TotalAuditsPerCompany/TotalAuditsPerCompany'
 import { useGraphs } from './useGraphs'
 
 export function Graphs() {
-  const { valueTotalAuditsPerCompany, valueDoneAuditsPerCompany } = useGraphs()
+  const {
+    valueTotalAuditsPerCompany,
+    valueDoneAuditsPerCompany,
+    valuePendingAuditsPerCompany,
+  } = useGraphs()
 
   return (
     <div className="flex-auto mt-5">
@@ -28,6 +33,13 @@ export function Graphs() {
               {translate('graphs.done_audits_per_company')}
             </h1>
             <GraphsDoneAuditsPerCompany config={valueDoneAuditsPerCompany} />
+          </div>
+
+          <div className="mt-16">
+            <h1 className="text-3xl m-2">
+              {translate('graphs.pending_audits_per_company')}
+            </h1>
+            <GraphsPendingAuditsPerCompany config={valuePendingAuditsPerCompany} />
           </div>
         </div>
       </Container>

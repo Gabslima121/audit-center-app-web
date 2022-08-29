@@ -4,7 +4,7 @@ interface InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
   id?: string
-  value?: string | number
+  value?: string | number | Date | any
   disabled?: boolean
   name?: string
 }

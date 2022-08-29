@@ -18,6 +18,7 @@ import translate from '../../../helpers/translate'
 import { slaApi } from '../../../hooks/api/slaApi'
 import { CompanyContext } from '../../../contexts/Company/CompanyContext'
 import { AuthContext } from '../../../contexts/Auth/AuthContext'
+import { SlaType } from '../../../types/SlaType'
 
 interface AddAuditModalProps {
   isOpen: boolean
@@ -87,7 +88,14 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
   const getSlaByCompanyId = async () => {
     const sla = await slaService.getAllSlaByCompany(ticket?.company)
 
-    setSlaOptions(sla)
+    const mappedSla = sla.map((item: SlaType) => {
+      return {
+        id: item?.id,
+        name: `${item?.name} / ${item?.sla} ${item?.typeSla}`,
+      }
+    })
+
+    setSlaOptions(mappedSla)
   }
 
   async function handleSubmitNewAudit() {

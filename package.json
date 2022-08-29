@@ -16,6 +16,7 @@
     "dotenv": "^16.0.1",
     "lodash": "^4.17.21",
     "mdbreact": "^5.2.0",
+    "moment": "^2.29.4",
     "node-sass": "^7.0.1",
     "phosphor-react": "^1.4.1",
     "react": "^18.0.0",

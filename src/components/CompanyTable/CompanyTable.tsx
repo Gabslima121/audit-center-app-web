@@ -8,12 +8,14 @@ import { sucessMessage, errorMessage } from '../../utils/Toast/toast'
 
 import trash from '../../assets/img/trash.svg'
 import { customStyles } from '../../utils/tableStyle'
+import { useEffect } from 'react'
 
 interface CompanyTableProps {
   companies: any[]
+  getAllCompanies: () => void
 }
 
-function CompanyTable({ companies }: CompanyTableProps) {
+function CompanyTable({ companies, getAllCompanies }: CompanyTableProps) {
   const companySerivce = companyApi()
   const { companyHeaders, modalIsOpen, setModalIsOpen, incomingCompanyId } =
     useCompanyTable()
@@ -29,6 +31,10 @@ function CompanyTable({ companies }: CompanyTableProps) {
 
     errorMessage(translate('company_not_deleted'))
   }
+
+  useEffect(() => {
+    getAllCompanies()
+  }, [modalIsOpen])
 
   return (
     <>

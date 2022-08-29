@@ -4,7 +4,11 @@ import { AUDIT_STATUS } from '../../helpers/constants'
 
 import translate from '../../helpers/translate'
 import { companyApi } from '../../hooks/api/companyApi'
-import { TOTAL_AUDITS_PER_COMPANY, DONE_AUDITS_PER_COMPANY } from './schema'
+import {
+  TOTAL_AUDITS_PER_COMPANY,
+  DONE_AUDITS_PER_COMPANY,
+  PENDING_AUDITS_PER_COMPANY,
+} from './schema'
 
 const useGraphs = () => {
   const companyService = companyApi()
@@ -15,8 +19,12 @@ const useGraphs = () => {
   const [valueDoneAuditsPerCompany, setValueDoneAuditsPerCompany] = useState(
     DONE_AUDITS_PER_COMPANY,
   )
+  const [valuePendingAuditsPerCompany, setValuePendingAuditsPerCompany] =
+    useState(PENDING_AUDITS_PER_COMPANY)
 
-  const mountChartTotalAuditsByCompany = (totalAuditPerCompany: { name: any; totalTickets: any }[]) => {
+  const mountChartTotalAuditsByCompany = (
+    totalAuditPerCompany: { name: any; totalTickets: any }[],
+  ) => {
     setValueTotalAuditsPerCompany({
       options: valueTotalAuditsPerCompany?.options,
       title: translate('graphs.total_audits_per_company'),
@@ -40,7 +48,9 @@ const useGraphs = () => {
     mountChartTotalAuditsByCompany(mappedTotalTickets)
   }
 
-  const mountChartDoneAuditsByCompany = (doneAuditPerCompany: { name: any; totalTickets: any }[]): any => {
+  const mountChartDoneAuditsByCompany = (
+    doneAuditPerCompany: { name: any; totalTickets: any }[],
+  ): any => {
     setValueDoneAuditsPerCompany({
       options: valueDoneAuditsPerCompany?.options,
       title: translate('graphs.total_audits_per_company'),
@@ -66,16 +76,49 @@ const useGraphs = () => {
     mountChartDoneAuditsByCompany(mappedTotalTickets)
   }
 
+  const mountChartPendingAuditsByCompany = (
+    pendingAuditPerCompany: { name: any; totalTickets: any }[],
+  ): any => {
+    setValuePendingAuditsPerCompany({
+      options: valuePendingAuditsPerCompany?.options,
+      title: translate('graphs.total_audits_per_company'),
+      series: _.map(pendingAuditPerCompany, audits => ({
+        name: audits?.name,
+        data: [audits?.totalTickets],
+      })),
+    })
+  }
+
+  const getPendingAuditsPerCompany = async () => {
+    const tickets = await companyService.getCompanyAndTicketsByStatus(
+      AUDIT_STATUS.PENDING,
+    )
+
+    const mappedPendingTickets = _.map(tickets, ticket => {
+      return {
+        name: ticket?.company?.corporateName,
+        totalTickets: ticket?.total,
+      }
+    })
+
+    mountChartPendingAuditsByCompany(mappedPendingTickets)
+  }
+
   useEffect(() => {
     getTotalAuditsPerCompany()
     setValueTotalAuditsPerCompany(TOTAL_AUDITS_PER_COMPANY)
 
     getDoneAuditsPerCompany()
+    setValueDoneAuditsPerCompany(DONE_AUDITS_PER_COMPANY)
+
+    getPendingAuditsPerCompany()
+    setValuePendingAuditsPerCompany(PENDING_AUDITS_PER_COMPANY)
   }, [])
 
   return {
     valueTotalAuditsPerCompany,
     valueDoneAuditsPerCompany,
+    valuePendingAuditsPerCompany,
   }
 }
 

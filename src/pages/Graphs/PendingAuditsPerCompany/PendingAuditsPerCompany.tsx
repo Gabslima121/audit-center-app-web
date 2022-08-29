@@ -1,14 +1,14 @@
 import Chart from 'react-apexcharts'
 
-interface GraphsDoneAuditsPerCompanyProps {
+interface GraphsPendingAuditsPerCompanyProps {
   config: any
 }
 
-function GraphsDoneAuditsPerCompany({
+function GraphsPendingAuditsPerCompany({
   config,
-}: GraphsDoneAuditsPerCompanyProps) {
+}: GraphsPendingAuditsPerCompanyProps) {
   return (
-    <div className='bg-white rounded-lg'>
+    <div className="bg-white rounded-lg">
       <Chart
         options={config?.options}
         series={config?.series}
@@ -19,4 +19,4 @@ function GraphsDoneAuditsPerCompany({
   )
 }
 
-export { GraphsDoneAuditsPerCompany }
+export { GraphsPendingAuditsPerCompany }

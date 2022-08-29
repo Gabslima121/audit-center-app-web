@@ -261,7 +261,7 @@ function Company() {
         {_.isEmpty(company) ? (
           <Loading />
         ) : (
-          <CompanyTable companies={company} />
+          <CompanyTable companies={company} getAllCompanies={getAllCompanies}/>
         )}
       </Container>
     </div>
