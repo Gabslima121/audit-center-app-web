@@ -177,8 +177,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   async function handleUpdateTicketInfo() {
     const url = currentUrl.split('/')[1]
 
-    debugger
-
     const response = await auditSerivce.updateAudit(id, {
       ...ticketInfo,
       analyst: ticketInfo?.analyst?.id,

@@ -68,8 +68,6 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
       ticket?.company,
     )
 
-    debugger
-
     setDepartmentOptions(departments)
   }
 
@@ -79,7 +77,6 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
         ticket?.company,
         ticket?.responsableArea,
       )
-    debugger
 
     setAnalystsOptions(analystArray)
     setAuditorsOptions(auditorArray)
