@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "npx tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "yarn build && firebase deploy"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.4",
