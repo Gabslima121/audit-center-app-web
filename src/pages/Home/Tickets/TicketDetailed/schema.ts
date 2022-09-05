@@ -18,8 +18,8 @@ const TICKET_INITIAL_STATE = {
     name: '',
     id: '',
   },
-  openDate: new Date,
-  limitDate: new Date,
+  openDate: '',
+  limitDate: '',
   description: '',
   company: {
     corporateName: '',

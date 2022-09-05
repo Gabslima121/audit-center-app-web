@@ -13,6 +13,7 @@ export function Graphs() {
     valueDoneAuditsPerCompany,
     valuePendingAuditsPerCompany,
     valueAuditsPerDepartments,
+    valuePendingAuditsPerDepartments,
   } = useGraphs()
 
   return (
@@ -52,6 +53,15 @@ export function Graphs() {
             </h1>
             <GraphsAduitsByDepartments
               config={valueAuditsPerDepartments}
+            />
+          </div>
+
+          <div className="mt-16">
+            <h1 className="text-3xl m-2">
+              {translate('graphs.pending_audits_by_departments')}
+            </h1>
+            <GraphsAduitsByDepartments
+              config={valuePendingAuditsPerDepartments}
             />
           </div>
         </div>

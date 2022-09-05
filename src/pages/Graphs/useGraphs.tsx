@@ -10,6 +10,7 @@ import {
   DONE_AUDITS_PER_COMPANY,
   PENDING_AUDITS_PER_COMPANY,
   AUDITS_PER_DEPARTMENTS,
+  PENDING_AUDITS_PER_DEPARTMENTS,
 } from './schema'
 
 const useGraphs = () => {
@@ -27,6 +28,10 @@ const useGraphs = () => {
   const [valueAuditsPerDepartments, setValueAuditsPerDepartments] = useState(
     AUDITS_PER_DEPARTMENTS,
   )
+  const [
+    valuePendingAuditsPerDepartments,
+    setValuePendingAuditsPerDepartments,
+  ] = useState(PENDING_AUDITS_PER_DEPARTMENTS)
 
   const mountChartTotalAuditsByCompany = (
     totalAuditPerCompany: { name: any; totalTickets: any }[],
@@ -136,6 +141,38 @@ const useGraphs = () => {
     mountChartAuditsByDepartments(mappedTicketsAndDepartments)
   }
 
+  const mountChartPendingAuditsByDepartments = (
+    pendingAuditsByDepartments: { name: any; totalTickets: any }[],
+  ): any => {
+    setValuePendingAuditsPerDepartments({
+      options: valuePendingAuditsPerDepartments?.options,
+      title: translate('graphs.total_audits_per_company'),
+      series: _.map(pendingAuditsByDepartments, audits => ({
+        name: audits?.name,
+        data: [audits?.totalTickets],
+      })),
+    })
+  }
+
+  const getAuditsByDepartmentsAndStatus = async () => {
+    const ticketsDepartments =
+      await departmentsService.getDepartmentsAndTicketsByStatus(
+        AUDIT_STATUS.PENDING,
+      )
+
+    const mappedTicketsAndDepartments = _.map(
+      ticketsDepartments,
+      ticketDepartment => {
+        return {
+          name: `${ticketDepartment?.department?.name} (${ticketDepartment?.department?.company?.corporateName})`,
+          totalTickets: ticketDepartment?.total,
+        }
+      },
+    )
+
+    mountChartPendingAuditsByDepartments(mappedTicketsAndDepartments)
+  }
+
   useEffect(() => {
     getTotalAuditsPerCompany()
     setValueTotalAuditsPerCompany(TOTAL_AUDITS_PER_COMPANY)
@@ -148,6 +185,8 @@ const useGraphs = () => {
 
     getAuditsByDepartments()
     setValueAuditsPerDepartments(AUDITS_PER_DEPARTMENTS)
+
+    getAuditsByDepartmentsAndStatus()
   }, [])
 
   return {
@@ -155,6 +194,7 @@ const useGraphs = () => {
     valueDoneAuditsPerCompany,
     valuePendingAuditsPerCompany,
     valueAuditsPerDepartments,
+    valuePendingAuditsPerDepartments,
   }
 }
 

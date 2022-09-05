@@ -22,7 +22,7 @@ import { ticketItemApi } from '../../../../hooks/api/ticketItemApi'
 import { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE } from './schema'
 import { TicketComments } from './TicketComments'
 import { useTicketsDetailed } from './useTicketDetailed'
-import moment from 'moment'
+import moment from 'moment';
 
 interface TicketDetailedProps {
   currentUrl: string
@@ -51,11 +51,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const [auditorOptions, setAuditorOptions] = useState<any>([])
   const [analystsOptions, setAnalystsOptions] = useState<any>([])
   const [departmentOptions, setDepartmentOptions] = useState<any>([])
-
-  //TODO refactor this states
-  const [ticketItemInfo, setTicketItemInfo] = useState(
-    TICKET_ITEM_INITIAL_STATE,
-  )
   const [formList, setFormList] = useState(TICKET_ITEM_INITIAL_STATE)
 
   const getTicektData = async () => {
@@ -64,8 +59,8 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
     setTicketInfo((prevState: typeof ticketInfo) => ({
       ...prevState,
       ...ticket,
-      openDate: moment(ticket?.openDate).format('DD/MM/YYYY'),
-      limitDate: moment(ticket?.limitDate).format('DD/MM/YYYY')
+      openDate: moment(ticket?.openDate).format('YYYY-MM-DD'),
+      limitDate: moment(ticket?.limitDate).format('YYYY-MM-DD'),
     }))
 
     setCompanyId(ticket?.company?.id)
@@ -170,7 +165,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       }
     })
 
-    setTicketItemInfo(mappedResponse)
     setFormList(mappedResponse)
   }
 
@@ -209,10 +203,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       getTicketItemById()
     }
   }, [id, companyId])
-
-  useEffect(() => {
-    console.log(typeof ticketInfo.openDate)
-  }, [ticketInfo])
 
   return (
     <div className="flex-auto mt-5">
@@ -330,31 +320,29 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                     <Label
                       htmlFor="openDate"
                       text={translate('ticket.openDate')}
-                      className="text-lg mb-1 opacity-60"
+                      className="text-lg mb-1"
                     />
                     <Input
-                      type="text"
                       id="openDate"
-                      name="openDate"
-                      className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
+                      className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200"
+                      type="date"
+                      onChange={(event) => handleChangeTicketData('openDate', event)}
                       value={ticketInfo?.openDate}
-                      disabled={true}
                     />
                   </div>
 
                   <div>
-                    <Label
+                  <Label
                       htmlFor="limitDate"
                       text={translate('ticket.limitDate')}
-                      className="text-lg mb-1 opacity-60"
+                      className="text-lg mb-1"
                     />
                     <Input
-                      type="text"
                       id="limitDate"
-                      name="limitDate"
-                      className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50 opacity-60"
+                      className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200"
+                      type="date"
+                      onChange={(event) => handleChangeTicketData('limitDate', event)}
                       value={ticketInfo?.limitDate}
-                      disabled={true}
                     />
                   </div>
 
