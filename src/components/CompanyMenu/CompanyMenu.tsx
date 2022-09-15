@@ -44,7 +44,7 @@ export function CompanyMenu() {
         </>
       )}
 
-      <Link to="/graphs" className="my-2 hover:text-brand-300">
+      <Link to={`/company/detailed/graphs/${selectedCompanyId}`} className="my-2 hover:text-brand-300">
         <ChartBar size={25} className="ml-2 float-left" />
         <p className="ml-10 mt-px text-base">{translate('graphs')}</p>
       </Link>

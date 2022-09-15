@@ -74,4 +74,15 @@ export const departmentsApi = () => ({
 
     return data
   },
+
+  getDepartmentsAndTicketsByCompanyId: async (companyId: string) => {
+    const { status, data } = await api.get(
+      `/departments/departments-and-tickets-by-companyId/${companyId}`,
+      headers,
+    )
+
+    if (status !== 200) return data
+
+    return data
+  },
 })

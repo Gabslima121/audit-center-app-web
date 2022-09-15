@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Chart from 'react-apexcharts'
 import { Container } from '../../../components/Container/Container'
 

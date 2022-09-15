@@ -1,5 +1,6 @@
 import { api } from '../../api'
 import { headers } from '../../utils/getHeaders'
+import { AllTicketsByMainStatus } from '../../types/Audit'
 
 interface CreateAuditDTO {
   title: string
@@ -9,8 +10,8 @@ interface CreateAuditDTO {
   status: string
   sla: string
   company: string
-  openDate: string
-  limitDate: string
+  openDate: Date
+  limitDate: Date
   description: string
 }
 
@@ -97,5 +98,25 @@ export const auditApi = () => ({
     if (status !== 200) return data
 
     return data
-  }
+  },
+
+  getAllTicketsByMainStatus: async (
+    companyId: string | any,
+  ): Promise<AllTicketsByMainStatus> => {
+    const { data, status } = await api.get(
+      `/tickets/get-by-company-and-main-status/${companyId}?${[
+        'OPEN',
+        'DONE',
+        'PENDING',
+        'IN PROGRESS',
+      ]
+        .map((n, index) => `status=${n}`)
+        .join('&')}`,
+      headers,
+    )
+
+    if (status !== 200) return data
+
+    return data
+  },
 })

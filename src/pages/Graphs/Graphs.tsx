@@ -1,4 +1,4 @@
-import Chart from 'react-apexcharts'
+import { useEffect } from 'react'
 import { Container } from '../../components/Container/Container'
 import translate from '../../helpers/translate'
 import { GraphsAduitsByDepartments } from './AuditsByDepartments/AuditsByDepartments'
