@@ -18,6 +18,7 @@ import { TicketDetailed } from '../pages/Home/Tickets/TicketDetailed/TicketDetai
 import { UserEdit } from '../pages/User/SuperAdmin/UserEdit/UserEdit'
 import { CompanyTicketsEdit } from '../pages/Company/CompanyDetailed/CompanyTicketsEdit/CompanyTicketsEdit'
 import { CompanyDepartments } from '../pages/Company/CompanyDetailed/CompanyDepartments/CompanyDepartments'
+import { CompanyGraphs } from '../pages/Company/CompanyDetailed/CompanyGraphs/CompanyGraphs'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -107,6 +108,14 @@ const AppRoutes: React.FC = () => {
                 element={
                   <RequireAuth>
                     <CompanyTicketsEdit />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path={`/company/detailed/graphs/:id`}
+                element={
+                  <RequireAuth>
+                    <CompanyGraphs />
                   </RequireAuth>
                 }
               />

@@ -3,5 +3,7 @@
   "graphs.done_audits_per_company": "Total de auditorias concluídas por empresa",
   "graphs.pending_audits_per_company": "Total de auditorias pendentes por empresa",
   "graphs.audits_by_departments": "Total de auditorias por departamentos",
-  "graphs.pending_audits_by_departments": "Total de auditorias pendentes por departamentos"
+  "graphs.pending_audits_by_departments": "Total de auditorias pendentes por departamentos",
+  "graphs.company.total_audits_by_status": "Total de auditorias por status",
+  "graphs.company.total_audits_by_departments": "Total de auditorias por departamentos"
 }

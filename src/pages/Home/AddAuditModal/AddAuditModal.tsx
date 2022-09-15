@@ -99,6 +99,8 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
     try {
       await auditService.createAudit({
         ...ticket,
+        openDate: new Date(ticket?.openDate),
+        limitDate: new Date(ticket?.limitDate),
       })
 
       setIsOpen(false)
@@ -318,7 +320,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
                   id="openDate"
                   className="p-2 rounded-lg w-full text-lg border-gray-400 border-1 focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                   type="date"
-                  onChange={() => handleChangeTicketData('openDate')}
+                  onChange={(event) => handleChangeTicketData('openDate', event)}
                   value={ticket?.openDate}
                 />
               </div>
@@ -333,7 +335,7 @@ function AddAuditModal({ isOpen, setIsOpen }: AddAuditModalProps) {
                   id="limitDate"
                   className="p-2 rounded-lg w-full text-lg border-gray-400 border-1 focus:outline-none focus:ring-2 focus:ring-brand-200 focus:ring-opacity-50"
                   type="date"
-                  onChange={() => handleChangeTicketData('limitDate')}
+                  onChange={(event) => handleChangeTicketData('limitDate', event)}
                   value={ticket?.limitDate}
                 />
               </div>
