@@ -119,4 +119,15 @@ export const auditApi = () => ({
 
     return data
   },
+
+  getTicketsByUserAndStatus: async () => {
+    const { data, status } = await api.get(
+      '/tickets/tickets-by-user-and-status',
+      headers,
+    )
+
+    if (status !== 200) return data
+
+    return data
+  },
 })

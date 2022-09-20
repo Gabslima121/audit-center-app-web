@@ -1,5 +1,12 @@
-import { ChartBar, Clock, DiamondsFour, Notepad, Ticket, User } from 'phosphor-react'
-import { useContext } from 'react'
+import {
+  ChartBar,
+  Clock,
+  DiamondsFour,
+  Notepad,
+  Ticket,
+  User,
+} from 'phosphor-react'
+import { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { AuthContext } from '../../contexts/Auth/AuthContext'
@@ -7,8 +14,10 @@ import { CompanyContext } from '../../contexts/Company/CompanyContext'
 import translate from '../../helpers/translate'
 
 export function CompanyMenu() {
-  const { isSuperAdmin, isAdmin, userCompanyId } = useContext(AuthContext)
-  const { setCompany, setSelectedCompanyId, selectedCompanyId } = useContext(CompanyContext)
+  const { isSuperAdmin, isAdmin, userCompanyId, isAnalyst, isAuditor } =
+    useContext(AuthContext)
+  const { setCompany, setSelectedCompanyId, selectedCompanyId } =
+    useContext(CompanyContext)
 
   const handleExcludeCompanyInfo = () => {
     localStorage.removeItem('companyId')
@@ -18,8 +27,11 @@ export function CompanyMenu() {
   }
 
   return (
-    <div className="flex flex-col mt-9 flex-auto">
-      <Link to={`/company/detailed/tickets/${selectedCompanyId || userCompanyId}`} className="my-2 hover:text-brand-300">
+    <div className="flex flex-col mt-9">
+      <Link
+        to={`/company/detailed/tickets/${selectedCompanyId || userCompanyId}`}
+        className="my-2 hover:text-brand-300"
+      >
         <Ticket size={25} className="ml-2 float-left" />
         <p className="ml-10 mt-px text-base">{translate('menu.tickets')}</p>
       </Link>
@@ -44,14 +56,32 @@ export function CompanyMenu() {
         </>
       )}
 
-      <Link to={`/company/detailed/graphs/${selectedCompanyId}`} className="my-2 hover:text-brand-300">
-        <ChartBar size={25} className="ml-2 float-left" />
-        <p className="ml-10 mt-px text-base">{translate('graphs')}</p>
-      </Link>
+      {(isAdmin || isSuperAdmin) && (
+        <Link
+          to={`/company/detailed/graphs/${selectedCompanyId}`}
+          className="my-2 hover:text-brand-300"
+        >
+          <ChartBar size={25} className="ml-2 float-left" />
+          <p className="ml-10 mt-px text-base">{translate('graphs')}</p>
+        </Link> 
+      )}
+
+      {(isAuditor || isAnalyst) && (
+        <Link
+          to={`/user/graphs`}
+          className="my-2 hover:text-brand-300"
+        >
+          <ChartBar size={25} className="ml-2 float-left" />
+          <p className="ml-10 mt-px text-base">User Graphs</p>
+        </Link>
+      )}
 
       {isSuperAdmin && (
         <>
-          <Link to={`/company/detailed/${selectedCompanyId}`} className="my-2 hover:text-brand-300">
+          <Link
+            to={`/company/detailed/${selectedCompanyId}`}
+            className="my-2 hover:text-brand-300"
+          >
             <Notepad size={25} className="ml-2 float-left" />
             <p className="ml-10 mt-px text-base">
               {translate('company.details')}

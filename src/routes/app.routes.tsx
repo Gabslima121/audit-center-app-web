@@ -19,126 +19,135 @@ import { UserEdit } from '../pages/User/SuperAdmin/UserEdit/UserEdit'
 import { CompanyTicketsEdit } from '../pages/Company/CompanyDetailed/CompanyTicketsEdit/CompanyTicketsEdit'
 import { CompanyDepartments } from '../pages/Company/CompanyDetailed/CompanyDepartments/CompanyDepartments'
 import { CompanyGraphs } from '../pages/Company/CompanyDetailed/CompanyGraphs/CompanyGraphs'
+import { UserGraphs } from '../pages/User/AuditorAndAnalystGraphs/UserGraphs'
 
 const AppRoutes: React.FC = () => {
   return (
     <>
-      <CompanyProvider>
-        <div className="flex w-full h-screen mr-40 bg-brand-300 bg-opacity-50">
-          <SideBarProvider>
+      <SideBarProvider>
+        <CompanyProvider>
+          <div className="flex w-full h-screen mr-40 bg-brand-300 bg-opacity-50">
             <SideBar />
-          </SideBarProvider>
-          <Content>
-            <Header />
-            <Routes>
-              <Route
-                path="/home"
-                element={
-                  <RequireAuth>
-                    <Home />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/companys"
-                element={
-                  <RequireAuth>
-                    <Company />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/graphs"
-                element={
-                  <RequireAuth>
-                    <Graphs />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/users"
-                element={
-                  <RequireAuth>
-                    <User />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/my-profile/:id`}
-                element={
-                  <RequireAuth>
-                    <MyProfile />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/ticket/detailed/:id`}
-                element={
-                  <RequireAuth>
-                    <TicketDetailed currentUrl="/ticket/detailed/:id" />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/company/detailed/:id`}
-                element={
-                  <RequireAuth>
-                    <CompanyDetailed />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/company/detailed/tickets/:id`}
-                element={
-                  <RequireAuth>
-                    <CompanyTickets />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/company/detailed/departments/:id`}
-                element={
-                  <RequireAuth>
-                    <CompanyDepartments />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/company/detailed/tickets/:id/edit-ticket/:id`}
-                element={
-                  <RequireAuth>
-                    <CompanyTicketsEdit />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/company/detailed/graphs/:id`}
-                element={
-                  <RequireAuth>
-                    <CompanyGraphs />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={`/company/detailed/define-sla/:id`}
-                element={
-                  <RequireAuth>
-                    <CompanySLA />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path={'/user/edit/:id'}
-                element={
-                  <RequireAuth>
-                    <UserEdit />
-                  </RequireAuth>
-                }
-              />
-            </Routes>
-          </Content>
-        </div>
-      </CompanyProvider>
+            <Content>
+              <Header />
+              <Routes>
+                <Route
+                  path="/home"
+                  element={
+                    <RequireAuth>
+                      <Home />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/companys"
+                  element={
+                    <RequireAuth>
+                      <Company />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/graphs"
+                  element={
+                    <RequireAuth>
+                      <Graphs />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/users"
+                  element={
+                    <RequireAuth>
+                      <User />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/my-profile/:id`}
+                  element={
+                    <RequireAuth>
+                      <MyProfile />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/ticket/detailed/:id`}
+                  element={
+                    <RequireAuth>
+                      <TicketDetailed currentUrl="/ticket/detailed/:id" />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/company/detailed/:id`}
+                  element={
+                    <RequireAuth>
+                      <CompanyDetailed />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/company/detailed/tickets/:id`}
+                  element={
+                    <RequireAuth>
+                      <CompanyTickets />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/company/detailed/departments/:id`}
+                  element={
+                    <RequireAuth>
+                      <CompanyDepartments />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/company/detailed/tickets/:id/edit-ticket/:id`}
+                  element={
+                    <RequireAuth>
+                      <CompanyTicketsEdit />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/company/detailed/graphs/:id`}
+                  element={
+                    <RequireAuth>
+                      <CompanyGraphs />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={`/company/detailed/define-sla/:id`}
+                  element={
+                    <RequireAuth>
+                      <CompanySLA />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={'/user/edit/:id'}
+                  element={
+                    <RequireAuth>
+                      <UserEdit />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path={'/user/graphs'}
+                  element={
+                    <RequireAuth>
+                      <UserGraphs />
+                    </RequireAuth>
+                  }
+                />
+              </Routes>
+            </Content>
+          </div>
+        </CompanyProvider>
+      </SideBarProvider>
     </>
   )
 }

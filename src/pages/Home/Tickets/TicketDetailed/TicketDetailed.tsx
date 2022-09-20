@@ -1,5 +1,5 @@
-import _, { forEach } from 'lodash'
-import { Check, MinusCircle, PlusCircle, Spinner } from 'phosphor-react'
+import _ from 'lodash'
+import { MinusCircle, PlusCircle, Spinner } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
@@ -22,7 +22,7 @@ import { ticketItemApi } from '../../../../hooks/api/ticketItemApi'
 import { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE } from './schema'
 import { TicketComments } from './TicketComments'
 import { useTicketsDetailed } from './useTicketDetailed'
-import moment from 'moment';
+import moment from 'moment'
 
 interface TicketDetailedProps {
   currentUrl: string
@@ -146,11 +146,11 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const handleChangeFormList = (e: Event, index: number) => {
     const { value, id } = e.target as HTMLInputElement
 
-    // setFormList((prevState) => {
-    //   const newFormList = [...prevState]
-    //   newFormList[index][id] = value
-    //   return newFormList
-    // })
+    setFormList(prevState => {
+      const newFormList = [...prevState]
+      newFormList[index][id] = value
+      return newFormList
+    })
   }
 
   const getTicketItemById = async () => {
@@ -179,7 +179,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       sla: ticketInfo?.sla,
       company: ticketInfo?.company?.id,
       openDate: new Date(ticketInfo?.openDate),
-      limitDate: new Date(ticketInfo?.limitDate)
+      limitDate: new Date(ticketInfo?.limitDate),
     })
 
     if (response) {
@@ -205,7 +205,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   }, [id, companyId])
 
   return (
-    <div className="flex-auto mt-5">
+    <div className="flex mt-5">
       <Container>
         <div className="grid grid-cols-4">
           <div className="col-span-2 border-r-2 border-gray-500 border-opacity-50 overflow-y-scroll h-custom">
@@ -326,13 +326,15 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       id="openDate"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200"
                       type="date"
-                      onChange={(event) => handleChangeTicketData('openDate', event)}
+                      onChange={event =>
+                        handleChangeTicketData('openDate', event)
+                      }
                       value={ticketInfo?.openDate}
                     />
                   </div>
 
                   <div>
-                  <Label
+                    <Label
                       htmlFor="limitDate"
                       text={translate('ticket.limitDate')}
                       className="text-lg mb-1"
@@ -341,7 +343,9 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       id="limitDate"
                       className="p-2 rounded-lg w-full text-lg border-gray-100 border-1 border focus:outline-none focus:ring-2 focus:ring-brand-200"
                       type="date"
-                      onChange={(event) => handleChangeTicketData('limitDate', event)}
+                      onChange={event =>
+                        handleChangeTicketData('limitDate', event)
+                      }
                       value={ticketInfo?.limitDate}
                     />
                   </div>
@@ -400,9 +404,9 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                   {formList.map((formItem: any, index: any) => (
                     <div
                       key={formItem?.id}
-                      className="grid grid-cols-5 gap-3 mt-3"
+                      className="grid grid-cols-4 gap-3 mt-3"
                     >
-                      <div className="col-span-1.5">
+                      <div key={index} className="col-span-1.5">
                         <Label
                           htmlFor="item"
                           text={translate('ticket_item')}
@@ -433,7 +437,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                             'ticket_item_status_placeholder',
                           )}
                           onChange={(e: any) =>
-                            handleChangeFormList(e?.target?.value, index)
+                            handleChangeFormList(e, index)
                           }
                         />
                       </div>
@@ -455,12 +459,6 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
 
                       {formList.length && (
                         <>
-                          <div className="mt-14 w-7 ml-20">
-                            <span className="cursor-pointer">
-                              <Check size={24} color="#40a700" />
-                            </span>
-                          </div>
-
                           <div className="mt-14 w-7">
                             <span className="cursor-pointer">
                               <MinusCircle
