@@ -28,13 +28,11 @@ const TICKET_INITIAL_STATE = {
   closeDate: '',
 }
 
-const TICKET_ITEM_INITIAL_STATE = [
-  {
+const TICKET_ITEM_INITIAL_STATE = {
     id: '',
     status: '',
     description: '',
     item: '',
-  },
-]
+}
 
 export { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE }

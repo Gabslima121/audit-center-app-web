@@ -32,14 +32,6 @@ const AppRoutes: React.FC = () => {
               <Header />
               <Routes>
                 <Route
-                  path="/home"
-                  element={
-                    <RequireAuth>
-                      <Home />
-                    </RequireAuth>
-                  }
-                />
-                <Route
                   path="/companys"
                   element={
                     <RequireAuth>
@@ -76,6 +68,14 @@ const AppRoutes: React.FC = () => {
                   element={
                     <RequireAuth>
                       <TicketDetailed currentUrl="/ticket/detailed/:id" />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/home"
+                  element={
+                    <RequireAuth>
+                      <Home />
                     </RequireAuth>
                   }
                 />

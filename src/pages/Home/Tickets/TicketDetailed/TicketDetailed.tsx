@@ -17,7 +17,7 @@ import {
 } from '../../../../helpers/constants'
 import { userApi } from '../../../../hooks/api/userApi'
 import { departmentsApi } from '../../../../hooks/api/departmentsApi'
-import { sucessMessage } from '../../../../utils/Toast/toast'
+import { errorMessage, sucessMessage } from '../../../../utils/Toast/toast'
 import { ticketItemApi } from '../../../../hooks/api/ticketItemApi'
 import { TICKET_INITIAL_STATE, TICKET_ITEM_INITIAL_STATE } from './schema'
 import { TicketComments } from './TicketComments'
@@ -51,7 +51,9 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const [auditorOptions, setAuditorOptions] = useState<any>([])
   const [analystsOptions, setAnalystsOptions] = useState<any>([])
   const [departmentOptions, setDepartmentOptions] = useState<any>([])
-  const [formList, setFormList] = useState(TICKET_ITEM_INITIAL_STATE)
+  const [formList, setFormList] = useState<any>([
+    { ...TICKET_ITEM_INITIAL_STATE },
+  ])
 
   const getTicektData = async () => {
     const ticket = await auditSerivce.getAuditById(id)
@@ -132,10 +134,21 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   }
 
   const handleAddFormList = () => {
-    setFormList(prevState => [...prevState, ...TICKET_ITEM_INITIAL_STATE])
+    setFormList((prevState: typeof formList) => [
+      ...prevState,
+      { ...TICKET_ITEM_INITIAL_STATE },
+    ])
   }
 
-  const handleRemoveFormList = (index: number) => {
+  const handleRemoveFormList = async (index: number) => {
+    if (!_.isEmpty(formList[index]?.id)) {
+      const response = await ticketItemService.delete(formList[index]?.id)
+
+      if (!response) return errorMessage(translate('fail'))
+
+      sucessMessage(translate('success'))
+    }
+
     setFormList((prevState: typeof formList) => {
       const newFormList = [...prevState]
       newFormList.splice(index, 1)
@@ -146,7 +159,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
   const handleChangeFormList = (e: Event, index: number) => {
     const { value, id } = e.target as HTMLInputElement
 
-    setFormList(prevState => {
+    setFormList((prevState: typeof formList) => {
       const newFormList = [...prevState]
       newFormList[index][id] = value
       return newFormList
@@ -165,7 +178,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       }
     })
 
-    setFormList(mappedResponse)
+    if (!_.isEmpty(mappedResponse)) setFormList(mappedResponse)
   }
 
   async function handleUpdateTicketInfo() {
@@ -192,6 +205,31 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
       }
     }
   }
+
+  async function handleSaveTicketItem() {
+    const ticketItemsArray: any = []
+
+    formList.forEach((item: any, index: number) => {
+      if (!_.isEmpty(item?.id)) {
+        return ticketItemsArray.shift(item, index)
+      }
+
+      ticketItemsArray.push(item)
+    })
+
+    const response = await ticketItemService.create(
+      ticketItemsArray,
+      ticketInfo?.id,
+    )
+
+    if (!response) return errorMessage(translate('fail'))
+
+    return sucessMessage(translate('success'))
+  }
+
+  // async function handleDeleteTicketItem(ticketItemId: string) {
+
+  // }
 
   useEffect(() => {
     getTicektData()
@@ -406,7 +444,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                       key={formItem?.id}
                       className="grid grid-cols-4 gap-3 mt-3"
                     >
-                      <div key={index} className="col-span-1.5">
+                      <div className="col-span-1.5">
                         <Label
                           htmlFor="item"
                           text={translate('ticket_item')}
@@ -422,7 +460,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                         />
                       </div>
 
-                      <div key={index} className="col-span-1.5">
+                      <div className="col-span-1.5">
                         <Label
                           htmlFor="status"
                           text={translate('ticket_item_status')}
@@ -436,13 +474,11 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
                           placeholder={translate(
                             'ticket_item_status_placeholder',
                           )}
-                          onChange={(e: any) =>
-                            handleChangeFormList(e, index)
-                          }
+                          onChange={(e: any) => handleChangeFormList(e, index)}
                         />
                       </div>
 
-                      <div key={index}>
+                      <div>
                         <Label
                           htmlFor="description"
                           text={translate('ticket_item_description')}
@@ -492,7 +528,7 @@ function TicketDetailed({ currentUrl }: TicketDetailedProps) {
 
                   <div className="flex flex-row-reverse">
                     <div>
-                      <Button type="button">
+                      <Button type="button" onClick={handleSaveTicketItem}>
                         {translate('save_informations')}
                       </Button>
                     </div>

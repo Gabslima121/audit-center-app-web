@@ -27,5 +27,6 @@
   "user_connected": "Usuário conectado",
   "cancel": "Cancelar",
   "add_audit": "Cadastrar Auditoria",
-  "departments": "Departamentos"
+  "departments": "Departamentos",
+  "fail": "Erro, tente novamente"
 }
